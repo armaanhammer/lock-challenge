@@ -5,7 +5,7 @@
 > 1) Reimplement c++11 lock_guard (NOT use std::lock_guard). Use namespace
       to allow you to call your class impl "lock_guard" and not conflict with
       std::lock_guard
-
+>
 >      LockGuard.h          // header file only impl
 
 ### Prelims
