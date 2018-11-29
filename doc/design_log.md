@@ -37,7 +37,7 @@ class lock_guard {
 };
 ```
 
-Alright, deep dive time, line-by-line.
+##### Deep dive
 
 ```C++
 template <class Mutex> 
@@ -51,6 +51,9 @@ Reference: http://www.cplusplus.com/doc/oldtutorial/templates/
 > template <class identifier> function_declaration;
 > template <typename identifier> function_declaration;
 > ```
+
+
+
 
 class lock_guard {
  public:
