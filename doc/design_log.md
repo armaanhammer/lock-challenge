@@ -37,3 +37,31 @@ class lock_guard {
 };
 ```
 
+Alright, deep dive time, line-by-line.
+
+```C++
+template <class Mutex> 
+```
+
+Reference: http://www.cplusplus.com/doc/oldtutorial/templates/
+
+> The format for declaring function templates with type parameters is:
+>
+> ```
+> template <class identifier> function_declaration;
+> template <typename identifier> function_declaration;
+> ```
+
+class lock_guard {
+ public:
+    typedef Mutex mutex_type;
+    explicit lock_guard(mutex_type& m);
+    lock_guard(mutex_type& m, adopt_lock_t);
+    ~lock_guard();
+    lock_guard(lock_guard const&) = delete;
+    lock_guard& operator=(lock_guard const&) = delete;
+ private:
+    mutex_type& pm; // exposition only
+};
+```
+
