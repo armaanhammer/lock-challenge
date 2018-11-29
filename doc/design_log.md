@@ -10,11 +10,13 @@
 
 ### Prelims
 
-
-Having difficulty parsing prompt. I took "LockGuard.h // header file only impl" in the prompt to indicate that I am to build a declaration for the class based off of a .h file that you provided. 
+#### Problem
+Having difficulty parsing prompt. I took "LockGuard.h // header file only impl" in the prompt to indicate that I am to build a declaration for the class based off of a .h file that was provided. 
 
 I see that no LockGuard.h was attached to the email. Perhaps I misunderstand what I am intended to do?
 
+#### Attempt at Solution
+Dive more in depth into the Mutex header files.
 
 Need a better understanding of what lock_guard actually does. Brief googling leads to https://en.cppreference.com/w/cpp/thread/lock_guard Suspect I will want to call my class in a similar fashion. Perhaps use that code snippet as a template.
 
