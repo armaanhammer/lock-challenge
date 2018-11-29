@@ -14,7 +14,7 @@ Need a better understanding of what lock_guard actually does. Brief googling lea
 
 https://en.cppreference.com/w/cpp/header/mutex has this:
 
-```
+```C++
 template <class Mutex>
 class lock_guard {
  public:
