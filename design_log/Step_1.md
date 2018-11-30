@@ -134,9 +134,16 @@ https://www.youtube.com/watch?v=PgGhEovFhd0
 https://www.youtube.com/watch?v=mS9755gF66w  <<< Says best practice: only use when usage is intuative. Avoid if ppl would need to go to your function to understand what it does.
 
 ###### Note:
-"Passing by const reference to avoid copying":
+"Passing by const reference to avoid copying". Any function that doesn't modify the class should be const.
 > ```C++
 > Vector2 Add(const Vector2& other) const {
+>     return Vector2(x + other.x, y + other.y);
+> }
+> ```
+
+The operator overload analog:
+> ```C++
+> Vector2 operator+(const Vector2& other) const {
 >     return Vector2(x + other.x, y + other.y);
 > }
 > ```
