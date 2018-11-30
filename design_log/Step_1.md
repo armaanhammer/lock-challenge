@@ -113,7 +113,8 @@ Points of note:
 >     } catch (...) {
 >           t1.join();
 >           throw;
->
+> 
+>     ti.join();
 >     return 0;
 > }
 > ```
