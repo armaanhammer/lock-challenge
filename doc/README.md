@@ -9,14 +9,14 @@ The purpose of this design log is twofold:
 
 ## Table of Contents
 
-[Step 1](Step_1.md)
+### [Step 1](Step_1.md)
 
-[Step 2](Step_2.md)
+### [Step 2](Step_2.md)
 
-[Step 3](Step_3.md)
+### [Step 3](Step_3.md)
 
-[Step 4](Step_4.md)
+### [Step 4](Step_4.md)
 
-[Step 5](Step_5.md)
+### [Step 5](Step_5.md)
 
-[Step 6](Step_6.md)
+### [Step 6](Step_6.md)
