@@ -148,6 +148,19 @@ The operator overload analog:
 > }
 > ```
 
+An alternative approach is:
+
+> ```C++
+> Vector2 operator+(const Vector2& other) const {
+>     return Vector2(x + other.x, y + other.y);
+> }
+>
+> Vector2 Add(const Vector2& other) const {
+>     return *this + other;  // deref because 'this' is const pntr in current scope
+> }
+> ```
+
+
 
 ###### Question from above youtube video:
 What does this do? Says it is a constructor definition. Occures inside of a struct.
