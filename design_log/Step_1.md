@@ -106,7 +106,7 @@ Points of note:
 >
 > ```C++
 > int main(){
->     std:thread t1(function_1);  // t1 starts running
+>     std::thread t1(function_1);  // t1 starts running
 >
 >     try {
 >           do_something_dangerous();
