@@ -119,7 +119,7 @@ Points of note:
 > }
 > ```
       
-
+---
 
 ```C++
 lock_guard& operator=(lock_guard const&) = delete;
@@ -130,8 +130,6 @@ Appears to be operator overloading the equals sign. Need to parse this better.
 
 ##### Reference:
 https://www.youtube.com/watch?v=PgGhEovFhd0
-
----
 
 https://www.youtube.com/watch?v=mS9755gF66w  <<< Says best practice: only use when usage is intuative. Avoid if ppl would need to go to your function to understand what it does.
 
@@ -175,6 +173,14 @@ Yet another alternative approach is:
 > ```
 
 
+###### Overloading the << operator
+
+> ``C++
+> std::ostream& operator<<(std::ostream& stream, const Vector2& other) {
+>     stream << other.x << ", " << other.y;
+>     return stream;
+> ```
+      
 
 ###### Question from above youtube video:
 What does this do? Says it is a constructor definition. Occures inside of a struct.
@@ -184,6 +190,8 @@ What does this do? Says it is a constructor definition. Occures inside of a stru
 > ```
 
 ---
+
+
 
 
 ##### remaining code to work through:
