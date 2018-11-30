@@ -123,7 +123,9 @@ Points of note:
 
 https://www.youtube.com/watch?v=AZvKbSdvoRU  <<< operator()
 
-
+```C++
+lock_guard& operator=(lock_guard const&) = delete;
+```
 
 
 
