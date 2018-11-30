@@ -47,7 +47,8 @@ The template directive is 'meta programming'; it programs what the compiler does
 
 ##### Reference:
 http://www.cplusplus.com/doc/oldtutorial/templates/
-https://www.youtube.com/watch?v=I-hZkUa9mIs
+
+https://www.youtube.com/watch?v=I-hZkUa9mIs  <<< Interesting that this video says calling the mutex's own lock&unlock function is _not_ recommended.
       
 
 
