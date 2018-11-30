@@ -136,7 +136,9 @@ https://www.youtube.com/watch?v=mS9755gF66w  <<< Says best practice: only use wh
 ###### Note:
 "Passing by const reference to avoid copying":
 > ```C++
-> Vector2 Add(const Vector2& other)
+> Vector2 Add(const Vector2& other) const {
+>     return Vector2(x)
+> }
 > ```
 
 
