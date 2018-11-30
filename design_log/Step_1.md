@@ -125,14 +125,24 @@ Points of note:
 lock_guard& operator=(lock_guard const&) = delete;
 ```
 
+Appears to be operator overloading the equals sign. Need to parse this better.
+
+
 ##### Reference:
 https://www.youtube.com/watch?v=PgGhEovFhd0
 
 https://www.youtube.com/watch?v=mS9755gF66w
-
-Appears to be operator overloading the equals sign. Need to parse this better.
-
 Best practice: only use when usage is intuative. Avoid if ppl would need to go to your function to understand what it does.
+
+###### Question:
+
+What does this do? Says it is a constructor definition. Occures inside of a struct.
+
+> ```C++
+> Vector2(float x, float y)
+>     : x(x), y(y) {}
+> ```
+
 
 
 
