@@ -56,6 +56,9 @@ https://www.youtube.com/watch?v=I-hZkUa9mIs  <<< Interesting that this video say
 
 
 
+##### remaining code to work through:
+
+```C++
 class lock_guard {
  public:
     typedef Mutex mutex_type;
