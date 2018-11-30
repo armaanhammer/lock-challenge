@@ -175,10 +175,11 @@ Yet another alternative approach is:
 
 ###### Overloading the << operator
 
-> ``C++
+> ```C++
 > std::ostream& operator<<(std::ostream& stream, const Vector2& other) {
 >     stream << other.x << ", " << other.y;
 >     return stream;
+> }
 > ```
       
 
