@@ -43,6 +43,8 @@ class lock_guard {
 template <class Mutex> 
 ```
 
+'meta programming' - programming what compiler does at runtime, rather than what program does at runtime
+
 Reference: http://www.cplusplus.com/doc/oldtutorial/templates/
 
 > The format for declaring function templates with type parameters is:
