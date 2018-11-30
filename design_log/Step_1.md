@@ -168,7 +168,7 @@ Yet another alternative approach is:
 > }
 >
 > Vector2 Add(const Vector2& other) const {
->     return operator+(other);
+>     return operator+(other);  // address operator+ like a function
 > }
 > ```
 
