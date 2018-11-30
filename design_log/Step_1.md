@@ -18,9 +18,57 @@ I see that no LockGuard.h was attached to the email. Perhaps I misunderstand wha
 ### Attempt at Solution
 Dive more in depth into the Mutex header files.
 
-Need a better understanding of what lock_guard actually does. Brief googling leads to https://en.cppreference.com/w/cpp/thread/lock_guard Suspect I will want to call my class in a similar fashion. Perhaps use that code snippet as a template.
+Need a better understanding of what lock_guard actually does. Brief googling leads to a template for calling the std class here: https://en.cppreference.com/w/cpp/thread/lock_guard Suspect I will want to call my class in a similar fashion. Pasting code here for reference:
 
-https://en.cppreference.com/w/cpp/header/mutex has this:
+```C++
+int g_i = 0;
+std::mutex g_i_mutex;  // protects g_i
+ 
+void safe_increment()
+{
+    std::lock_guard<std::mutex> lock(g_i_mutex);
+    ++g_i;
+ 
+    std::cout << std::this_thread::get_id() << ": " << g_i << '\n';
+ 
+    // g_i_mutex is automatically released when lock
+    // goes out of scope
+}
+ 
+int main()
+{
+    std::cout << "main: " << g_i << '\n';
+ 
+    std::thread t1(safe_increment);
+    std::thread t2(safe_increment);
+ 
+    t1.join();
+    t2.join();
+ 
+    std::cout << "main: " << g_i << '\n';
+}
+```
+
+Now, to look at the headers.
+https://en.cppreference.com/w/cpp/header/mutex has these:
+
+```C++
+class mutex {
+ public:
+    constexpr mutex() noexcept;
+    ~mutex();
+    mutex(const mutex&) = delete;
+    mutex& operator=(const mutex&) = delete;
+ 
+    void lock();
+    bool try_lock();
+    void unlock();
+    typedef /*implementation-defined*/ native_handle_type;
+    native_handle_type native_handle();
+};
+```
+
+and
 
 ```C++
 template <class Mutex>
