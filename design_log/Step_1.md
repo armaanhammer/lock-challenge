@@ -160,6 +160,18 @@ An alternative approach is:
 > }
 > ```
 
+Yet another alternative approach is:
+
+> ```C++
+> Vector2 operator+(const Vector2& other) const {
+>     return Vector2(x + other.x, y + other.y);
+> }
+>
+> Vector2 Add(const Vector2& other) const {
+>     return operator+(other);
+> }
+> ```
+
 
 
 ###### Question from above youtube video:
