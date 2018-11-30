@@ -1,5 +1,12 @@
 # Design Log
 
+## Preamble
+
+The purpose of this design log is twofold:
+
+1. I intend it to be a detailed log of the structure of my code, and the decisions I made while coding.
+2. I intend it to be a demonstration of my problem-solving skills. To that end, I will capture each problem I encouter, and the steps that I take to resolve it.
+
 ## Step 1
 
 > 1) Reimplement c++11 lock_guard (NOT use std::lock_guard). Use namespace
