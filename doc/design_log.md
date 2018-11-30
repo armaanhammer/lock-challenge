@@ -4,7 +4,7 @@
 
 The purpose of this design log is twofold:
 
-1. I intend it to be a detailed log of the structure of my code, and the decisions I made while coding.
+1. I intend it to be a detailed log of the structure of my code, and the decisions I made while coding. I will point to Doxygen examples when relevant.
 2. I intend it to be a demonstration of my problem-solving skills. To that end, I will capture each problem I encouter, and the steps that I take to resolve it.
 
 ## Step 1
