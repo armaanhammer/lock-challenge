@@ -131,10 +131,9 @@ Appears to be operator overloading the equals sign. Need to parse this better.
 ##### Reference:
 https://www.youtube.com/watch?v=PgGhEovFhd0
 
-https://www.youtube.com/watch?v=mS9755gF66w
-Best practice: only use when usage is intuative. Avoid if ppl would need to go to your function to understand what it does.
+https://www.youtube.com/watch?v=mS9755gF66w  <<< Says best practice: only use when usage is intuative. Avoid if ppl would need to go to your function to understand what it does.
 
-###### Question:
+###### Question from above youtube video:
 
 What does this do? Says it is a constructor definition. Occures inside of a struct.
 
