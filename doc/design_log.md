@@ -50,16 +50,12 @@ class lock_guard {
 template <class Mutex> 
 ```
 
-'meta programming' - programming what compiler does at runtime, rather than what program does at runtime
-
+The template directive is 'meta programming'; it programs what the compiler does at compile time, rather than what program does at runtime. I find the `template <class identifier> function_declaration;` somewhat confusing, and prefer to substitute `template <typename identifier> function_declaration;` which is synonomous. 
 Reference: http://www.cplusplus.com/doc/oldtutorial/templates/
+      https://www.youtube.com/watch?v=I-hZkUa9mIs
+      
 
-> The format for declaring function templates with type parameters is:
->
-> ```
-> template <class identifier> function_declaration;
-> template <typename identifier> function_declaration;
-> ```
+
 
 
 
