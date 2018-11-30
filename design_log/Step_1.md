@@ -174,7 +174,7 @@ Yet another alternative approach is:
 
 
 ###### Overloading the << operator
-
+Overloading the << operator to include Vector2 containing two floats
 > ```C++
 > std::ostream& operator<<(std::ostream& stream, const Vector2& other) {
 >     stream << other.x << ", " << other.y;
