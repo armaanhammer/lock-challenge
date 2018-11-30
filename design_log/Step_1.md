@@ -128,6 +128,8 @@ lock_guard& operator=(lock_guard const&) = delete;
 ##### Reference:
 https://www.youtube.com/watch?v=PgGhEovFhd0
 
+Appears to be operator overloading the equals sign. Need to parse this better.
+
 
 
 ##### remaining code to work through:
