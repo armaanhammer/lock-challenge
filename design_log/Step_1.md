@@ -8,6 +8,8 @@
 >
 >      LockGuard.h          // header file only impl
 
+lock_guard is a function that implements a programming idiom called **Resource Acquisition is Initialization** or **RAII**. In this idiom, resource acquisition is tied to object lifetime. lock_guard ties a resource (mutex) to an object (the calling function). The mutex is released upon execution leaving the scope of the function that called lock_guard. This provides a safeguard against an exception in the calling function preventing it from releasing the lock directly.
+
 ## Prelims
 
 ### Problem
@@ -110,10 +112,7 @@ Appears to be operator overloading the equals sign. Need to parse this better.
 
 ##### [Reference in Appendix](Step_1_Appendix.md#Operator-Overload)
 
-
 ---
-
-
 
 
 ##### remaining code to work through:
@@ -131,3 +130,14 @@ class lock_guard {
     mutex_type& pm; // exposition only
 };
 ```
+<<<<<<< HEAD
+=======
+
+---
+
+### Trying a new approach - look at the member functions
+
+http://www.cplusplus.com/reference/mutex/lock_guard/
+
+
+>>>>>>> d43db38104cf09b84a695c4091f01a2cb36a8311
