@@ -154,7 +154,7 @@ class lock_guard {
 
 http://www.cplusplus.com/reference/mutex/lock_guard/
 
-I had very little luck finding fully implemented functions on the web, so I spun up an Ubuntu VM and searched around. I found it in ``:
+I had very little luck finding fully implemented functions on the web, so I spun up an Ubuntu VM and searched around. I found it in `/usr/include/c++/5` under Ubuntu Desktop 17.10:
 
 ```C++
 /** @brief A movable scoped lock type.
