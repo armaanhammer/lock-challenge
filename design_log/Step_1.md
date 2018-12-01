@@ -186,3 +186,7 @@ template<typename _Mutex>
     mutex_type&  _M_device;
   };
   ```
+  
+  To disambiguate this code a bit, I found these lines in other areas of the same file:
+  
+  
