@@ -86,13 +86,12 @@ class lock_guard {
     mutex_type& pm; // exposition only
 };
 ```
-
 ---
+
 
 ## Deep dive
 
 #### Template
-
 ```C++
 template <class Mutex>
 ```
@@ -100,49 +99,37 @@ template <class Mutex>
 The template directive is 'meta programming'; it programs what the compiler does at compile time, rather than what program does at runtime. I find the `template <class identifier> function_declaration;` somewhat confusing, and prefer to substitute `template <typename identifier> function_declaration;` which is synonymous.
 
 ##### [Reference in Appendix](Step_1_Appendix.md#Template)
-
 ---
 
-#### Typedef
 
+#### Typedef
 ```C++
     typedef Mutex mutex_type;
 ```
 
 The typedef-names are aliases for existing types, and are not declarations of new types. Eg.
-
 > ```C++
 > // simple typedef
 > typedef unsigned long ulong;
 > ```
 
 ##### [Reference in Appendix](Step_1_Appendix.md#Typedef)
-
 ---
+
 
 #### Mutex
-
-```C++
-
-```
-
-
-
 ##### [Reference in Appendix](Step_1_Appendix.md#Mutex)
-
 ---
 
-#### Operator Overload
 
+#### Operator Overload
 ```C++
 lock_guard& operator=(lock_guard const&) = delete;
 ```
 
 Appears to be operator overloading the equals sign. Need to parse this better.
 
-
 ##### [Reference in Appendix](Step_1_Appendix.md#Operator-Overload)
-
 ---
 
 
@@ -161,7 +148,6 @@ class lock_guard {
     mutex_type& pm; // exposition only
 };
 ```
-
 ---
 
 ### Trying a new approach - look at the member functions
