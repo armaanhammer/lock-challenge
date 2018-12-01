@@ -87,7 +87,9 @@ class lock_guard {
 };
 ```
 
-#### Deep dive
+---
+
+## Deep dive
 
 #### Template
 
@@ -99,6 +101,7 @@ The template directive is 'meta programming'; it programs what the compiler does
 
 ##### [Reference in Appendix](Step_1_Appendix.md#Template)
 
+---
 
 #### Typedef
 
@@ -115,6 +118,7 @@ The typedef-names are aliases for existing types, and are not declarations of ne
 
 ##### [Reference in Appendix](Step_1_Appendix.md#Typedef)
 
+---
 
 #### Mutex
 
