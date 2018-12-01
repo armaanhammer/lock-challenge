@@ -103,6 +103,7 @@ What does this do? Says it is a constructor definition. Occures inside of a stru
 >     : x(x), y(y) {}
 > ```
 
+---
 
 ## Resource Acquisition is Initialization
 
