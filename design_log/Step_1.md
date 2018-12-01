@@ -154,4 +154,35 @@ class lock_guard {
 
 http://www.cplusplus.com/reference/mutex/lock_guard/
 
+I had very little luck finding fully implemented functions on the web, so I spun up an Ubuntu VM and searched around. I found it in ``:
 
+```C++
+/** @brief A movable scoped lock type.
+ *
+ * A unique_lock controls mutex ownership within a scope. Ownership of the
+ * mutex can be delayed until after construction and can be transferred
+ * to another unique_lock by move construction or move assignment. If a
+ * mutex lock is owned when the destructor runs ownership will be released.
+ */
+template<typename _Mutex>
+  class lock_guard
+  {
+  public:
+    typedef _Mutex mutex_type;
+
+    explicit lock_guard(mutex_type& __m) : _M_device(__m)
+    { _M_device.lock(); }
+
+    lock_guard(mutex_type& __m, adopt_lock_t) : _M_device(__m)
+    { } // calling thread owns mutex
+
+    ~lock_guard()
+    { _M_device.unlock(); }
+
+    lock_guard(const lock_guard&) = delete;
+    lock_guard& operator=(const lock_guard&) = delete;
+
+  private:
+    mutex_type&  _M_device;
+  };
+  ```
