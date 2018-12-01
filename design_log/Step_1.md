@@ -130,8 +130,6 @@ class lock_guard {
     mutex_type& pm; // exposition only
 };
 ```
-<<<<<<< HEAD
-=======
 
 ---
 
@@ -140,4 +138,3 @@ class lock_guard {
 http://www.cplusplus.com/reference/mutex/lock_guard/
 
 
->>>>>>> d43db38104cf09b84a695c4091f01a2cb36a8311
