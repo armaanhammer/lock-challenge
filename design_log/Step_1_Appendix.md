@@ -102,3 +102,10 @@ What does this do? Says it is a constructor definition. Occures inside of a stru
 > Vector2(float x, float y)
 >     : x(x), y(y) {}
 > ```
+
+
+## Resource Acquisition is Initialization
+
+https://www.youtube.com/watch?v=ojOUIg13g3I
+
+Don't combine the operation of storing objects in a shared pointer with any other statement.
