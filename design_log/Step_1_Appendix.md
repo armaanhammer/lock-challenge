@@ -1,11 +1,11 @@
 # Step 1 Appendix
 
-The purpose of this document is to capture ancilary research I have done that only loosely applies to the objectives I am working toward.
+The purpose of this document is to capture ancillary research I have done that only loosely applies to the objectives I am working toward.
 
 ## Mutex
 
 ```C++
-template <class Mutex> 
+template <class Mutex>
 ```
 
 ##### Reference:
@@ -28,7 +28,7 @@ Points of note:
 >     } catch (...) {
 >           t1.join();
 >           throw;
-> 
+>
 >     ti.join();
 >     return 0;
 > }
@@ -44,7 +44,7 @@ lock_guard& operator=(lock_guard const&) = delete;
 
 https://www.youtube.com/watch?v=PgGhEovFhd0
 
-https://www.youtube.com/watch?v=mS9755gF66w  <<< Says best practice: only use when usage is intuative. Avoid if ppl would need to go to your function to understand what it does.
+https://www.youtube.com/watch?v=mS9755gF66w  <<< Says best practice: only use when usage is intuitive. Avoid if ppl would need to go to your function to understand what it does.
 
 ###### Note:
 "Passing by const reference to avoid copying". Any function that doesn't modify the class should be const.
@@ -94,10 +94,10 @@ Overloading the << operator to include Vector2 containing two floats
 >     return stream;
 > }
 > ```
-      
+
 
 ###### Question from above youtube video:
-What does this do? Says it is a constructor definition. Occures inside of a struct.
+What does this do? Says it is a constructor definition. Occurs inside of a struct.
 > ```C++
 > Vector2(float x, float y)
 >     : x(x), y(y) {}

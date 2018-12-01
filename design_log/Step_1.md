@@ -11,7 +11,7 @@
 ## Prelims
 
 ### Problem
-Having difficulty parsing prompt. I took "LockGuard.h // header file only impl" in the prompt to indicate that I am to build a declaration for the class based off of a .h file that was provided. 
+Having difficulty parsing prompt. I took "LockGuard.h // header file only impl" in the prompt to indicate that I am to build a declaration for the class based off of a .h file that was provided.
 
 I see that no LockGuard.h was attached to the email. Perhaps I misunderstand what I am intended to do?
 
@@ -23,28 +23,28 @@ Need a better understanding of what lock_guard actually does. Brief googling lea
 ```C++
 int g_i = 0;
 std::mutex g_i_mutex;  // protects g_i
- 
+
 void safe_increment()
 {
     std::lock_guard<std::mutex> lock(g_i_mutex);
     ++g_i;
- 
+
     std::cout << std::this_thread::get_id() << ": " << g_i << '\n';
- 
+
     // g_i_mutex is automatically released when lock
     // goes out of scope
 }
- 
+
 int main()
 {
     std::cout << "main: " << g_i << '\n';
- 
+
     std::thread t1(safe_increment);
     std::thread t2(safe_increment);
- 
+
     t1.join();
     t2.join();
- 
+
     std::cout << "main: " << g_i << '\n';
 }
 ```
@@ -59,7 +59,7 @@ class mutex {
     ~mutex();
     mutex(const mutex&) = delete;
     mutex& operator=(const mutex&) = delete;
- 
+
     void lock();
     bool try_lock();
     void unlock();
@@ -90,13 +90,13 @@ class lock_guard {
 #### Mutex
 
 ```C++
-template <class Mutex> 
+template <class Mutex>
 ```
 
-The template directive is 'meta programming'; it programs what the compiler does at compile time, rather than what program does at runtime. I find the `template <class identifier> function_declaration;` somewhat confusing, and prefer to substitute `template <typename identifier> function_declaration;` which is synonomous. 
+The template directive is 'meta programming'; it programs what the compiler does at compile time, rather than what program does at runtime. I find the `template <class identifier> function_declaration;` somewhat confusing, and prefer to substitute `template <typename identifier> function_declaration;` which is synonymous. 
 
 ##### [Reference in Appendix](Step_1_Appendix.md#Mutex)
-      
+
 ---
 
 #### Operator Overload
@@ -131,4 +131,3 @@ class lock_guard {
     mutex_type& pm; // exposition only
 };
 ```
-
