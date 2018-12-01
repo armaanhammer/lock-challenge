@@ -93,7 +93,7 @@ class lock_guard {
 template <class Mutex>
 ```
 
-The template directive is 'meta programming'; it programs what the compiler does at compile time, rather than what program does at runtime. I find the `template <class identifier> function_declaration;` somewhat confusing, and prefer to substitute `template <typename identifier> function_declaration;` which is synonymous. 
+The template directive is 'meta programming'; it programs what the compiler does at compile time, rather than what program does at runtime. I find the `template <class identifier> function_declaration;` somewhat confusing, and prefer to substitute `template <typename identifier> function_declaration;` which is synonymous.
 
 ##### [Reference in Appendix](Step_1_Appendix.md#Mutex)
 
