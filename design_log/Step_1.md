@@ -21,7 +21,9 @@ lock_guard is a function that implements a programming idiom called **Resource A
 > Set namespace to avoid naming collisions with std::lock_guard. std:: being a name space.
 >
 > class LockGuard {
+>
 >   … implementation …
+>
 > }
 
 ## Prelims
