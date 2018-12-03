@@ -10,6 +10,22 @@
 
 lock_guard is a function that implements a programming idiom called **Resource Acquisition is Initialization** or **RAII**. In this idiom, resource acquisition is tied to object lifetime. lock_guard ties a resource (mutex) to an object (the calling function). The mutex is released upon execution leaving the scope of the function that called lock_guard. This provides a safeguard against an exception in the calling function preventing it from releasing the lock directly.
 
+## Clarification
+
+> Armaan,
+>
+> You are correct. You need to create LockGuard.h. I did not attach it. You need to re-create the functionality of std::lock_guard.  You can put all the code in a header file. It’s a common technique for STL and other utilities and is often referred to as “header only” so the user of the utility knows they can just include the header and not have to link a library to their project.
+>
+> You will need to fully implement the functions. In the header file.
+>
+> LockGuard.h
+>
+> Set namespace to avoid naming collisions with std::lock_guard. std:: being a name space.
+>
+> class LockGuard {
+>   … implementation …
+> }
+
 ## Prelims
 
 ### Problem
