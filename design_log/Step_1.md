@@ -12,9 +12,7 @@ lock_guard is a function that implements a programming idiom called **Resource A
 
 ## Clarification
 
-> Armaan,
->
-> You are correct. You need to create LockGuard.h. I did not attach it. You need to re-create the functionality of std::lock_guard.  You can put all the code in a header file. It’s a common technique for STL and other utilities and is often referred to as “header only” so the user of the utility knows they can just include the header and not have to link a library to their project.
+> You need to create LockGuard.h. I did not attach it. You need to re-create the functionality of std::lock_guard.  You can put all the code in a header file. It’s a common technique for STL and other utilities and is often referred to as “header only” so the user of the utility knows they can just include the header and not have to link a library to their project.
 >
 > You will need to fully implement the functions. In the header file.
 >
