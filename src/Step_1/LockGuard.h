@@ -4,7 +4,7 @@
 #include <mutex>     // std::mutex, std::adopt_lock
 
 
-namespace chal { //challenge namespace
+namespace chal { // challenge namespace
 
     /** @brief A movable scoped lock type.
      *
@@ -21,7 +21,7 @@ namespace chal { //challenge namespace
         public:
             typedef _Mutex mutex_type;
 
-            explicit LockGuard(mutex_type& __m) : _M_device(__m)  //no implicit constructor
+            explicit LockGuard(mutex_type& __m) : _M_device(__m)  // no implicit constructor
                 { _M_device.lock(); }
 
             LockGuard(mutex_type& __m, std::adopt_lock_t) : _M_device(__m)
@@ -30,9 +30,10 @@ namespace chal { //challenge namespace
             ~LockGuard()
                 { _M_device.unlock(); }
 
-            //generate compile error if copy attempted
-            LockGuard(const LockGuard&) = delete;  //copy constructor
-            LockGuard& operator=(const LockGuard&) = delete;  //copy assignment operator
+            // generate compile error if copy attempted
+            // (supposed to be un-copyable)
+            LockGuard(const LockGuard&) = delete;  // copy constructor
+            LockGuard& operator=(const LockGuard&) = delete;  // copy assignment operator
 
         private:
             mutex_type&  _M_device;
