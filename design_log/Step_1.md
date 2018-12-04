@@ -1,6 +1,6 @@
-
-
 # Step 1
+
+## Initial Prompt
 
 > 1) Reimplement c++11 lock_guard (NOT use std::lock_guard). Use namespace
       to allow you to call your class impl "lock_guard" and not conflict with
@@ -10,7 +10,12 @@
 
 lock_guard is a function that implements a programming idiom called **Resource Acquisition is Initialization** or **RAII**. In this idiom, resource acquisition is tied to object lifetime. lock_guard ties a resource (mutex) to an object (the calling function). The mutex is released upon execution leaving the scope of the function that called lock_guard. This provides a safeguard against an exception in the calling function preventing it from releasing the lock directly.
 
-## Clarification
+## Parsing Prompt
+Having difficulty parsing prompt. I took "LockGuard.h // header file only impl" in the prompt to indicate that I am to build a declaration for the class based off of a .h file that was provided.
+
+I see that no LockGuard.h was attached to the email. Perhaps I misunderstand what I am intended to do?
+
+## Additional Prompt
 
 > You need to create LockGuard.h. I did not attach it. You need to re-create the functionality of std::lock_guard.  You can put all the code in a header file. It’s a common technique for STL and other utilities and is often referred to as “header only” so the user of the utility knows they can just include the header and not have to link a library to their project.
 >
@@ -28,10 +33,7 @@ lock_guard is a function that implements a programming idiom called **Resource A
 
 ## Prelims
 
-### Problem
-Having difficulty parsing prompt. I took "LockGuard.h // header file only impl" in the prompt to indicate that I am to build a declaration for the class based off of a .h file that was provided.
 
-I see that no LockGuard.h was attached to the email. Perhaps I misunderstand what I am intended to do?
 
 ### Attempt at Solution
 Dive more in depth into the Mutex header files.
