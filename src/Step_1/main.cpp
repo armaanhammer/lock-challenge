@@ -1,6 +1,6 @@
 // constructing lock_guard with adopt_lock
 
-//NOTE: needs to be compiled with flag -pthread. Not yet sure why.
+//NOTE: needs to be compiled with flag -pthread.
 
 #include <iostream>       // std::cout
 #include <thread>         // std::thread
