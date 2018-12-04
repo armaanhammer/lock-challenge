@@ -16,4 +16,4 @@ lock.o: main.cpp
 
 
 clean:
-	rm hello.o Hello lock.o Lock
+	rm hello.o Hello.out lock.o Lock.out

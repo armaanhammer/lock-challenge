@@ -33,3 +33,6 @@
 
 # Mac-specific
 .DS_Store
+
+# VIM
+*.swp

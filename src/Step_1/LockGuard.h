@@ -1,38 +1,42 @@
 #ifndef _LOCK_G_HDR  // header guard
 #define _LOCK_G_HDR
 
-//#pragma once
-
-#include <mutex>          // std::mutex, std::lock_guard, std::adopt_lock
+#include <mutex>          // std::mutex, std::adopt_lock
 
 
-  /** @brief A movable scoped lock type.
-   *
-   * A unique_lock controls mutex ownership within a scope. Ownership of the
-   * mutex can be delayed until after construction and can be transferred
-   * to another unique_lock by move construction or move assignment. If a
-   * mutex lock is owned when the destructor runs ownership will be released.
-   */
-  template<typename _Mutex>
-    class lock_guard
+namespace chal { //challenge namespace
+
+    /** @brief A movable scoped lock type.
+     *
+     * This class has been kept as identical to std::lock_guard as possible
+     *
+     * A unique_lock controls mutex ownership within a scope. Ownership of the
+     * mutex can be delayed until after construction and can be transferred
+     * to another unique_lock by move construction or move assignment. If a
+     * mutex lock is owned when the destructor runs ownership will be released.
+     */
+    template<typename _Mutex>
+    class LockGuard
     {
-    public:
-      typedef _Mutex mutex_type;
+        public:
+            typedef _Mutex mutex_type;
 
-      explicit lock_guard(mutex_type& __m) : _M_device(__m)
-      { _M_device.lock(); }
+            explicit LockGuard(mutex_type& __m) : _M_device(__m)
+                { _M_device.lock(); }
 
-      lock_guard(mutex_type& __m, std::adopt_lock_t) : _M_device(__m)
-      { } // calling thread owns mutex
+            LockGuard(mutex_type& __m, std::adopt_lock_t) : _M_device(__m)
+                { } // calling thread owns mutex
 
-      ~lock_guard()
-      { _M_device.unlock(); }
+            ~LockGuard()
+            { _M_device.unlock(); }
 
-      lock_guard(const lock_guard&) = delete;
-      lock_guard& operator=(const lock_guard&) = delete;
+            LockGuard(const LockGuard&) = delete;
+            LockGuard& operator=(const LockGuard&) = delete;
 
-    private:
-      mutex_type&  _M_device;
+        private:
+            mutex_type&  _M_device;
     };
+
+}
 
 #endif
