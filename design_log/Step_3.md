@@ -4,9 +4,9 @@
 
 > 3) Use c++11 std::condition_var in solution from #3 to synchronize threads
 >      -- Psuedo Code --
-
+>
 >      main:
-
+>
 >        1) start: thread 1, thread 2, thread 3
 >        2) all threads block on condition_signal
 >        3) main signals condition_signal
