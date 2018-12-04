@@ -19,17 +19,17 @@
 >           wait on condition_signal
 >
 >       example output:
->         main: starting all threads
->         thread1: starting, waiting.
->         thread2: starting, waiting.
->         thread3: starting, waiting.
->         main: starting thread 1.
->         thread1: signal received, doing work ....
->         thread1: done with work, signal next thread
->         thread2: signal received, doing work ....
->         thread2: done with work, signal next thread
+>           main: starting all threads
+>           thread1: starting, waiting.
+>           thread2: starting, waiting.
+>           thread3: starting, waiting.
+>           main: starting thread 1.
+>           thread1: signal received, doing work ....
+>           thread1: done with work, signal next thread
+>           thread2: signal received, doing work ....
+>           thread2: done with work, signal next thread
 >
->         on and on and on until you CTRL-C the program
+>           on and on and on until you CTRL-C the program
 
 ## Parsing Prompt
 
