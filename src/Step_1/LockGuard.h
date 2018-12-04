@@ -1,4 +1,7 @@
-#pragma once
+#ifndef _LOCK_G_HDR  // header guard
+#define _LOCK_G_HDR
+
+//#pragma once
 
 #include <mutex>          // std::mutex, std::lock_guard, std::adopt_lock
 
@@ -32,3 +35,4 @@
       mutex_type&  _M_device;
     };
 
+#endif
