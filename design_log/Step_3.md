@@ -3,7 +3,8 @@
 ## Initial Prompt
 
 > 3) Use c++11 std::condition_var in solution from #3 to synchronize threads
->      -- Psuedo Code --
+> ```     
+> -- Psuedo Code --
 >
 >      main:
 >
@@ -30,6 +31,7 @@
 >           thread2: done with work, signal next thread
 >
 >           on and on and on until you CTRL-C the program
+> ```
 
 ## Parsing Prompt
 
