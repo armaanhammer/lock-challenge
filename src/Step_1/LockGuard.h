@@ -30,8 +30,9 @@ namespace chal { //challenge namespace
             ~LockGuard()
                 { _M_device.unlock(); }
 
-            LockGuard(const LockGuard&) = delete;
-            LockGuard& operator=(const LockGuard&) = delete;
+            //generate compile error if copy attempted
+            LockGuard(const LockGuard&) = delete;  //copy constructor
+            LockGuard& operator=(const LockGuard&) = delete;  //copy assignment operator
 
         private:
             mutex_type&  _M_device;
