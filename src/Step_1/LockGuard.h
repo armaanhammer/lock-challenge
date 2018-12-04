@@ -1,5 +1,5 @@
-#ifndef _LOCK_G_HDR  // header guard
-#define _LOCK_G_HDR
+#ifndef _LOCK_G_HG  // header guard
+#define _LOCK_G_HG
 
 #include <mutex>     // std::mutex, std::adopt_lock
 
