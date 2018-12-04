@@ -2,7 +2,7 @@
 
 ## Initial Prompt
 
-> 3) Use c++11 std::condition_var in solution from #3 to synchronize threads
+> 3) Use c++11 `std::condition_var` in solution from #3 to synchronize threads
 > ```     
 > -- Psuedo Code --
 >
@@ -35,6 +35,6 @@
 
 ## Parsing Prompt
 
-Uncertain what "solution from #3" in 'Use c++11 std::condition_var in solution from #3' refers to. Going to assume it is a typo from a previous version of the same prompt, and instead focus on the std function.
+Uncertain what "solution from #3" in `Use c++11 std::condition_var in solution from #3` refers to. Going to assume it is a typo from a previous version of the same prompt, and instead focus on the std function.
 
 #### condition_var
