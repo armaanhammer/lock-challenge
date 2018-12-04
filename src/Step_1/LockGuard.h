@@ -1,3 +1,5 @@
+#pragma once
+
 #include <mutex>          // std::mutex, std::lock_guard, std::adopt_lock
 
 
