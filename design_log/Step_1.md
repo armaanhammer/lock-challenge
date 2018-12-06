@@ -1,44 +1,60 @@
-# Step 1
+# Step 1 - Reimplement LockGuard
 
-## Initial Prompt
-
-> 1) Reimplement c++11 lock_guard (NOT use std::lock_guard). Use namespace
-      to allow you to call your class impl "lock_guard" and not conflict with
-      std::lock_guard
->
->      LockGuard.h          // header file only impl
-
-lock_guard is a function that implements a programming idiom called **Resource Acquisition is Initialization** or **RAII**. In this idiom, resource acquisition is tied to object lifetime. lock_guard ties a resource (mutex) to an object (the calling function). The mutex is released upon execution leaving the scope of the function that called lock_guard. This provides a safeguard against an exception in the calling function preventing it from releasing the lock directly.
-
-## Parsing Prompt
-Having difficulty parsing prompt. I took "LockGuard.h // header file only impl" in the prompt to indicate that I am to build a declaration for the class based off of a .h file that was provided.
-
-I see that no LockGuard.h was attached to the email. Perhaps I misunderstand what I am intended to do?
-
-## Additional Prompt
-
-> You need to create LockGuard.h. I did not attach it. You need to re-create the functionality of std::lock_guard.  You can put all the code in a header file. It’s a common technique for STL and other utilities and is often referred to as “header only” so the user of the utility knows they can just include the header and not have to link a library to their project.
->
-> You will need to fully implement the functions. In the header file.
->
-> LockGuard.h
->
-> Set namespace to avoid naming collisions with std::lock_guard. std:: being a name space.
->
-> class LockGuard {
->
->   … implementation …
->
-> }
+lock_guard is a class that implements a programming idiom called **Resource Acquisition is Initialization** or **RAII**. In this idiom, resource acquisition is tied to object lifetime. lock_guard ties a resource (mutex) to an object (the calling function). The mutex is released upon execution leaving the scope of the function that called lock_guard. This provides a safeguard against an exception in the calling function preventing it from releasing the lock directly.
 
 ## Prelims
 
+Initially had trouble parsing requirements. [Reference in Appendix](Step_1_Appendix.md#Initial-Prompt)
 
+---
 
-### Attempt at Solution
-Dive more in depth into the Mutex header files.
+## Pass/Fail Conditions
 
-Need a better understanding of what lock_guard actually does. Brief googling leads to a template for calling the std class here: https://en.cppreference.com/w/cpp/thread/lock_guard Suspect I will want to call my class in a similar fashion. Pasting code here for reference:
+I plan to use a Test-Based approach for this each step of this coding challenge. In this step, the test will be whether my new LockGuard class duplicates the functionality of the std::lock_guard class. Duplicate behavior will pass. Behaviour that deviates will fail.
+
+## Method
+
+I will keep my new class as identical to std::lock_guard as possible, and I will test it using one (or more) generic example usages of std::lock_guard .
+
+## Source material
+
+### class
+
+I had very little luck finding fully implemented functions on the web, so I spun up an Ubuntu VM and searched around. I found it in `/usr/include/c++/5` under Ubuntu Desktop 17.10:
+
+```C++
+/** @brief A movable scoped lock type.
+ *
+ * A unique_lock controls mutex ownership within a scope. Ownership of the
+ * mutex can be delayed until after construction and can be transferred
+ * to another unique_lock by move construction or move assignment. If a
+ * mutex lock is owned when the destructor runs ownership will be released.
+ */
+template<typename _Mutex>
+  class lock_guard
+  {
+  public:
+    typedef _Mutex mutex_type;
+
+    explicit lock_guard(mutex_type& __m) : _M_device(__m)
+    { _M_device.lock(); }
+
+    lock_guard(mutex_type& __m, adopt_lock_t) : _M_device(__m)
+    { } // calling thread owns mutex
+
+    ~lock_guard()
+    { _M_device.unlock(); }
+
+    lock_guard(const lock_guard&) = delete;
+    lock_guard& operator=(const lock_guard&) = delete;
+
+  private:
+    mutex_type&  _M_device;
+  };
+  ```
+
+## testbench
+I found a template for calling the std class here: https://en.cppreference.com/w/cpp/thread/lock_guard which I will use for initial testing for this step:
 
 ```C++
 int g_i = 0;
@@ -68,6 +84,11 @@ int main()
     std::cout << "main: " << g_i << '\n';
 }
 ```
+
+
+
+
+
 
 Now, to look at the headers.
 https://en.cppreference.com/w/cpp/header/mutex has these:
@@ -172,38 +193,6 @@ class lock_guard {
 
 http://www.cplusplus.com/reference/mutex/lock_guard/
 
-I had very little luck finding fully implemented functions on the web, so I spun up an Ubuntu VM and searched around. I found it in `/usr/include/c++/5` under Ubuntu Desktop 17.10:
-
-```C++
-/** @brief A movable scoped lock type.
- *
- * A unique_lock controls mutex ownership within a scope. Ownership of the
- * mutex can be delayed until after construction and can be transferred
- * to another unique_lock by move construction or move assignment. If a
- * mutex lock is owned when the destructor runs ownership will be released.
- */
-template<typename _Mutex>
-  class lock_guard
-  {
-  public:
-    typedef _Mutex mutex_type;
-
-    explicit lock_guard(mutex_type& __m) : _M_device(__m)
-    { _M_device.lock(); }
-
-    lock_guard(mutex_type& __m, adopt_lock_t) : _M_device(__m)
-    { } // calling thread owns mutex
-
-    ~lock_guard()
-    { _M_device.unlock(); }
-
-    lock_guard(const lock_guard&) = delete;
-    lock_guard& operator=(const lock_guard&) = delete;
-
-  private:
-    mutex_type&  _M_device;
-  };
-  ```
   
   To disambiguate this code a bit, I found these lines in other areas of the same file:
   
