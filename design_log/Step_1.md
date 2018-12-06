@@ -1,4 +1,4 @@
-# Step 1 - Reimplement LockGuard
+# Step 1: Reimplement LockGuard
 
 lock_guard is a class that implements a programming idiom called **Resource Acquisition is Initialization** or **RAII**. In this idiom, resource acquisition is tied to object lifetime. lock_guard ties a resource (mutex) to an object (the calling function). The mutex is released upon execution leaving the scope of the function that called lock_guard. This provides a safeguard against an exception in the calling function preventing it from releasing the lock directly.
 
