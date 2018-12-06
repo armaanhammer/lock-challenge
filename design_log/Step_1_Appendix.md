@@ -2,6 +2,40 @@
 
 The purpose of this document is to capture ancillary research I have done that only loosely applies to the objectives I am working toward.
 
+## Initial Prompt
+
+> 1) Reimplement c++11 lock_guard (NOT use std::lock_guard). Use namespace
+      to allow you to call your class impl "lock_guard" and not conflict with
+      std::lock_guard
+>
+>      LockGuard.h          // header file only impl
+
+
+
+### Parsing Prompt
+Having difficulty parsing prompt. I took "LockGuard.h // header file only impl" in the prompt to indicate that I am to build a declaration for the class based off of a .h file that was provided.
+
+I see that no LockGuard.h was attached to the email. Perhaps I misunderstand what I am intended to do?
+
+### Additional Prompt
+
+> You need to create LockGuard.h. I did not attach it. You need to re-create the functionality of std::lock_guard.  You can put all the code in a header file. It’s a common technique for STL and other utilities and is often referred to as “header only” so the user of the utility knows they can just include the header and not have to link a library to their project.
+>
+> You will need to fully implement the functions. In the header file.
+>
+> LockGuard.h
+>
+> Set namespace to avoid naming collisions with std::lock_guard. std:: being a name space.
+>
+> class LockGuard {
+>
+>   … implementation …
+>
+> }
+
+---
+
+
 ## Template
 ```C++
 template <class Mutex>
