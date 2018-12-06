@@ -1,11 +1,9 @@
-# Step 2
+# Step 2: Focus in on threading use case
 
-## Intial Prompt
+## Prelims
 
-> 2) Implement c++11 threading example
->
->     2-3 threads running
+Was initially uncertain about parsing prompt. Read ahead to Step 3 to illuminate requirments. [Discussion in Appendix](Step_2_Appendix.md#Initial-Prompt)
 
-## Parsing prompt:
+## Method 
 
-Uncertain what "threading example" means. Perhaps refering to an included document? Perhaps means to create my own toy example to test class from [Step 1](Step_1.md). If so, then [Step 3](Step_3.md) is meat of what this is getting at, so going to parse through that first and come back to this. 
+Take current LockGuard testbench and redesign for two-three threads in anticipation of Step 3.
