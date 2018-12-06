@@ -21,7 +21,7 @@ void print_thread_id (int id) {
 
 int main ()
 {
-    std::thread threads[THREAD_NUM]; //creates an array of 10 thread objects
+    std::thread threads[THREAD_NUM]; //creates an array of THREAD_NUM number of thread objects
     // spawn 10 threads:
     for (int i=THREAD_NUM; i<10; ++i)
         threads[i] = std::thread(print_thread_id,i+1);
