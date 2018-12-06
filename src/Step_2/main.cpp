@@ -1,11 +1,13 @@
 // constructing lock_guard with adopt_lock
 
-//NOTE: needs to be compiled with flag -pthread. Not yet sure why.
+//NOTE: needs to be compiled with flag -pthread.
 
 #include <iostream>       // std::cout
 #include <thread>         // std::thread
 #include <mutex>          // std::mutex, std::adopt_lock
 #include "LockGuard.h"    // chal::LockGuard
+
+#define THREAD_NUM 3
 
 std::mutex mtx;           // mutex for critical section
 
@@ -19,9 +21,9 @@ void print_thread_id (int id) {
 
 int main ()
 {
-    std::thread threads[10]; //creates an array of 10 thread objects
+    std::thread threads[THREAD_NUM]; //creates an array of 10 thread objects
     // spawn 10 threads:
-    for (int i=0; i<10; ++i)
+    for (int i=THREAD_NUM; i<10; ++i)
         threads[i] = std::thread(print_thread_id,i+1);
 
     for (auto& th : threads) th.join();
