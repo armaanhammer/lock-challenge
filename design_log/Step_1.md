@@ -84,116 +84,90 @@ int main()
     std::cout << "main: " << g_i << '\n';
 }
 ```
-
-
-
-
-
-
-Now, to look at the headers.
-https://en.cppreference.com/w/cpp/header/mutex has these:
-
-```C++
-class mutex {
- public:
-    constexpr mutex() noexcept;
-    ~mutex();
-    mutex(const mutex&) = delete;
-    mutex& operator=(const mutex&) = delete;
-
-    void lock();
-    bool try_lock();
-    void unlock();
-    typedef /*implementation-defined*/ native_handle_type;
-    native_handle_type native_handle();
-};
-```
-
-and
-
-```C++
-template <class Mutex>
-class lock_guard {
- public:
-    typedef Mutex mutex_type;
-    explicit lock_guard(mutex_type& m);
-    lock_guard(mutex_type& m, adopt_lock_t);
-    ~lock_guard();
-    lock_guard(lock_guard const&) = delete;
-    lock_guard& operator=(lock_guard const&) = delete;
- private:
-    mutex_type& pm; // exposition only
-};
-```
 ---
 
+## My code
 
-## Deep dive
+## LockGuard
 
-#### Template
+I copied the std::lock_guard class, added an std:: namespace reference to the reference that needed it, and encapsulated the new class in a new namespace "chal" for challenge:
+
 ```C++
-template <class Mutex>
+namespace chal { // challenge namespace
+
+    /** @brief A movable scoped lock type.
+     *
+     * This class has been kept as identical to std::lock_guard as possible
+     *
+     * A unique_lock controls mutex ownership within a scope. Ownership of the
+     * mutex can be delayed until after construction and can be transferred
+     * to another unique_lock by move construction or move assignment. If a
+     * mutex lock is owned when the destructor runs ownership will be released.
+     */
+    template<typename _Mutex>  // returns type determined by calling function
+    class LockGuard
+    {
+        public:
+            typedef _Mutex mutex_type;
+
+            explicit LockGuard(mutex_type& __m) : _M_device(__m)  // no implicit constructor
+                { _M_device.lock(); }
+
+            LockGuard(mutex_type& __m, std::adopt_lock_t) : _M_device(__m)
+                { } // calling thread owns mutex
+
+            ~LockGuard()
+                { _M_device.unlock(); }
+
+            // generate compile error if copy attempted
+            // (supposed to be un-copyable)
+            LockGuard(const LockGuard&) = delete;  // copy constructor
+            LockGuard& operator=(const LockGuard&) = delete;  // copy assignment operator
+
+        private:
+            mutex_type&  _M_device;
+    };
+}
 ```
 
-The template directive is 'meta programming'; it programs what the compiler does at compile time, rather than what program does at runtime. I find the `template <class identifier> function_declaration;` somewhat confusing, and prefer to substitute `template <typename identifier> function_declaration;` which is synonymous.
+## LockGuard Testbench
 
-##### [Reference in Appendix](Step_1_Appendix.md#Template)
----
-
-
-#### Typedef
-```C++
-    typedef Mutex mutex_type;
-```
-
-The typedef-names are aliases for existing types, and are not declarations of new types. Eg.
-> ```C++
-> // simple typedef
-> typedef unsigned long ulong;
-> ```
-
-##### [Reference in Appendix](Step_1_Appendix.md#Typedef)
----
-
-
-#### Mutex
-##### [Reference in Appendix](Step_1_Appendix.md#Mutex)
----
-
-
-#### Operator Overload
-```C++
-lock_guard& operator=(lock_guard const&) = delete;
-```
-
-Appears to be operator overloading the equals sign. Need to parse this better.
-
-##### [Reference in Appendix](Step_1_Appendix.md#Operator-Overload)
----
-
-
-##### remaining code to work through:
+For the testbench, I copied the generic example code and changed the reference for std::lock_guard to chal::LockGuard .
 
 ```C++
-class lock_guard {
- public:
-    typedef Mutex mutex_type;
-    explicit lock_guard(mutex_type& m);
-    lock_guard(mutex_type& m, adopt_lock_t);
-    ~lock_guard();
-    lock_guard(lock_guard const&) = delete;
-    lock_guard& operator=(lock_guard const&) = delete;
- private:
-    mutex_type& pm; // exposition only
-};
+// constructing lock_guard with adopt_lock
+
+//NOTE: needs to be compiled with flag -pthread.
+
+#include <iostream>       // std::cout
+#include <thread>         // std::thread
+#include <mutex>          // std::mutex, std::adopt_lock
+#include "LockGuard.h"    // chal::LockGuard
+
+std::mutex mtx;           // mutex for critical section
+
+void print_thread_id (int id) {
+    mtx.lock();
+    //std::lock_guard<std::mutex> lck (mtx, std::adopt_lock);
+    chal::LockGuard<std::mutex> lck (mtx, std::adopt_lock);
+
+    std::cout << "thread #" << id << '\n';
+}
+
+int main ()
+{
+    std::thread threads[10]; //creates an array of 10 thread objects
+    // spawn 10 threads:
+    for (int i=0; i<10; ++i)
+        threads[i] = std::thread(print_thread_id,i+1);
+
+    for (auto& th : threads) th.join();
+
+    return 0;
+}
 ```
 ---
 
-### Trying a new approach - look at the member functions
+## Results:
 
-http://www.cplusplus.com/reference/mutex/lock_guard/
-
-  
-  To disambiguate this code a bit, I found these lines in other areas of the same file:
-  
-  
+The example code performed the same when std::lock_guard was referenced, and when chal::LockGuard was referenced, so the test succeeded.
