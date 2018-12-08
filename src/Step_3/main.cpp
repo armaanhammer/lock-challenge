@@ -7,23 +7,34 @@
 #include <mutex>          // std::mutex, std::adopt_lock
 #include "LockGuard.h"    // chal::LockGuard
 
-#define THREAD_NUM 3
+#define NUM_THDS 30
 
 std::mutex mtx;           // mutex for critical section
 
-void print_thread_id (int id) {
+
+void thd_printer(int id, std::string msg) {
+    std::cout << "thread" << id << ": " << msg << std::endl;
+}
+
+
+void thd_worker (int id) {
     mtx.lock();
     chal::LockGuard<std::mutex> lck (mtx, std::adopt_lock);
 
-    std::cout << "thread #" << id << '\n';
+    std::string msg = "testing!";
+
+    //std::cout << "thread #" << id << '\n';
+    thd_printer(id, msg);
 }
+
 
 int main ()
 {
-    std::thread threads[THREAD_NUM]; //creates an array of THREAD_NUM of thread objects
-    // spawn THREAD_NUM threads:
-    for (int i=THREAD_NUM; i<10; ++i)
-        threads[i] = std::thread(print_thread_id,i+1);
+    std::thread threads[NUM_THDS]; //creates an array of NUM_THDS of thread objects
+    
+    // spawn NUM_THDS threads:
+    for (int i=0; i<NUM_THDS; ++i)
+        threads[i] = std::thread(thd_worker,i+1);
 
     for (auto& th : threads) th.join();
 
