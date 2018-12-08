@@ -11,7 +11,12 @@
 
 std::mutex mtx;           // mutex for critical section
 
-
+/** @brief thread print function
+ *
+ * Takes in an int and a string
+ * Prints to standard out
+ * NOT thread-safe: must be called within a thread-safe scope
+ */
 void thd_printer(int id, std::string msg) {
     std::cout << "thread" << id << ": " << msg << std::endl;
 }
