@@ -69,7 +69,7 @@ int main() {
 
 Also: 
 
-
+```C++
 int main() {
     typedef void(*function_name)();
     
