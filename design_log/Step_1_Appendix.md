@@ -172,7 +172,7 @@ https://www.youtube.com/watch?v=2yR8dcKT-Ck
 
 syntax:
 
-``C++
+```C++
 for ( element : collection ) {
       //do something
 }
