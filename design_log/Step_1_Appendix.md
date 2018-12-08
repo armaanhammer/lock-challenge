@@ -155,3 +155,25 @@ What does this do? Says it is a constructor definition. Occurs inside of a struc
 https://www.youtube.com/watch?v=ojOUIg13g3I
 
 Don't combine the operation of storing objects in a shared pointer with any other statement.
+
+---
+
+
+## Range based for loop
+
+```C++
+    // for each element th in array threads, join th
+    // use auto& to guarantee sharing variable by reference 
+    for (auto& th : threads) th.join();
+```
+
+https://stackoverflow.com/questions/29859796/c-auto-vs-auto
+https://www.youtube.com/watch?v=2yR8dcKT-Ck
+
+syntax:
+
+``C++
+for ( element : collection ) {
+      //do something
+}
+```
