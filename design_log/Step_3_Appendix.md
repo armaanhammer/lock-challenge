@@ -1,4 +1,4 @@
-# Step 2 Appendix
+# Step 3 Appendix
 
 ## Initial Prompt
 
@@ -41,7 +41,26 @@
 Uncertain what "solution from #3" in `Use c++11 std::condition_var in solution from #3` refers to. Going to assume it is a typo from a previous version of the same prompt, and instead focus on the std function.
 
 Also uncertain what line with //gimmie is talking about. My assumption based on the example output is that all three threads need to loop sequentially. I am uncertain from the prompt whether they should be started and joined repeatedly in main, or if they should run forever by themselves. To attempt to parse this, will write code for a bit and see which is more reasonable.
+---
 
 #### Condition Variable
 
 std::condition_variable
+---
+
+## Function Pointers
+
+```C++
+void HelloWorld() {
+    std::cout << "Hello World!" << std::endl;
+}
+
+int main() {
+    void(*function)();
+    
+    // does the same thing as this (without assignment):
+    // auto function = &HelloWorld;
+    
+}
+```
+    
