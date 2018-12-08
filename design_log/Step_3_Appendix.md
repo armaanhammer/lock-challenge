@@ -61,8 +61,18 @@ int main() {
     void(*function_name)();
     
     // does the same thing as this (without assignment):
-    // auto function_name = &HelloWorld;
+    // auto function_name = &HelloWorld; // implicit &, so don't need
     
 }
 ```
+
+
+Also: 
+
+
+int main() {
+    typedef void(*function_name)();
     
+    function_name = Helloworld;
+}
+```
