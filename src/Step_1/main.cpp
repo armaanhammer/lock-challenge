@@ -24,6 +24,8 @@ int main ()
     for (int i=0; i<10; ++i)
         threads[i] = std::thread(print_thread_id,i+1);
 
+    // for each element th in array threads, join th
+    // use auto& to gurantee sharing variable by reference 
     for (auto& th : threads) th.join();
 
     return 0;
