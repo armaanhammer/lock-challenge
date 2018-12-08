@@ -56,10 +56,10 @@ void HelloWorld() {
 }
 
 int main() {
-    void(*function)();
+    void(*function_name)();
     
     // does the same thing as this (without assignment):
-    // auto function = &HelloWorld;
+    // auto function_name = &HelloWorld;
     
 }
 ```
