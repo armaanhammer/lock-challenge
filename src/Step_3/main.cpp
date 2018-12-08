@@ -11,25 +11,36 @@
 
 std::mutex mtx;           // mutex for critical section
 
-/** @brief thread print function
+
+/** \brief thread print function
  *
- * Takes in an int and a string
+ *  \param id an integer that defines thread number
+ *  \param msg a string containing message to be printed
+ *
  * Prints to standard out
- * NOT thread-safe: must be called within a thread-safe scope
+ * NOT thread-safe; must be called within a thread-safe scope
  */
 void thd_printer(int id, std::string msg) {
     std::cout << "thread" << id << ": " << msg << std::endl;
 }
 
 
-void thd_worker (int id) {
+/** \brief thread worker function
+ *
+ *  \param this_id an integer that defines current thread number
+ *  \param next_id an integer that defines next thread number
+ *
+ *  Upon startup, function blocks on condition_signal. Upon receipt of condition_signal,
+ *  function sleeps at random for between 1 and 5 seconds, then signals next thread and 
+ *  goes back to blocking on condition_signal.
+ */
+void thd_worker (int this_id, int next_id) {
     mtx.lock();
     chal::LockGuard<std::mutex> lck (mtx, std::adopt_lock);
 
     std::string msg = "testing!";
 
-    //std::cout << "thread #" << id << '\n';
-    thd_printer(id, msg);
+    thd_printer(this_id, msg);
 }
 
 
