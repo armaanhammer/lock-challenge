@@ -5,17 +5,17 @@
 #include <iostream>       // std::cout
 #include <thread>         // std::thread
 #include <mutex>          // std::mutex, std::adopt_lock
-#include <random>
 #include <chrono>         // std::chrono
+#include <random>
 
 #include "LockGuard.h"    // chal::LockGuard
 #include <vector>
+
 
 #define NUM_THDS 3
 
 
 /// Globals
-std::mutex mtx;           // mutex for critical section
 
 
 
@@ -28,8 +28,8 @@ std::mutex mtx;           // mutex for critical section
  * NOT thread-safe; must be called within a thread-safe scope
  */
 void thd_printer(int id, std::string msg) {
-    mtx.lock();
-    chal::LockGuard<std::mutex> lck (mtx, std::adopt_lock);
+    this_mtx.lock();
+    chal::LockGuard<std::mutex> lck (this_mtx, std::adopt_lock);
     std::cout << "thread" << id << ": " << msg << std::endl;
 }
 
@@ -46,8 +46,9 @@ void thd_printer(int id, std::string msg) {
 void thd_worker (int this_id, int next_id) {
 
     // sleep
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+    
     //std::this_thread::sleep_for(chrono::second(2));
-
     // debug
     std::cout << "this: " << this_id 
               << " next: " << next_id << std::endl;
@@ -65,11 +66,9 @@ int main ()
 
     //std::vector<std::thread> threads
     std::thread threads[NUM_THDS]; //creates an array of NUM_THDS of thread objects
+
+    std::mutex mutexs[NUM_THDS]; //creates an array of NUM_THDS of mutex objects
     
-/*
-    for (int th : sizeof(threads))
-        threads[th] = std::thread(thd_worker,th+1,th+2);
-*/
     int this_id, next_id;
 
     /// spawn NUM_THDS threads:
@@ -84,11 +83,11 @@ int main ()
 
     if(DEBUG) std::cout << "main join for starting" << std::endl;
     for (auto& th : threads) {
-        //th.join();
+        th.join();
+        //th.detach();
         if(DEBUG) std::cout << "an instance of main for join loop" << std::endl;
     }
 
-    std::this_thread::sleep_for(std::chrono::seconds(1));
 
     return 0;
 }
