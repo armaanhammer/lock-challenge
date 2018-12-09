@@ -20,6 +20,8 @@ Thinking of two ways to guarantee ordered thread execution:
   * main() is responsible for assigning mutexes to correct threads (eg. thread 3 must be assigned mutex 1 as mutex to unlock)
 * One mutex total, with an int passed by reference to maintain count of which thread is next. 
   * each thread must have logic to increment in (eg. thread 3 must 'increment' int to 1)
+  
+Deciding on multiple mutexes. May update later.
 
 ### Storage of thread and mutex objects
 
