@@ -7,15 +7,17 @@
 #include <mutex>          // std::mutex, std::adopt_lock
 #include <chrono>         // std::chrono
 #include <random>
+#include <vector>
 
 #include "LockGuard.h"    // chal::LockGuard
-#include <vector>
 
 
 #define NUM_THDS 3
 
 
 /// Globals
+std::mutex mtx;         //shared mutex
+bool DEBUG = false;
 
 
 
@@ -28,8 +30,16 @@
  * NOT thread-safe; must be called within a thread-safe scope
  */
 void thd_printer(int id, std::string msg) {
-    this_mtx.lock();
-    chal::LockGuard<std::mutex> lck (this_mtx, std::adopt_lock);
+    //bool DEBUG = true;
+
+    if(DEBUG) std::cout << "made it to thd_printer" << std::endl;
+
+    //mtx.lock();
+    if(DEBUG) std::cout << "made it to mtx.lock" << std::endl;
+    
+    chal::LockGuard<std::mutex> lck (mtx, std::adopt_lock);
+    if(DEBUG) std::cout << "made it to LockGuard" << std::endl;
+    
     std::cout << "thread" << id << ": " << msg << std::endl;
 }
 
@@ -43,48 +53,76 @@ void thd_printer(int id, std::string msg) {
  *  function sleeps at random for between 1 and 5 seconds, then signals next thread and 
  *  goes back to blocking on condition_signal.
  */
-void thd_worker (int this_id, int next_id) {
+void thd_worker (const int this_id, int &next_thd) {
+    bool DEBUG = true;
 
-    // sleep
+    if(DEBUG) std::cout << "this: " << this_id 
+                        << " next: " << next_thd << std::endl;
+
+    /* PSUEDO CODE
+     * sleep for 1-5 secs
+     * block on condition_variable and if this_id != &next_thd
+     * lock mutex
+     * lock_guard(mutex)
+     * increment next_thd
+     *   if this is topmost thread, reset next_thd
+     *   else increment next_thd
+     * call thread_printer function, passing in mutex
+     *   in thread printer function:
+     *     capture mutex from calling function
+     *     print
+     *
+     */ 
+ 
+
+    /// sleep
     std::this_thread::sleep_for(std::chrono::seconds(1));
-    
-    //std::this_thread::sleep_for(chrono::second(2));
-    // debug
-    std::cout << "this: " << this_id 
-              << " next: " << next_id << std::endl;
 
+    /// lock mutex
+    mtx.lock();
+    chal::LockGuard<std::mutex> lck (mtx, std::adopt_lock);
+
+    /// if topmost thread, reset next_thd
+    if(next_thd == NUM_THDS) next_thd = 0;
+    else( ++next_thd);
+    
+    if(DEBUG) std::cout << "this: " << this_id 
+                        << " next: " << next_thd << std::endl;   
+    
 
     std::string msg = "testing!";
 
     thd_printer(this_id, msg);
+    
+    if(DEBUG) std::cout << "this: " << this_id 
+                        << " returned from thd_printer" << std::endl;
 }
 
 
-int main ()
-{
-    bool DEBUG = true;
+int main () {
+    //bool DEBUG = true;
 
     //std::vector<std::thread> threads
     std::thread threads[NUM_THDS]; //creates an array of NUM_THDS of thread objects
+    std::mutex mutexes[NUM_THDS]; //creates an array of NUM_THDS of mutex objects
 
-    std::mutex mutexs[NUM_THDS]; //creates an array of NUM_THDS of mutex objects
+    int next_thd = 0; 
     
-    int this_id, next_id;
-
     /// spawn NUM_THDS threads:
     for (int i=0; i<NUM_THDS; ++i) {
-        this_id = i+1;
-        if (i == NUM_THDS-1) next_id=1;
-        else next_id = i+2;
+        
+        if (i == NUM_THDS-1) next_thd=0;
+        else next_thd = i+1;
 
         if(DEBUG) std::cout << "main for loop #" << i << std::endl;
-        threads[i] = std::thread(thd_worker, this_id, next_id);
+
+        threads[i] = std::thread(thd_worker, i, std::ref(next_thd));
     }
 
     if(DEBUG) std::cout << "main join for starting" << std::endl;
     for (auto& th : threads) {
         th.join();
-        //th.detach();
+        
         if(DEBUG) std::cout << "an instance of main for join loop" << std::endl;
     }
 
