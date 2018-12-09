@@ -21,11 +21,11 @@ Thinking of two ways to guarantee ordered thread execution:
 * One mutex total, with an int passed by reference to maintain count of which thread is next. 
   * each thread must have logic to increment in (eg. thread 3 must 'increment' int to 1)
   
-Deciding on multiple mutexes. May update later.
+Decided on single mutex and shared int by reference. Reasoning being: each thread already needs to know its ID to print it out. Might as well capitalize on that.
 
-### Storage of thread and mutex objects
+### Storage of thread and objects
 
-* Chosing to continue storing thread and mutex objects either in arrays or a vector for ease of joining later.
+* Chosing to continue storing thread objects either in arrays or a vector for ease of joining later.
   * Ran into question about whether to use array vs. vector. 
     * Pros for array:
       * easy
@@ -40,7 +40,7 @@ Deciding on multiple mutexes. May update later.
       * needless complexity
       * slower
       
-Decided on seperate arrays that share same index. May update later.
+Decided on array. May update later.
 
 ### Indexing
 
