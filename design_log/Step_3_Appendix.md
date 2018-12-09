@@ -44,9 +44,9 @@ Also uncertain what line with //gimmie is talking about. My assumption based on 
 
 ---
 
-#### Condition Variable
+### Condition Variable
 
-std::condition_variable
+std::condition_variable seems to be able to use std::lock_guard in the calling thread, but the receiving threads **must** use std::unique_lock. https://en.cppreference.com/w/cpp/thread/condition_variable
 
 ---
 
