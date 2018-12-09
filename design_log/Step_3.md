@@ -12,6 +12,15 @@ Initially had trouble parsing requirements. [Reference in Appendix](Step_3_Appen
 
 Want variable sizing (at compile time) - add more or less threads at will and have program perform the same. Feel this is good coding practice, and can potentially reduce complexity.
 
+### How to guarantee ordered thread execution
+
+Thinking of two ways to guarantee ordered thread execution:
+* One mutex per thread-to-thread handoff
+  * Each possible transition (eg. 1-2 , 2-3 , 3-1) has its own mutex that the 'receiving' thread blocks on.
+  * main() is responsible for assigning mutexes to correct threads (eg. thread 3 must be assigned mutex 1 as mutex to unlock)
+* One mutex total, with an int passed by reference to maintain count of which thread is next. 
+  * each thread must have logic to increment in (eg. thread 3 must 'increment' int to 1)
+
 ### Storage of thread and mutex objects
 
 * Chosing to continue storing thread and mutex objects either in arrays or a vector for ease of joining later.
