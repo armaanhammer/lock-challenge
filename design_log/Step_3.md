@@ -6,7 +6,7 @@ Initially had trouble parsing requirements. [Reference in Appendix](Step_3_Appen
 
 ---
 
-## Beginning codeing
+## Coding Decisions
 
 ### Sizing
 
