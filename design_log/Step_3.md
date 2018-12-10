@@ -46,6 +46,24 @@ Decided on array. May update later.
 
 Decided on 0-indexing because easier to code. Will +1 for cout statements so appears as 1-indexing to comply with display output requirements.
 
+### Threading
+
+
+    /* PSUEDO CODE
+     * block on condition_variable and if id != &next_thd
+     * sleep for 1-5 secs
+     * lock mutex
+     * lock_guard(mutex)
+     * increment next_thd
+     *   if this is topmost thread, reset next_thd
+     *   else increment next_thd
+     * call thread_printer function, passing in mutex
+     *   in thread printer function:
+     *     capture mutex from calling function
+     *     print
+     *
+     */ 
+
 ---
 
 ## Doxygen
