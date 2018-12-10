@@ -50,6 +50,7 @@ Decided on 0-indexing because easier to code. Will +1 for cout statements so app
 
 ## Doxygen
 
+Considerations for creating documentation are listed in: [Reference in Appendix](Step_3_Appendix.md#Doxygen-Creation)
 
 
 
