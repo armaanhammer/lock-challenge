@@ -6,6 +6,7 @@
 #include <thread>         // std::thread
 #include <mutex>          // std::mutex, std::adopt_lock
 #include <chrono>         // std::chrono
+#include <condition_variable>
 #include <random>
 #include <vector>
 
@@ -16,7 +17,8 @@
 
 
 /// Globals
-std::mutex mtx;         //shared mutex
+std::mutex mtx;                 //shared mutex
+std::condition_variable cond;   //shared condition variable
 bool DEBUG = false;
 
 
@@ -37,7 +39,7 @@ void thd_printer(int id, std::string msg) {
     //mtx.lock();
     if(DEBUG) std::cout << "made it to mtx.lock" << std::endl;
     
-    chal::LockGuard<std::mutex> lck (mtx, std::adopt_lock);
+    //chal::LockGuard<std::mutex> lck (mtx, std::adopt_lock);
     if(DEBUG) std::cout << "made it to LockGuard" << std::endl;
     
     std::cout << "thread" << id << ": " << msg << std::endl;
@@ -60,8 +62,8 @@ void thd_worker (const int this_id, int &next_thd) {
                         << " next: " << next_thd << std::endl;
 
     /* PSUEDO CODE
-     * sleep for 1-5 secs
      * block on condition_variable and if this_id != &next_thd
+     * sleep for 1-5 secs
      * lock mutex
      * lock_guard(mutex)
      * increment next_thd
@@ -74,25 +76,29 @@ void thd_worker (const int this_id, int &next_thd) {
      *
      */ 
  
+    thd_printer(this_id, "starting, waiting.");
 
     /// sleep
     std::this_thread::sleep_for(std::chrono::seconds(1));
 
-    /// lock mutex
-    mtx.lock();
-    chal::LockGuard<std::mutex> lck (mtx, std::adopt_lock);
-
-    /// if topmost thread, reset next_thd
-    if(next_thd == NUM_THDS) next_thd = 0;
-    else( ++next_thd);
+    for (int j=0; j<5 ; j++) {
     
-    if(DEBUG) std::cout << "this: " << this_id 
-                        << " next: " << next_thd << std::endl;   
+        /// lock mutex
+        mtx.lock();
+        std::unique_lock<std::mutex> lck (mtx, std::adopt_lock);
+
+        /// if topmost thread, reset next_thd
+        if(next_thd == NUM_THDS) next_thd = 0;
+        else( ++next_thd);
+        
+        if(DEBUG) std::cout << "this: " << this_id 
+                            << " next: " << next_thd << std::endl;   
+    }
     
 
     std::string msg = "testing!";
 
-    thd_printer(this_id, msg);
+    thd_printer(this_id, "testing!");
     
     if(DEBUG) std::cout << "this: " << this_id 
                         << " returned from thd_printer" << std::endl;
