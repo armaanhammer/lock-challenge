@@ -78,7 +78,7 @@ void thd_worker (const int this_id, int &next_thd) {
  
     thd_printer(this_id, "starting, waiting.");
 
-    /// sleep
+    ///< sleep to simulate work
     std::this_thread::sleep_for(std::chrono::seconds(1));
 
     for (int j=0; j<5 ; j++) {
@@ -124,6 +124,12 @@ int main () {
 
         threads[i] = std::thread(thd_worker, i, std::ref(next_thd));
     }
+
+    // wait for 1 second
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+
+    cond.notify_all()  ///< start sequence
+
 
     if(DEBUG) std::cout << "main join for starting" << std::endl;
     for (auto& th : threads) {
