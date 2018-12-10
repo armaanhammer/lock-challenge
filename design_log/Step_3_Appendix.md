@@ -80,3 +80,11 @@ int main() {
 ## Doxygen Creation
 
 Considering how display STL library references in code. `BUILTIN_STL_SUPPORT    = YES/NO` is relevant line.
+
+`EXTRACT_ALL            = NO`
+
+and
+
+`EXTRACT_PRIVATE        = NO`
+
+also under consideration.
