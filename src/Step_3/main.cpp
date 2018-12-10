@@ -26,7 +26,7 @@ bool DEBUG = true;             // turn on debug messages
  *  \param msg a string containing message to be printed
  *
  * Prints to standard out
- * NOT thread-safe; must be called within a thread-safe scope
+ * \warning NOT thread-safe; must be called within a thread-safe scope
  */
 void DBG_PRNTR(int id, std::string msg) {
     
@@ -34,7 +34,7 @@ void DBG_PRNTR(int id, std::string msg) {
               << msg << "\t***" << std::endl;
 }
 
-/** \brief DEBUG PRINTER function overload
+/** \overload DEBUG PRINTER function overload
  *
  *  \param id an integer that defines thread number (0 for main)
  *  \param next_thd an integer indicating next thread to run
@@ -66,7 +66,7 @@ void DBG_PRNTR(int id, std::string msg, int next_thd) {
  *  \param msg a string containing message to be printed
  *
  * Prints to standard out
- * NOT thread-safe; must be called within a thread-safe scope
+ * \warning NOT thread-safe; must be called within a thread-safe scope
  */
 void thd_printer(int id, std::string msg) {
     //bool DEBUG = true;
@@ -101,21 +101,6 @@ void thd_worker (const int id, int &next_thd, std::default_random_engine &rand_e
 
     int wait_tm; ///< time to randomize
 
-    /* PSUEDO CODE
-     * block on condition_variable and if id != &next_thd
-     * sleep for 1-5 secs
-     * lock mutex
-     * lock_guard(mutex)
-     * increment next_thd
-     *   if this is topmost thread, reset next_thd
-     *   else increment next_thd
-     * call thread_printer function, passing in mutex
-     *   in thread printer function:
-     *     capture mutex from calling function
-     *     print
-     *
-     */ 
- 
     thd_printer(id, "starting, waiting.");
 
     /// repeat forever
