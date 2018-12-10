@@ -76,3 +76,7 @@ int main() {
     function_name = Helloworld;
 }
 ```
+
+## Doxygen Creation
+
+Considering how display STL library references in code. `BUILTIN_STL_SUPPORT    = YES/NO` is relevant line.
