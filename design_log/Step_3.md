@@ -46,10 +46,12 @@ Decided on array. May update later.
 
 Decided on 0-indexing because easier to code. Will +1 for cout statements so appears as 1-indexing to comply with display output requirements.
 
-### asdf
-
-
 ---
+
+## Doxygen
+
+
+
 
 
 
