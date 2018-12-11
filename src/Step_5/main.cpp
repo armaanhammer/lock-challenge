@@ -2,6 +2,7 @@
 #include <map>
 #include <string>
 #include <iostream>
+#include <functional>
 
 //
 // supporting tools and software
@@ -19,11 +20,11 @@
 // std::map
 // std::make_pair
 
-#include "rapidjson/document.h"
+#include "rapidjson/document.h"         // DOM API
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
 
-using namespace rapidjson;
+//using namespace rapidjson;
 using namespace std;
 
 bool g_done = false;
@@ -49,8 +50,17 @@ auto exit_command = R"(
  }
 )";
 
+
+/** \brief controller class of functions to "dispatch" from Command Dispatcher
+ *
+ */
+
 class Controller {
 public:
+
+    /** \brief command handler for help
+     *
+     */
     bool help(rapidjson::Value &payload)
     {
         cout << "Controller::help: command: ";
@@ -59,7 +69,10 @@ public:
 
         return true;
     }
-
+    
+    /** \brief command handler for exit
+     *
+     */
     bool exit(rapidjson::Value &payload)
     {
         cout << "Controller::exit: command: \n";
@@ -74,6 +87,8 @@ public:
 
 // Bonus Question: why did I type cast this?
 typedef std::function<bool(rapidjson::Value &)> CommandHandler;
+
+
 
 class CommandDispatcher {
 public:
@@ -97,6 +112,10 @@ public:
         return true;
     }
 
+    /** \brief initial receiver of command
+     *
+     * does: what?
+     */
     bool dispatchCommand(std::string command_json)
     {
         cout << "COMMAND: " << command_json << endl;
@@ -107,7 +126,7 @@ public:
     }
 
 private:
-    std::map<std::string, CommandHandler> command_handlers_;
+    std::map<std::string, CommandHandler> command_handlers_; //
 
     // Question: why delete these?
 
