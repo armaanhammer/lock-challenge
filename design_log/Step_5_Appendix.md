@@ -15,5 +15,5 @@ set(CMAKE_CXX_STANDARD 11)
 add_executable(dispatcher main.cpp)
 ```
 
-It looks straightforward enough. Going to copy [dispatcher_challenge.cpp prompt](../prompt/dispatcher_challenge.cpp) to src and rename it main.cpp to comply.
+It looks straightforward enough. Going to copy [dispatcher_challenge.cpp prompt](../prompt/dispatcher_challenge.cpp) to src and rename it [main.cpp](../src/Step_5/main.cpp) to comply.
 
