@@ -24,20 +24,26 @@ What is meant by "dispatching"? I assume data is moving from somewhere to somewh
 ### What is this actually doing?
 
 * The auto test commands at the top appear to map a single JSON object to a C++ variable
-* The typecast line may be revealing:
+* The typecasted typedef line may be revealing:
   `typedef std::function<bool(rapidjson::Value &)> CommandHandler;`
   
-  Syntax: typedef data_type new_name;
+#### Typedef
+  Syntax: *typedef data_type new_name;*
   
-  data_type: An existing type or user defined type created using structure/union.
+  *data_type*: An existing type or user defined type created using structure/union.
 
-  new_name: alias to the existing type or user defined type.
+  *new_name*: alias to the existing type or user defined type.
 
   so: 
   
   `std::function<bool(rapidjson::Value &)>`    <-- existing type
   
   `CommandHandler`    <-- alias to existing type
+  
+#### Typecast
+  
+  
+  
   
   
   
