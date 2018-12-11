@@ -6,9 +6,10 @@ Taken to be an event dispatcher, which maps functions to be called when string o
 
 Two components:
 1. Message-passing interface
-1. Parameterized message-passing.
+1. Parameterized method-passing for inhereted objects.
 
 
+https://www.youtube.com/watch?v=yD47_hq75q0
 
 https://www.youtube.com/watch?v=Tu3Y2_3QaUY
 
