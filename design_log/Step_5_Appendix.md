@@ -25,8 +25,13 @@ What is meant by "dispatching"? I assume data is moving from somewhere to somewh
 
 * The auto test commands at the top appear to map a single JSON object to a C++ variable
 * The typecasted typedef line may be revealing:
-  `typedef std::function<bool(rapidjson::Value &)> CommandHandler;`
-  
+```C++
+typedef std::function<bool(rapidjson::Value &)> CommandHandler;
+```
+
+alias to a function that takes a rapidjson::value& and returns bool
+
+
 #### Typedef
   Syntax: *typedef data_type new_name;*
   
@@ -39,6 +44,8 @@ What is meant by "dispatching"? I assume data is moving from somewhere to somewh
   `std::function<bool(rapidjson::Value &)>`    <-- existing type
   
   `CommandHandler`    <-- alias to existing type
+  
+
   
 #### Typecast
 
@@ -96,8 +103,7 @@ So, the raw JSON is:
 ```
 
 
-
-
+## 
   
   
   
