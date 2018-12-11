@@ -3,7 +3,7 @@
 ## Prelims
 
 * Familiarize myself with https://github.com/Tencent/rapidjson 
-* Parse through [initial dispatcher_challenge.cpp prompt](../prompt/dispatcher_challenge.cpp) to determine if will be using DOM API or SAX API, among other things.
+* Parse through [dispatcher_challenge.cpp prompt](../prompt/dispatcher_challenge.cpp) to determine if will be using DOM API or SAX API, among other things.
   * file has `#include "rapidjson/document.h"` which \[seems to] imply that DOM API will be used.
 
 ## Resources
