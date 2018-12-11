@@ -63,6 +63,29 @@ What is meant by "dispatching"? I assume data is moving from somewhere to somewh
 
   per http://rapidjson.org/classrapidjson_1_1_generic_value.html
   
+---
+
+## example test commands
+
+```C++
+auto help_command = R"(
+ {
+  "command":"help",
+  "payload": {
+    "usage":"Enter json command in 'command':'<command>','payload': { // json payload of arguments }",
+  }
+ }
+)";
+```
+
+https://en.cppreference.com/w/cpp/language/string_literal says prefix(optional) R "delimiter( raw_characters )delimiter"
+
+and
+
+raw_characters	-	Any character sequence, except that it must not contain the closing sequence )delimiter"
+
+
+  
   
   
   
