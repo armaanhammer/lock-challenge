@@ -78,11 +78,24 @@ auto help_command = R"(
 )";
 ```
 
-https://en.cppreference.com/w/cpp/language/string_literal says prefix(optional) R "delimiter( raw_characters )delimiter"
+https://en.cppreference.com/w/cpp/language/string_literal says:
 
-and
+> prefix(optional) R "delimiter( raw_characters )delimiter"
+> and
+> raw_characters	-	Any character sequence, except that it must not contain the closing sequence )delimiter"
 
-raw_characters	-	Any character sequence, except that it must not contain the closing sequence )delimiter"
+So, the raw JSON is:
+
+```json
+ {
+  "command":"help",
+  "payload": {
+    "usage":"Enter json command in 'command':'<command>','payload': { // json payload of arguments }",
+  }
+ }
+```
+
+
 
 
   
