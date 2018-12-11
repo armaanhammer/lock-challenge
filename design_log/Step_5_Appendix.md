@@ -80,9 +80,9 @@ auto help_command = R"(
 
 https://en.cppreference.com/w/cpp/language/string_literal says:
 
-> prefix(optional) R "delimiter( raw_characters )delimiter"
-> and
-> raw_characters	-	Any character sequence, except that it must not contain the closing sequence )delimiter"
+> prefix(optional) **R** "*delimiter*( raw_characters )*delimiter*"
+>
+> **raw_characters**	-	Any character sequence, except that it must not contain the closing sequence )*delimiter*"
 
 So, the raw JSON is:
 
