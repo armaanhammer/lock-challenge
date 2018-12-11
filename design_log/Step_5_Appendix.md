@@ -41,6 +41,11 @@ What is meant by "dispatching"? I assume data is moving from somewhere to somewh
   `CommandHandler`    <-- alias to existing type
   
 #### Typecast
+
+
+#### Trying to parse this too:
+
+    // add command handlers in Controller class to CommandDispatcher using addCommandHandler
   
   
   
