@@ -1,5 +1,17 @@
 # Step 5 Appendix
 
+## Dispatcher abstraction
+
+Taken to be an event dispatcher, which maps functions to be called when string or int objects are passed to a message-passing interface. 
+
+Two components:
+1. Message-passing interface
+1. Parameterized message-passing.
+
+
+
+https://www.youtube.com/watch?v=Tu3Y2_3QaUY
+
 ## CMAKE
 
 ### Parsing
