@@ -21,6 +21,29 @@ It looks straightforward enough. Going to copy [dispatcher_challenge.cpp prompt]
 
 What is meant by "dispatching"? I assume data is moving from somewhere to somewhere else. I am having trouble understanding data movement in the code provided though.
 
+### What is this actually doing?
+
+* The auto test commands at the top appear to map a single JSON object to a C++ variable
+* The typecast line may be revealing:
+  `typedef std::function<bool(rapidjson::Value &)> CommandHandler;`
+  
+  Syntax: typedef data_type new_name;
+  
+  data_type: An existing type or user defined type created using structure/union.
+
+  new_name: alias to the existing type or user defined type.
+
+  so: 
+  
+  `std::function<bool(rapidjson::Value &)>`    <-- existing type
+  
+  `CommandHandler`    <-- alias to existing type
+  
+  
+  
+  
+
+
 ### class Controller
 
 #### bool help()
@@ -28,6 +51,8 @@ What is meant by "dispatching"? I assume data is moving from somewhere to somewh
 ##### `rapidjson::Value &payload`
 
   per http://rapidjson.org/classrapidjson_1_1_generic_value.html
+  
+  
   
   
   
