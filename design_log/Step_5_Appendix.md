@@ -19,7 +19,7 @@ It looks straightforward enough. Going to copy [dispatcher_challenge.cpp prompt]
 
 ## Parsing Code
 
-What is meant by "dispatching"? I assume data is moving from somewhere to somewhere else. I am having trouble understanding data movememtn in the code provided though.
+What is meant by "dispatching"? I assume data is moving from somewhere to somewhere else. I am having trouble understanding data movement in the code provided though.
 
 ### class Controller
 
