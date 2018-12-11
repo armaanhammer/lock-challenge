@@ -24,10 +24,36 @@
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
 
-//using namespace rapidjson;
+using namespace rapidjson;
 using namespace std;
 
 bool g_done = false;
+
+
+//DEBUG
+//StringBuffer buffer;
+
+
+
+bool DEBUG = true;          // turn on debug messages
+
+/** \brief DEBUG PRINTER function
+ *
+ *  \param id an integer that defines thread number (0 for main)
+ *  \param msg a string containing message to be printed
+ *
+ * Prints to standard out
+ * \warning NOT thread-safe; must be called within a thread-safe scope
+ */
+void DBG_PRNTR(std::string id, std::string msg) {
+    
+    std::cout << "***\tDEBUG from" << id << ": " 
+              << msg << "\t***" << std::endl;
+}
+
+
+
+
 
 //
 // TEST COMMANDS
@@ -82,6 +108,22 @@ public:
         return true;
     }
 
+    /** \brief command handler for add 
+     *
+     */
+    bool add(rapidjson::Value &payload)
+    {
+        cout << "Controller::add command: \n";
+
+        // implement
+
+        return true;
+    }
+
+
+
+
+
     // implement 3-4 more commands
 };
 
@@ -119,14 +161,56 @@ public:
     bool dispatchCommand(std::string command_json)
     {
         cout << "COMMAND: " << command_json << endl;
+        if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it to dispatchCommand"); 
 
         // implement
+
+        const char *command_ptr = command_json.c_str();  // maybe typecast instead?
+        if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past command_ptr");
+        if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, command_ptr);
+        if(DEBUG) cout << *command_ptr << endl;
+        if(DEBUG) cout << &command_ptr << endl;
+        //if(DEBUG) cout << command_ptr* << endl;
+        //if(DEBUG) cout << command_ptr& << endl;
+ 
+        
+
+        this->doc.Parse(command_ptr); // parse the received string
+        if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past doc.Parse"); 
+
+        // check if a value exists
+        //rapidjson::Value::ConstMemberIterator itr = this->doc.FindMember("hello");
+        //this->doc.FindMember(this->test);
+        if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past doc.Parse"); 
+
+        /*
+        if (itr != this->doc.MemberEnd()) {
+            if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into for loop"); 
+
+            printf("%s\n", itr->value.GetString());
+        }// */
+
+
+        // 3. Stringify the DOM
+        StringBuffer buffer;
+        Writer<StringBuffer> writer(buffer);
+        this->doc.Accept(writer);
+        // Output {"project":"rapidjson","stars":11}
+        std::cout << buffer.GetString() << std::endl;
+
 
         return true;
     }
 
 private:
-    std::map<std::string, CommandHandler> command_handlers_; //
+    std::string CUR_SCOPE = "class CommandDispatcher"; // DEBUG
+
+
+    std::map<std::string, CommandHandler> command_handlers_; /// map of command handlers
+
+    rapidjson::Document doc;
+    const char * test = "test string";
+
 
     // Question: why delete these?
 
