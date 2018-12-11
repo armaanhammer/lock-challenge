@@ -9,6 +9,7 @@
 ## Resources
 
 https://jsonlint.com/ JSON validator
+https://cmake.org/ build tool
 
 ## Parsing
 
