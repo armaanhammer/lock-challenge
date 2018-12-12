@@ -47,8 +47,8 @@ bool DEBUG = true;          // turn on debug messages
  */
 void DBG_PRNTR(std::string id, std::string msg) {
     
-    std::cout << "***\tDEBUG from" << id << ": " 
-              << msg << "\t***" << std::endl;
+    std::cout << "***\tDEBUG from " << id << ": " 
+              << msg << " \t***" << std::endl;
 }
 
 
@@ -128,6 +128,8 @@ public:
 };
 
 // Bonus Question: why did I type cast this?
+// typedef: to make life easier
+// typecast: to pass in a rapidjson::Value& and return a bool
 typedef std::function<bool(rapidjson::Value &)> CommandHandler;
 
 
@@ -181,8 +183,18 @@ public:
         // check if a value exists
         //rapidjson::Value::ConstMemberIterator itr = this->doc.FindMember("hello");
         //this->doc.FindMember(this->test);
+
+        rapidjson::Value::ConstMemberIterator itr = this->doc.FindMember("command");
+
         if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past doc.Parse"); 
 
+        
+        if (itr != this->doc.MemberEnd()) {
+            if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into for loop"); 
+
+            printf("%s\n", itr->value.GetString());
+        }// */
+        
         /*
         if (itr != this->doc.MemberEnd()) {
             if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into for loop"); 
@@ -203,22 +215,27 @@ public:
     }
 
 private:
-    std::string CUR_SCOPE = "class CommandDispatcher"; // DEBUG
-
+    std::string CUR_SCOPE = "class CommandDispatcher";  // DEBUG - current scope
+    const char * test = "test string";                  // DEBUG - test string
 
     std::map<std::string, CommandHandler> command_handlers_; /// map of command handlers
 
-    rapidjson::Document doc;
-    const char * test = "test string";
+    rapidjson::Document doc;  // DOM API document 
+
 
 
     // Question: why delete these?
+    
+    // generate compile error if copy attempted
+    // (supposed to be un-copyable)
 
     // delete unused constructors
     CommandDispatcher (const CommandDispatcher&) = delete;
     CommandDispatcher& operator= (const CommandDispatcher&) = delete;
 
 };
+
+
 
 int main()
 {
