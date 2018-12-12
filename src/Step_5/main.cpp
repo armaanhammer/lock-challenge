@@ -178,7 +178,10 @@ public:
         
 
         this->doc.Parse(command_ptr); // parse the received string
-        if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past doc.Parse"); 
+        if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past doc.Parse");
+        
+        assert(doc.IsObject());  //not sure yet why (or if) this is needed
+
 
         // check if a value exists
         //rapidjson::Value::ConstMemberIterator itr = this->doc.FindMember("hello");
@@ -193,6 +196,8 @@ public:
             if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into for loop"); 
 
             printf("%s\n", itr->value.GetString());
+            
+            
         }// */
         
         /*
