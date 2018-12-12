@@ -84,7 +84,10 @@ private:
     std::map<std::string, CommandHandler> command_handlers_; /// map of command handlers
 ```
 
-  
+This is a map of functions called `command_handlers_`. The functions take in `rapidjson::Value &` and return `bool`. The map is indexed by instances of `std::string`. 
+
+It seems like I am supposed to populate it with references to the public functions in the Controller class. I would like to do this programmatically so if I add members to the Controller class, the map will self-populate.
+---
   
   
   
