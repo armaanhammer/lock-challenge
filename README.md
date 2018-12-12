@@ -6,7 +6,7 @@ My goals in completing this challenge were:
 * To create documentation I would want to have if I were handed the project.
 * To log my process throughout.
 
-Please see [design_log](/doc/README.md) for details of the design process.
+Please see [design_log](/design_log/README.md) for details of the design process.
 
 ---
 
