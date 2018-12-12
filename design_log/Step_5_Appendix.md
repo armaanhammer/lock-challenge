@@ -66,6 +66,24 @@ alias to a function that takes a rapidjson::value& and returns bool
 #### Trying to parse this too:
 
     // add command handlers in Controller class to CommandDispatcher using addCommandHandler
+    
+---
+## Still puzzling over this:
+
+```C++
+// Bonus Question: why did I type cast this?
+// typedef: to make life easier
+// typecast: to pass in a rapidjson::Value& and return a bool
+typedef std::function<bool(rapidjson::Value &)> CommandHandler;
+```
+and
+```C++
+class CommandDispatcher {
+  ...
+private:
+    std::map<std::string, CommandHandler> command_handlers_; /// map of command handlers
+```
+
   
   
   
