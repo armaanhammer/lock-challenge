@@ -25,7 +25,7 @@ As a first step, I intended to replicate already-working code. To that end, I co
 
 The test code passed. It performed the same when `std::lock_guard` was referenced, and when `chal::LockGuard` was referenced. It produced this output, which matched expectations:
 
-```
+> ```bash
 > armaan@ubuntuVM:Step_1$ ./Lock.out 
 > thread #7
 > thread #8
@@ -37,4 +37,4 @@ The test code passed. It performed the same when `std::lock_guard` was reference
 > thread #3
 > thread #2
 > thread #1
-```
+> ```
