@@ -170,17 +170,28 @@ public:
         const char *command_ptr = command_json.c_str();  // maybe typecast instead?
         if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past command_ptr");
         if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, command_ptr);
-        if(DEBUG) cout << *command_ptr << endl;
-        if(DEBUG) cout << &command_ptr << endl;
-        //if(DEBUG) cout << command_ptr* << endl;
-        //if(DEBUG) cout << command_ptr& << endl;
+        //if(DEBUG) cout << *command_ptr << endl;
+        //if(DEBUG) cout << &command_ptr << endl;
+
  
         
 
         this->doc.Parse(command_ptr); // parse the received string
         if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past doc.Parse");
+
+        // check if there was json passed in
+        if(this->doc.HasParseError()) { // no workie
+            if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it INTO doc.HasParseError");
+            return false;
+        }
+
+        if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past doc.HasParseError");
+                 
+
+
+
         
-        assert(doc.IsObject());  //not sure yet why (or if) this is needed
+        assert(this->doc.IsObject());  //not sure yet why (or if) this is needed
 
 
         // check if a value exists
@@ -251,6 +262,8 @@ int main()
 
     // Implement
     // add command handlers in Controller class to CommandDispatcher using addCommandHandler
+    //
+    // Using polymorphism?
 
     // command line interface for testing
     string command;
@@ -258,7 +271,9 @@ int main()
         cout << "COMMANDS: {\"command\":\"exit\", \"payload\":{\"reason\":\"User requested exit.\"}}\n";
         cout << "\tenter command : ";
         getline(cin, command);
-        command_dispatcher.dispatchCommand(command);
+        if( !command_dispatcher.dispatchCommand(command) ) {
+            cout << "Oops, malformed JSON entered. Please try again" << endl;
+        }
     }
 
     std::cout << "COMMAND DISPATCHER: ENDED" << std::endl;
