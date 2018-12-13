@@ -1,5 +1,17 @@
+/** 
+ * \file main.cpp
+ * \brief contains all functions to demo thread synch
+ *
+ * \note set DEBUG to true in globals to turn on debug output file-wide, or 
+ *       uncomment it inside a class to enable class-specific debug output.
+ * 
+ * \note needs to be compiled with flag -pthread.
+ *
+ * \author Armaan Roshani
+ * \bug no known bugs
+ */ 
 
-//NOTE: needs to be compiled with flag -pthread.
+
 
 #include <iostream>             // std::cout
 #include <thread>               // std::thread
@@ -13,7 +25,7 @@
 #define NUM_THDS 3              // number of threads to execute
 
 
-/// Globals
+// Globals
 std::mutex mtx;                 // shared mutex
 std::condition_variable cond;   // shared condition variable
 bool DEBUG = true;             // turn on debug messages
@@ -30,22 +42,26 @@ bool DEBUG = true;             // turn on debug messages
  */
 void DBG_PRNTR(int id, std::string msg) {
     
-    std::cout << "***\tDEBUG from" << id+1 << ": " 
+    std::cerr << "***\tDEBUG from" << id+1 << ": " 
               << msg << "\t***" << std::endl;
 }
 
-/** \overload DEBUG PRINTER function overload
+/** \brief DEBUG PRINTER function overload
+ *
+ * \overload DBG_PRNTR
  *
  *  \param id an integer that defines thread number (0 for main)
  *  \param next_thd an integer indicating next thread to run
  */
 void DBG_PRNTR(int id, int next_thd) {
     
-    std::cout << "***\tDEBUG from" << id+1 << ": " 
+    std::cerr << "***\tDEBUG from" << id+1 << ": " 
               << " next: " << next_thd << "\t***" << std::endl;
 }
 
 /** \brief DEBUG PRINTER function overload
+ *
+ * \overload DBG_PRNTR
  *
  *  \param id an integer that defines thread number (0 for main)
  *  \param msg a string containing message to be printed
@@ -53,7 +69,7 @@ void DBG_PRNTR(int id, int next_thd) {
  */
 void DBG_PRNTR(int id, std::string msg, int next_thd) {
     
-    std::cout << "***\tDEBUG from" << id+1 << ": " 
+    std::cerr << "***\tDEBUG from" << id+1 << ": " 
               << msg << " next: " << next_thd << "\t***" << std::endl;
 }
 
@@ -87,7 +103,7 @@ void thd_printer(int id, std::string msg) {
 /** \brief thread worker function
  *
  *  \param id an integer passed by val defining current thread number
- *  \param next_id an integer passed by ref that keeps track of thread order
+ *  \param next_thd an integer passed by ref that keeps track of thread order
  *  \param rand_e a pseudo-random number generator engine passed by ref
  *
  *  Upon startup, function blocks on condition_signal. Upon receipt of condition_signal,
@@ -103,15 +119,15 @@ void thd_worker (const int id, int &next_thd, std::default_random_engine &rand_e
 
     thd_printer(id, "starting, waiting.");
 
-    /// repeat forever
+    // repeat forever
     while(1) {
     
-        /// lock mutex
+        // lock mutex
         if(DEBUG) DBG_PRNTR(id, "ABOUT TO LOCK", next_thd);
         mtx.lock();
         std::unique_lock<std::mutex> locker (mtx, std::adopt_lock);
         
-        /** wait for condition signal
+        /* wait for condition signal
          * Upon condition signal, check if current thread is next
          * if yes continue, if not keep waiting
          * lambda function creates condition predicate */ 
@@ -121,17 +137,17 @@ void thd_worker (const int id, int &next_thd, std::default_random_engine &rand_e
 
         thd_printer(id, "signal received, doing work ....");
 
-        /// generate pseudo-random value between 1 and 5 seconds
+        // generate pseudo-random value between 1 and 5 seconds
         wait_tm = 1 + rand_e() % 5; 
          
-        /// sleep to simulate work
+        // sleep to simulate work
         if(DEBUG) DBG_PRNTR(id, "sleeping for:", wait_tm);
         std::this_thread::sleep_for(std::chrono::seconds(wait_tm));
 
         thd_printer(id, "done with work, signal next thread");
         if(DEBUG) DBG_PRNTR(id, "returned from thd_printer");
 
-        /// if topmost thread, reset next_thd
+        // if topmost thread, reset next_thd
         if(next_thd == NUM_THDS-1) next_thd = 0;
         else( ++next_thd); ///< otherwise, just increment 
 
@@ -144,16 +160,16 @@ void thd_worker (const int id, int &next_thd, std::default_random_engine &rand_e
 
 int main () {
     //bool DEBUG = true;
-    int id = -1; ///< identifier to pass to Debug Printer
+    int id = -1; // identifier to pass to Debug Printer
 
-    std::thread threads[NUM_THDS]; ///< create an array of NUM_THDS thread objects
-    int next_thd = -1; ///< prevent a spurious wake from prematurely activating thread 0
+    std::thread threads[NUM_THDS]; /// create an array of NUM_THDS thread objects
+    int next_thd = -1; // prevent a spurious wake from prematurely activating thread 0
 
-    std::default_random_engine rand_e; ///< create a pseudo-random engine
+    std::default_random_engine rand_e; /// create a pseudo-random engine
    
     std::cout << "main: starting all threads" << std::endl;
 
-    /// spawn NUM_THDS threads:
+    // spawn NUM_THDS threads:
     for (int i=0; i<NUM_THDS; ++i) {
         
         if(DEBUG) DBG_PRNTR(id, "main for loop #");
@@ -170,11 +186,12 @@ int main () {
 
     if(DEBUG) DBG_PRNTR(id, "waited three seconds");
 
-    cond.notify_all();  ///< start sequence
-    next_thd = 0;       ///< allow thread 0 to be activated
+    cond.notify_all();  // start sequence
+    next_thd = 0;       // allow thread 0 to be activated
 
     if(DEBUG) DBG_PRNTR(id, "main join for starting");
 
+    // clean up
     for (auto& th : threads) {
         th.join();
         
