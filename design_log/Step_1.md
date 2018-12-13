@@ -1,5 +1,6 @@
 # Step 1: Reimplement LockGuard
 
+<br>
 Requirements
 ---
 
@@ -9,6 +10,7 @@ Requirements
 >
 >      LockGuard.h          // header file only impl
 
+<br>
 Prelims
 ---
 
@@ -25,7 +27,7 @@ Performed all coding in a virtual machine running Ubuntu 17.10, 64-bit. To test 
 Needed to refamiliarize myself with C++ after spending large amount of time with C and Python. See [Reference in Appendix](Step_1_Appendix.md#c-reference-material) for details.
 
 
-
+<br>
 Method
 ---
 
@@ -42,6 +44,7 @@ As this is a first step in a larger project, I intended to replicate already-wor
 * Pass: The test code performs the same with my namespace and class, `chal::LockGuard`, as it would with `std::lock_guard`.
 * Fail: Any other result.
 
+<br>
 Results
 ---
 
@@ -61,11 +64,13 @@ thread #2
 thread #1
 ```
 
+<br>
 To duplicate
 ---
 
 In [/src/Step_1/ directory](../src/Step_1) run `make`. Executable will build as *Lock.out*. To run executable, run `./Lock.out`.
 
+<br>
 Files
 ---
 
