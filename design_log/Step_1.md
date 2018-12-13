@@ -1,7 +1,5 @@
 # Step 1: Reimplement LockGuard
 
-<br>
-
 Requirements
 ---
 
