@@ -34,11 +34,12 @@ Upon asking for clarification, was provided this:
 >
 > }
 
----
+
 
 <br>
 
 ## What does this actually do?
+---
 
 ### Diving into std::lock_guard and std::mutex
 
