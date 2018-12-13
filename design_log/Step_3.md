@@ -65,21 +65,42 @@ Details about my research into ________________ are available here: [Reference i
 
 I intend to ________________ See [Reference in Appendix](Step_1_Appendix.md#coding) for details.
 
-### Test conditions
-
-* Pass: .
-* Fail: Any other result.
-
 ### Doxygen
 
 Considerations for creating documentation are listed in: [Reference in Appendix](Step_3_Appendix.md#doxygen-creation)
+
+### Test conditions
+
+* Pass: 
+  * Produce output consistent with *example output* in prompt
+  * Avoid anomalous thread behavior, including but not limted to, deadlock and data races.
+* Fail: Any other result.
 
 
 <br>
 
 Results
 ---
+It produced this output, which matched expectations:
 
+```bash
+armaan@ubuntuVM:Step_3$ ./Lock.out 
+main: starting all threads
+thread3: starting, waiting.
+thread2: starting, waiting.
+thread1: starting, waiting.
+thread1: signal received, doing work ....
+thread1: done with work, signal next thread
+thread2: signal received, doing work ....
+thread2: done with work, signal next thread
+thread3: signal received, doing work ....
+thread3: done with work, signal next thread
+thread1: signal received, doing work ....
+thread1: done with work, signal next thread
+thread2: signal received, doing work ....
+^C
+armaan@ubuntuVM:Step_3$ 
+```
 
 To duplicate
 ---
