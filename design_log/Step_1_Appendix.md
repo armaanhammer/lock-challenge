@@ -34,9 +34,9 @@ Upon asking for clarification, was provided this:
 >
 > }
 
-<br>
-
 ---
+
+<br>
 
 ## What does this actually do?
 
@@ -260,9 +260,9 @@ int main ()
 
 ```
 
-<br>
-
 ---
+
+<br>
 
 ## C++ Reference Material
 
@@ -388,11 +388,6 @@ https://www.youtube.com/watch?v=PgGhEovFhd0
 https://www.youtube.com/watch?v=mS9755gF66w  <<< Says best practice: only use when usage is intuitive. Avoid if ppl would need to go to your function to understand what it does.
 
 
-
----
-
-
-
 #### Range based for loop (new to C++11)
 
 ```C++
@@ -400,9 +395,6 @@ https://www.youtube.com/watch?v=mS9755gF66w  <<< Says best practice: only use wh
     // use auto& to guarantee sharing variable by reference 
     for (auto& th : threads) th.join();
 ```
-
-https://stackoverflow.com/questions/29859796/c-auto-vs-auto
-https://www.youtube.com/watch?v=2yR8dcKT-Ck
 
 syntax:
 
@@ -412,7 +404,15 @@ for ( element : collection ) {
 }
 ```
 
+###### Reference:
+
+https://stackoverflow.com/questions/29859796/c-auto-vs-auto
+
+https://www.youtube.com/watch?v=2yR8dcKT-Ck
+
+
 ---
+
 ### Questions to resolve, not relevant to project
 
 What does this do? Says it is a constructor definition. Occurs inside of a struct.
