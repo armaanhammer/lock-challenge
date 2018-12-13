@@ -15,7 +15,7 @@ Prelims
 
 #### Parsing Requirements
 
-Was initially uncertain about parsing prompt. Read ahead to Step 3 to illuminate requirments. [Discussion in Appendix](Step_2_Appendix.md#Initial-Prompt)
+Was initially uncertain about parsing prompt. Read ahead to Step 3 to illuminate requirments. [Discussion in Appendix](Step_2_Appendix.md#intial-prompt)
 
 #### Environment
 
