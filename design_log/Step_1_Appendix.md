@@ -293,14 +293,10 @@ http://www.cplusplus.com/doc/oldtutorial/templates/
 
 #### Mutex
 
-https://www.youtube.com/watch?v=I-hZkUa9mIs  <<< Interesting that this video says calling the mutex's own lock&unlock function is _not_ recommended. This seems to imply that in general, it is best to use a lock_guard function. Also notes that lock_guard does not release the lock until out of scope, unlike unique_lock, which releases the lock upon `locker.unlock();`. This provides a constraint on my code later.
-
-https://www.youtube.com/watch?v=LL8wkskDlbs  <<< Initial video of C++ Threading series. Realizing it would be useful to watch them all to brush up. Diverting to doing that now.
-
 Points of note:
 
-> Once a parent thread calls a child thread, it is important to encapsulate any further work the parent thread does before re-joining the child thread in a try, catch block to prevent an exception in the parent from destroying the child before it is done. Ex:
->
+Once a parent thread calls a child thread, it is important to encapsulate any further work the parent thread does before re-joining the child thread in a try, catch block to prevent an exception in the parent from destroying the child before it is done. Ex:
+
 > ```C++
 > int main(){
 >     std::thread t1(function_1);  // t1 starts running
@@ -315,6 +311,12 @@ Points of note:
 >     return 0;
 > }
 > ```
+
+###### Reference:
+
+https://www.youtube.com/watch?v=I-hZkUa9mIs  <<< Interesting that this video says calling the mutex's own lock&unlock function is _not_ recommended. This seems to imply that in general, it is best to use a lock_guard function. Also notes that lock_guard does not release the lock until out of scope, unlike unique_lock, which releases the lock upon `locker.unlock();`. This provides a constraint on my code later.
+
+https://www.youtube.com/watch?v=LL8wkskDlbs  <<< Initial video of C++ Threading series. It may be useful to watch them all to brush up.
 
 
 
