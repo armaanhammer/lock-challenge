@@ -148,34 +148,43 @@ template<typename _Mutex>
   ```
 
 ### Testbench
-I found a template for calling the std class here: https://en.cppreference.com/w/cpp/thread/lock_guard which I will use for initial testing for this step:
+I found a template for calling the std class here: http://www.cplusplus.com/reference/mutex/lock_guard/ which I will use for initial testing for this step:
 
 ```C++
-int g_i = 0;
-std::mutex g_i_mutex;  // protects g_i
+// lock_guard example
+#include <iostream>       // std::cout
+#include <thread>         // std::thread
+#include <mutex>          // std::mutex, std::lock_guard
+#include <stdexcept>      // std::logic_error
 
-void safe_increment()
-{
-    std::lock_guard<std::mutex> lock(g_i_mutex);
-    ++g_i;
+std::mutex mtx;
 
-    std::cout << std::this_thread::get_id() << ": " << g_i << '\n';
-
-    // g_i_mutex is automatically released when lock
-    // goes out of scope
+void print_even (int x) {
+  if (x%2==0) std::cout << x << " is even\n";
+  else throw (std::logic_error("not even"));
 }
 
-int main()
+void print_thread_id (int id) {
+  try {
+    // using a local lock_guard to lock mtx guarantees unlocking on destruction / exception:
+    std::lock_guard<std::mutex> lck (mtx);
+    print_even(id);
+  }
+  catch (std::logic_error&) {
+    std::cout << "[exception caught]\n";
+  }
+}
+
+int main ()
 {
-    std::cout << "main: " << g_i << '\n';
+  std::thread threads[10];
+  // spawn 10 threads:
+  for (int i=0; i<10; ++i)
+    threads[i] = std::thread(print_thread_id,i+1);
 
-    std::thread t1(safe_increment);
-    std::thread t2(safe_increment);
+  for (auto& th : threads) th.join();
 
-    t1.join();
-    t2.join();
-
-    std::cout << "main: " << g_i << '\n';
+  return 0;
 }
 ```
 
