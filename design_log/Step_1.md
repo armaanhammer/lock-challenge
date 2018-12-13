@@ -1,6 +1,7 @@
 # Step 1: Reimplement LockGuard
 
 <br>
+
 Requirements
 ---
 
@@ -11,6 +12,7 @@ Requirements
 >      LockGuard.h          // header file only impl
 
 <br>
+
 Prelims
 ---
 
@@ -28,6 +30,7 @@ Needed to refamiliarize myself with C++ after spending large amount of time with
 
 
 <br>
+
 Method
 ---
 
@@ -65,12 +68,14 @@ thread #1
 ```
 
 <br>
+
 To duplicate
 ---
 
 In [/src/Step_1/ directory](../src/Step_1) run `make`. Executable will build as *Lock.out*. To run executable, run `./Lock.out`.
 
 <br>
+
 Files
 ---
 
