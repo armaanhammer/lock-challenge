@@ -1,13 +1,15 @@
-#ifndef _LOCK_G_HG  // header guard
-#define _LOCK_G_HG
+#ifndef _LOCK_G_H  // header guard
+#define _LOCK_G_H
 
 #include <mutex>     // std::mutex, std::adopt_lock
 
 
+
+
 namespace chal { // challenge namespace
 
-    template<typename _Mutex>  // returns type determined by calling function
-    
+    bool DEBUG = true;
+
     /** @brief A movable scoped lock type.
      *
      * This class has been kept as identical to std::lock_guard as possible
@@ -17,19 +19,30 @@ namespace chal { // challenge namespace
      * to another unique_lock by move construction or move assignment. If a
      * mutex lock is owned when the destructor runs ownership will be released.
      */
+    template<typename _Mutex>  ///< returns type determined by calling function
     class LockGuard
     {
         public:
             typedef _Mutex mutex_type;
 
             explicit LockGuard(mutex_type& __m) : _M_device(__m)  // no implicit constructor
-                { _M_device.lock(); }
+                { _M_device.lock(); 
+                
+                
+                if(DEBUG) std::cout << "LockGuard locked" << std::endl;
+                }
 
             LockGuard(mutex_type& __m, std::adopt_lock_t) : _M_device(__m)
-                { } // calling thread owns mutex
+                {  
+
+                if(DEBUG) std::cout << "LockGuard adopted" << std::endl;
+                } // calling thread owns mutex
 
             ~LockGuard()
-                { _M_device.unlock(); }
+                { _M_device.unlock();
+                
+                if(DEBUG) std::cout << "LockGuard unlocked" << std::endl;
+                }
 
             // generate compile error if copy attempted
             // (supposed to be un-copyable)
