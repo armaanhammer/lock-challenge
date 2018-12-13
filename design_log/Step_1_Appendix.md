@@ -34,9 +34,6 @@ Upon asking for clarification, was provided this:
 >
 > }
 
-\
-\
-
 ---
 
 ## What does this actually do?
