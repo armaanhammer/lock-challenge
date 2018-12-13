@@ -177,7 +177,7 @@ int main()
 ---
 
 
-## My code
+## Coding
 
 ### LockGuard
 
@@ -226,10 +226,6 @@ namespace chal { // challenge namespace
 For the testbench, I copied the generic example code and changed the reference for std::lock_guard to chal::LockGuard .
 
 ```C++
-// constructing lock_guard with adopt_lock
-
-//NOTE: needs to be compiled with flag -pthread.
-
 #include <iostream>       // std::cout
 #include <thread>         // std::thread
 #include <mutex>          // std::mutex, std::adopt_lock
@@ -239,6 +235,8 @@ std::mutex mtx;           // mutex for critical section
 
 void print_thread_id (int id) {
     mtx.lock();
+    
+    // Swap next two lines to test chal::LockGuard against std::lock_guard
     //std::lock_guard<std::mutex> lck (mtx, std::adopt_lock);
     chal::LockGuard<std::mutex> lck (mtx, std::adopt_lock);
 
@@ -247,20 +245,21 @@ void print_thread_id (int id) {
 
 int main ()
 {
-    std::thread threads[10]; //creates an array of 10 thread objects
+    std::thread threads[10]; // creates an array of 10 thread objects
     // spawn 10 threads:
     for (int i=0; i<10; ++i)
         threads[i] = std::thread(print_thread_id,i+1);
 
+    // for each element th in array threads, join th
+    // use auto& to guarantee sharing variable by reference 
     for (auto& th : threads) th.join();
 
     return 0;
 }
+
 ```
 
 ---
-
-
 ---
 
 ## C++ Reference Material
