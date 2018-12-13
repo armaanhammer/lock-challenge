@@ -4,8 +4,8 @@ This repo is designed to be viewed on [GitHub.com](https://github.com/armaanhamm
 
 My goals in completing this challenge are:
 * To generate useful code
-* To create documentation I would want to have if I were handed the project.
-* To log my process throughout.
+* To create documentation I would like to reference.
+* To log my process throughout in a way that is useful and that demonstrates how I solve problems.
 
 
 
