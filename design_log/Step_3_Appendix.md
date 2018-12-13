@@ -139,7 +139,7 @@ void thd_printer(int id, std::string msg) {
 
 ## Thread Worker Function
 
-This is the meat of the program. 
+This is the meat of the program.
 
 The thread worker receives a random engine by reference for two reasons:
 1. to minimize the memory size.
@@ -203,6 +203,10 @@ void thd_worker (const int id, int &next_thd, std::default_random_engine &rand_e
 ```
 
 ## Main Function
+
+The main function is built on the one in [Step_2](Step_2.md).
+
+A point of note: It appears that thread0 will nearly always experiene spurious wake prior to the 3-second timer in main expiring. So, main initially sets the variable the threads use to keep track of order to a value outside of their possible range. When it is finally ready for the threads to start, it updates the variable after it asserts `cond.notify_all`.
 
 ```C++
 int main () {
