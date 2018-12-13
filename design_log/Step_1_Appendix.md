@@ -143,7 +143,7 @@ template<typename _Mutex>
   ```
 
 
-
+---
 
 ## C++ Reference Material
 
@@ -152,6 +152,10 @@ Area to capture information for reference
 ### Lock_Guard in abstract
 
 lock_guard is a function that implements a programming idiom called **Resource Acquisition is Initialization** or **RAII**. In this idiom, resource acquisition is tied to object lifetime. lock_guard ties a resource (mutex) to an object (the calling function). The mutex is released upon execution leaving the scope of the function that called lock_guard. This provides a safeguard against an exception in the calling function preventing it from releasing the lock directly.
+
+###### Reference:
+
+https://www.youtube.com/watch?v=ojOUIg13g3I
 
 #### Template
 ```C++
@@ -274,13 +278,6 @@ What does this do? Says it is a constructor definition. Occurs inside of a struc
 
 ---
 
-## Resource Acquisition is Initialization
-
-https://www.youtube.com/watch?v=ojOUIg13g3I
-
-Don't combine the operation of storing objects in a shared pointer with any other statement.
-
----
 
 
 #### Range based for loop (new to C++11)
