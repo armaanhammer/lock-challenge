@@ -10,7 +10,15 @@
 
 ## Prelims
 
-Initially had trouble parsing requirements. [Reference in Appendix](Step_1_Appendix.md#Initial-Prompt)
+### Parsing Requirements
+
+Initially had trouble parsing requirements. See [Reference in Appendix](Step_1_Appendix.md#Initial-Prompt) for details.
+
+### Environment
+
+Performed all coding in a virtual machine running Ubuntu 17.10, 64-bit. To test build environment, created [hello world function](../src/Step_1/hello.cpp), and built with [Makefile](../src/Step_1/Makefile). Build successful.
+
+---
 
 ## Method
 
@@ -38,6 +46,10 @@ thread #3
 thread #2
 thread #1
 ```
+
+## To duplicate
+
+In [/src/Step_1/ directory](../src/Step_1) run `make`. Executable will build as *Lock.out*. To run executable, run `./Lock.out`.
 
 ## Files
 
