@@ -16,7 +16,7 @@ Initially had trouble parsing requirements. See [Reference in Appendix](Step_1_A
 
 ### Environment
 
-Performed all coding in a virtual machine running Ubuntu 17.10, 64-bit. To test build environment, created [hello world function](../src/Step_1/hello.cpp), and built with [Makefile](../src/Step_1/Makefile). Build successful.
+Performed all coding in a virtual machine running Ubuntu 17.10, 64-bit. To test build environment, created [hello world function](../src/Step_1/hello.cpp), and built with [makefile](../src/Step_1/makefile). Build successful.
 
 ---
 
