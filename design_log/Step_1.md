@@ -36,7 +36,7 @@ Method
 
 ### Research
 
-Details about my research into lock_guard, mutex, and testing are available here: [Reference in Appendix](/Step_1_Appendix.md#what-does-this-actually-do)
+Details about my research into lock_guard, mutex, and testing are available here: [Reference in Appendix](Step_1_Appendix.md#research)
 
 ### Coding
 
