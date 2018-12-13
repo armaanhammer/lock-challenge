@@ -1,9 +1,7 @@
 # Step 2 Appendix
 
-Requirements
+Intial Prompt
 ---
-
-## Intial Prompt
 
 > 2) Implement c++11 threading example
 >
