@@ -70,25 +70,25 @@ $(function() {
 </p>
 <h2>Prelims </h2>
 <h3>Parsing Requirements</h3>
-<p>Initially had trouble parsing requirements. <a href="Step_3_Appendix.md#parsing-prompt">Reference in Appendix</a></p>
+<p>Initially had trouble parsing requirements. <a href="https://github.com/armaanhammer/lock-challenge/blob/master/design_log/Step_3_Appendix.md#parsing-prompt">Reference in Appendix</a></p>
 <h3>Environment</h3>
 <p>Environment remains the same as the previous steps.</p>
 <h3>Refamiliarization with C++</h3>
-<p>Continue needing to refamiliarize myself with C++ after spending large amount of time with C and Python. See <a href="Step_3_Appendix.md#c-reference-material">Reference in Appendix</a> for details.</p>
+<p>Continue needing to refamiliarize myself with C++ after spending large amount of time with C and Python. See <a href="https://github.com/armaanhammer/lock-challenge/blob/master/design_log/Step_3_Appendix.md#c-reference-material">Reference in Appendix</a> for details.</p>
 <p><br />
 </p>
 <h2>Method </h2>
 <h3>Research</h3>
-<p>Details about my research into threading and other topics are available here: <a href="Step_3_Appendix.md#research">Reference in Appendix</a></p>
+<p>Details about my research into threading and other topics are available here: <a href="https://github.com/armaanhammer/lock-challenge/blob/master/design_log/Step_3_Appendix.md#research">Reference in Appendix</a></p>
 <h3>Coding</h3>
 <p>I wrote three functions to do work, and one overloaded function to facilitate debug. See <a href="Step_1_Appendix.md#coding">Reference in Appendix</a> for details. In brief, they are:</p><ul>
-<li>A <a href="Step_3_Appendix.md#thread-print-function">general-purpose print function</a> that the threads call from a thread-safe state</li>
-<li>A <a href="Step_3_Appendix.md#thread-worker-function">thread worker function</a> that listens for a signal, verifies whether it is its turn or not, and updates the other threads on whose turn it is.</li>
-<li>A <a href="Step_3_Appendix.md#main-function">main function</a> that initializes everything up and sets it in motion.</li>
-<li>A <a href="Step_3_Appendix.md#debug-print-function">debug print function</a> called from many places in the code only if a bool controlling it is set to <em>true</em>.</li>
+<li>A <a href="https://github.com/armaanhammer/lock-challenge/blob/master/design_log/Step_3_Appendix.md#thread-print-function">general-purpose print function</a> that the threads call from a thread-safe state</li>
+<li>A <a href="https://github.com/armaanhammer/lock-challenge/blob/master/design_log/Step_3_Appendix.md#thread-worker-function">thread worker function</a> that listens for a signal, verifies whether it is its turn or not, and updates the other threads on whose turn it is.</li>
+<li>A <a href="https://github.com/armaanhammer/lock-challenge/blob/master/design_log/Step_3_Appendix.md#main-function">main function</a> that initializes everything up and sets it in motion.</li>
+<li>A <a href="https://github.com/armaanhammer/lock-challenge/blob/master/design_log/Step_3_Appendix.md#debug-print-function">debug print function</a> called from many places in the code only if a bool controlling it is set to <em>true</em>.</li>
 </ul>
 <h3>Doxygen</h3>
-<p>Considerations for creating documentation are discussed here: <a href="Step_3_Appendix.md#doxygen-creation">Reference in Appendix</a></p>
+<p>Considerations for creating documentation are discussed here: <a href="https://github.com/armaanhammer/lock-challenge/blob/master/design_log/Step_3_Appendix.md#doxygen-creation">Reference in Appendix</a></p>
 <h3>Test conditions</h3>
 <ul>
 <li>Pass:<ul>
@@ -103,14 +103,14 @@ $(function() {
 <h2>Results </h2>
 <p>It produced this output, which matched expectations:</p>
 <div class="fragment"><div class="line">armaan@ubuntuVM:Step_3$ ./Lock.out </div><div class="line">main: starting all threads</div><div class="line">thread3: starting, waiting.</div><div class="line">thread2: starting, waiting.</div><div class="line">thread1: starting, waiting.</div><div class="line">thread1: signal received, doing work ....</div><div class="line">thread1: done with work, signal next thread</div><div class="line">thread2: signal received, doing work ....</div><div class="line">thread2: done with work, signal next thread</div><div class="line">thread3: signal received, doing work ....</div><div class="line">thread3: done with work, signal next thread</div><div class="line">thread1: signal received, doing work ....</div><div class="line">thread1: done with work, signal next thread</div><div class="line">thread2: signal received, doing work ....</div><div class="line">^C</div><div class="line">armaan@ubuntuVM:Step_3$ </div></div><!-- fragment --><h2>To duplicate </h2>
-<p>In <a href="../src/Step_3">/src/Step_3/ directory</a> run <code>make</code>. Executable will build as <em>Lock.out</em>. To run executable, run <code>./Lock.out</code>.</p>
+<p>In <a href="https://github.com/armaanhammer/lock-challenge/tree/master/src/Step_3">/src/Step_3/ directory</a> run <code>make</code>. Executable will build as <em>Lock.out</em>. To run executable, run <code>./Lock.out</code>.</p>
 <p><br />
 </p>
 <h2>Files </h2>
 <ul>
-<li><a href="../src/Step_3/LockGuard.h">LockGuard.h</a></li>
-<li><a href="../src/Step_3/main.cpp">main.cpp</a></li>
-<li><a href="../src/Step_3/main_no_debug.cpp">main_no_debug.cpp</a> </li>
+<li><a href="https://github.com/armaanhammer/lock-challenge/tree/master/src/Step_3/LockGuard.h">LockGuard.h</a></li>
+<li><a href="https://github.com/armaanhammer/lock-challenge/tree/master/src/Step_3/main.cpp">main.cpp</a></li>
+<li><a href="https://github.com/armaanhammer/lock-challenge/tree/master/src/Step_3/main_no_debug.cpp">main_no_debug.cpp</a> </li>
 </ul>
 </div></div><!-- contents -->
 <!-- start footer part -->
