@@ -2,6 +2,7 @@
 
 The purpose of this document is to capture ancillary research I have done that only loosely applies to the objectives I am working toward.
 
+<br>
 
 Initial Prompt
 ---
@@ -178,7 +179,7 @@ int main()
 }
 ```
 
-
+<br>
 
 Coding
 ---
@@ -414,7 +415,7 @@ https://stackoverflow.com/questions/29859796/c-auto-vs-auto
 
 https://www.youtube.com/watch?v=2yR8dcKT-Ck
 
-
+<br>
 
 Questions to resolve, not relevant to project
 ---
