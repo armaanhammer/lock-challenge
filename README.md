@@ -26,14 +26,14 @@ Step 3: Synchronize Threads
 
 * [Design log](design_log/Step_3.md)
 * [Code](src/Step_3)
-* [Documentation]
+* [Documentation](https://armaanhammer.github.io/lock-challenge/Step_3/html/index.html)
 
 Step 4: Protect a Resource
 ---
 
 * [Design log](design_log/Step_4.md)
 * [Code](src/Step_4)
-* [Documentation]
+* [Documentation](https://armaanhammer.github.io/lock-challenge/Step_4/html/index.html)
 
 Step 5: Dispatcher Challenge
 ---
