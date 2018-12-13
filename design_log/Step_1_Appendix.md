@@ -1,6 +1,6 @@
 # Step 1 Appendix
 
-The purpose of this document is to capture ancillary research I have done that only loosely applies to the objectives I am working toward.
+The purpose of this document is to capture research and reference material I generate while I  work toward the project objectives, as well as document the coding itself.
 
 <br>
 
