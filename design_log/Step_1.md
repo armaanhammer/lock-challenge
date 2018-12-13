@@ -20,13 +20,19 @@ Performed all coding in a virtual machine running Ubuntu 17.10, 64-bit. To test 
 
 #### Refamiliarization with C++
 
-Needed to refamiliarize myself with C++ after spending large amount of time with C and Python. See [Reference in Appendix](Step_1_Appendix.md#Initial-Prompt) for details.
+Needed to refamiliarize myself with C++ after spending large amount of time with C and Python. See [Reference in Appendix](Step_1_Appendix.md#c-reference-material) for details.
 
 ---
 
 ## Method
 
-As a first step, I intended to replicate already-working code. To that end, I copied `std::lock_guard` into a new header file, fixed references to an STD object that was out of namespace, and encapsulated it with my own namespace. To test, I took generic multithread example code that uses std::lock_guard and modified it to use my namespace and class.
+### Research
+
+Details about my research into lock_guard, mutex, and testing are available here: [Reference in Appendix](/Step_1_Appendix.md#what-does-this-actually-do)
+
+### Coding
+
+As this is a first step in a larger project, I intended to replicate already-working code. To that end, I copied `std::lock_guard` into a new header file, fixed references to an STD object that was out of namespace, and encapsulated it with my own namespace. To test, I took generic multithread example code that uses std::lock_guard and modified it to use my namespace and class. See [Reference in Appendix](Step_1_Appendix.md#coding) for details.
 
 ## Test conditions
 
