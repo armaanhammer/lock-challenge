@@ -11,7 +11,7 @@ Intial Prompt
 
 Uncertain what "threading example" means. Perhaps refering to an included document? Perhaps means to create my own toy example to test class from [Step 1](Step_1.md). If so, then [Step 3](Step_3.md) is meat of what this is getting at, so going to parse through that first and come back to this.
 
-Upon reading through Step 3, it does appear that I simply need to make my Testbench threadable with up to 3 threads.
+Upon reading through Step 3, it does not appear to be related to this Testbench, so I infer that I simply need to make my Testbench threadable with up to 3 threads.
 
 
 <br>
