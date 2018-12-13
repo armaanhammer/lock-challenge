@@ -48,6 +48,7 @@ As this is a first step in a larger project, I intended to replicate already-wor
 * Fail: Any other result.
 
 <br>
+
 Results
 ---
 
@@ -66,8 +67,6 @@ thread #3
 thread #2
 thread #1
 ```
-
-<br>
 
 To duplicate
 ---
