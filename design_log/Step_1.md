@@ -10,13 +10,17 @@
 
 ## Prelims
 
-### Parsing Requirements
+#### Parsing Requirements
 
-Initially had trouble parsing requirements. See [Reference in Appendix](Step_1_Appendix.md#Initial-Prompt) for details.
+Initially had trouble parsing requirements. See [Reference in Appendix](Step_1_Appendix.md#C++-Reference-Material) for details.
 
-### Environment
+#### Environment
 
 Performed all coding in a virtual machine running Ubuntu 17.10, 64-bit. To test build environment, created [hello world function](../src/Step_1/hello.cpp), and built with [makefile](../src/Step_1/makefile). Build successful.
+
+#### Refamiliarization with C++
+
+Needed to refamiliarize myself with C++ after spending large amount of time with C and Python. See [Reference in Appendix](Step_1_Appendix.md#Initial-Prompt) for details.
 
 ---
 
