@@ -12,7 +12,7 @@
 
 #### Parsing Requirements
 
-Initially had trouble parsing requirements. See [Reference in Appendix](Step_1_Appendix.md#C++-Reference-Material) for details.
+Initially had trouble parsing requirements. See [Reference in Appendix](Step_1_Appendix.md#initial-prompt) for details.
 
 #### Environment
 
