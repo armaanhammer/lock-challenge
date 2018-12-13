@@ -95,54 +95,6 @@ Now that this is becoming slightly more complex, I will start commenting my code
 Coding
 ---
 
-### Debugging
-
-While coding, I like to write debug functions that can easily be turned on and off. Here is an example:
-
-```C++
-// Globals
-bool DEBUG = true;             // turn on debug messages
-
-
-/** \brief DEBUG PRINTER function
- *
- *  \param id an integer that defines thread number (0 for main)
- *  \param msg a string containing message to be printed
- *
- * Prints to standard out
- * \warning NOT thread-safe; must be called within a thread-safe scope
- */
-void DBG_PRNTR(int id, std::string msg) {
-    
-    std::cerr << "***\tDEBUG from" << id+1 << ": " 
-              << msg << "\t***" << std::endl;
-}
-
-
-void thd_printer(int id, std::string msg) {
-    //bool DEBUG = true;
-
-    if(DEBUG) DBG_PRNTR(id, "made it to thd_printer");
-    
-...
-
-}
-
-
-void thd_worker (const int id, int &next_thd, std::default_random_engine &rand_e) {
-    //bool DEBUG = true;
-    
-    if(DEBUG) DBG_PRNTR(id, next_thd);
-    
-}
-```
-
-These statements are peppered around my code in anticipation of adding other functionality. I have included additional copies of my cpp files without that code for easier reading. Eg.:
-
-* [main.cpp](../src/Step_3/main.cpp) (with DEBUG code)
-* [main_no_debug.cpp](../src/Step_3/main_no_debug.cpp) (identical, except without DEBUG code)
-
-
 ### Threading
 
 Initial idea:
@@ -293,6 +245,52 @@ int main () {
 }
 ```
 
+### Debug Print Function
+
+While coding, I like to write debug functions that can easily be turned on and off. Here is an example:
+
+```C++
+// Globals
+bool DEBUG = true;             // turn on debug messages
+
+
+/** \brief DEBUG PRINTER function
+ *
+ *  \param id an integer that defines thread number (0 for main)
+ *  \param msg a string containing message to be printed
+ *
+ * Prints to standard out
+ * \warning NOT thread-safe; must be called within a thread-safe scope
+ */
+void DBG_PRNTR(int id, std::string msg) {
+    
+    std::cerr << "***\tDEBUG from" << id+1 << ": " 
+              << msg << "\t***" << std::endl;
+}
+
+
+void thd_printer(int id, std::string msg) {
+    //bool DEBUG = true;
+
+    if(DEBUG) DBG_PRNTR(id, "made it to thd_printer");
+    
+...
+
+}
+
+
+void thd_worker (const int id, int &next_thd, std::default_random_engine &rand_e) {
+    //bool DEBUG = true;
+    
+    if(DEBUG) DBG_PRNTR(id, next_thd);
+    
+}
+```
+
+These statements are peppered around my code in anticipation of adding other functionality. I have included additional copies of my cpp files without that code for easier reading. Eg.:
+
+* [main.cpp](../src/Step_3/main.cpp) (with DEBUG code)
+* [main_no_debug.cpp](../src/Step_3/main_no_debug.cpp) (identical, except without DEBUG code)
 
 
 <br>
