@@ -65,10 +65,14 @@ Details about my research into ________________ are available here: [Reference i
 
 I intend to ________________ See [Reference in Appendix](Step_1_Appendix.md#coding) for details.
 
-## Test conditions
+### Test conditions
 
-* Pass: The test code performs the same with my namespace and class, `chal::LockGuard`, as it would with `std::lock_guard`.
+* Pass: .
 * Fail: Any other result.
+
+### Doxygen
+
+Considerations for creating documentation are listed in: [Reference in Appendix](Step_3_Appendix.md#doxygen-creation)
 
 
 <br>
