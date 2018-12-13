@@ -1,6 +1,6 @@
 // constructing lock_guard with adopt_lock
 // NOTE: needs to be compiled with flag -pthread.
-// SOURCE: http://www.cplusplus.com/reference/mutex/mutex/lock/
+// SOURCE: http://www.cplusplus.com/reference/mutex/lock_guard/
 
 #include <iostream>       // std::cout
 #include <thread>         // std::thread
