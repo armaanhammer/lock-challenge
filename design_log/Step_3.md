@@ -59,15 +59,19 @@ Method
 
 ### Research
 
-Details about my research into ________________ are available here: [Reference in Appendix](Step_3_Appendix.md#research)
+Details about my research into threading and other topics are available here: [Reference in Appendix](Step_3_Appendix.md#research)
 
 ### Coding
 
-I intend to ________________ See [Reference in Appendix](Step_1_Appendix.md#coding) for details.
+I wrote three functions to do work, and one overloaded function to facilitate debug. See [Reference in Appendix](Step_1_Appendix.md#coding) for details. In brief, they are: 
+* A [general-purpose print function](Step_3_Appendix.md#thread-print-function) that the threads call from a thread-safe state
+* A [thread worker function](Step_3_Appendix.md#thread-worker-function) that listens for a signal, verifies whether it is its turn or not, and updates the other threads on whose turn it is.
+* A [main function](Step_3_Appendix.md#main-function) that initializes everything up and sets it in motion.
+* A [debug print function](Step_3_Appendix.md#debug-print-function) called from many places in the code only if a bool controlling it is set to *true*.
 
 ### Doxygen
 
-Considerations for creating documentation are listed in: [Reference in Appendix](Step_3_Appendix.md#doxygen-creation)
+Considerations for creating documentation are discussed here: [Reference in Appendix](Step_3_Appendix.md#doxygen-creation)
 
 ### Test conditions
 
