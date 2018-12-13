@@ -3,7 +3,8 @@
 The purpose of this document is to capture ancillary research I have done that only loosely applies to the objectives I am working toward.
 
 
-## Initial Prompt
+Initial Prompt
+---
 
 > 1) Reimplement c++11 lock_guard (NOT use std::lock_guard). Use namespace
       to allow you to call your class impl "lock_guard" and not conflict with
@@ -145,7 +146,7 @@ template<typename _Mutex>
   };
   ```
 
-### testbench
+### Testbench
 I found a template for calling the std class here: https://en.cppreference.com/w/cpp/thread/lock_guard which I will use for initial testing for this step:
 
 ```C++
@@ -176,10 +177,11 @@ int main()
     std::cout << "main: " << g_i << '\n';
 }
 ```
+
+
+
+Coding
 ---
-
-
-## Coding
 
 ### LockGuard
 
@@ -261,11 +263,12 @@ int main ()
 
 ```
 
----
+
 
 <br>
 
-## C++ Reference Material
+C++ Reference Material
+---
 
 Area to capture information for reference
 
@@ -412,9 +415,9 @@ https://stackoverflow.com/questions/29859796/c-auto-vs-auto
 https://www.youtube.com/watch?v=2yR8dcKT-Ck
 
 
----
 
-### Questions to resolve, not relevant to project
+Questions to resolve, not relevant to project
+---
 
 What does this do? Says it is a constructor definition. Occurs inside of a struct.
 > ```C++
