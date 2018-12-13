@@ -1,15 +1,13 @@
 # lock-challenge
 
+This repo is designed to be viewed on [GitHub.com](https://github.com/armaanhammer/lock-challenge). It makes use of some GitHub-specific Markdown, and has Doxygen pages hosted through GitHub.io. Please begin browsing from this page.
+
 My goals in completing this challenge are:
 * To generate useful code
 * To create documentation I would want to have if I were handed the project.
 * To log my process throughout.
 
-Please see [design_log](/design_log/README.md) for details of the design process.
 
-For individual steps, see below:
-
-<br>
 
 Step 1
 ---
@@ -47,3 +45,7 @@ Step 5
 Step 6 (in progress)
 ---
 
+---
+
+
+[design_log](/design_log/README.md) is the index for details of the design process.
