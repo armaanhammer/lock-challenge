@@ -34,7 +34,7 @@ Upon asking for clarification, was provided this:
 >
 > }
 
-<br><br>
+<br>
 
 ---
 
@@ -260,7 +260,7 @@ int main ()
 
 ```
 
-<br><br>
+<br>
 
 ---
 
