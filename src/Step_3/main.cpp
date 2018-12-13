@@ -28,7 +28,7 @@
 // Globals
 std::mutex mtx;                 // shared mutex
 std::condition_variable cond;   // shared condition variable
-bool DEBUG = true;             // turn on debug messages
+bool DEBUG = false;             // turn on debug messages
 
 
 
