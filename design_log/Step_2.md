@@ -39,21 +39,6 @@ The example I used from Step 1 is already threadable with 10 threads called, so 
 
 <br>
 
-Method
----
-
-### Coding
-
-As this is a first step in a larger project, I intended to replicate already-working code. To that end, I copied `std::lock_guard` into a new header file, fixed references to an STD object that was out of namespace, and encapsulated it with my own namespace. To test, I took generic multithread example code that uses std::lock_guard and modified it to use my namespace and class. See [Reference in Appendix](Step_2_Appendix.md#coding) for details.
-
-## Test conditions
-
-* Pass: The test code performs the same as in Step 1, but with 3 threads.
-* Fail: Any other result.
-
-
-<br>
-
 Results
 ---
 
