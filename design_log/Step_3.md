@@ -41,7 +41,7 @@ Prelims
 
 ### Parsing Requirements
 
-Initially had trouble parsing requirements. [Reference in Appendix](Step_3_Appendix.md#initial-prompt)
+Initially had trouble parsing requirements. [Reference in Appendix](Step_3_Appendix.md#parsing-prompt)
 
 ### Environment
 
