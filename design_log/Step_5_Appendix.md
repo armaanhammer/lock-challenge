@@ -137,8 +137,50 @@ So, the raw JSON is:
  }
 ```
 
+<br>
 
-## 
+Brainstorming
+---
+
+Trying to think of a way to programmatically populate a map with member functions of a class.
+
+Have a class with a bunch of members:
+
+```C++
+class Controller {
+public:
+    bool some_function(rapidjson::Value &payload) {
+        //stuff
+    }
+    bool another_function(rapidjson::Value &payload) {
+        //other stuff
+    }
+...
+}
+```
+
+There's a typedef sitting in between the classes:
+
+```C++
+typedef std::function<bool(rapidjson::Value &)> CommandHandler;
+```
+
+
+Then have another class with a map, and an add function:
+
+```C++
+class CommandDispatcher {
+public:
+    bool addCommandHandler(std::string command, CommandHandler handler)
+        {
+            // do something
+        }
+  ...
+private:
+    std::map<std::string, CommandHandler> command_handlers_;
+```
+
+I think I am supposed to either traverse the Controller class and populate the map in CommandDispatcher based on the member functions of the Controller class. Or, I am supposed to do the opposite, and populate member functions in the Controller class based on what's in the map. That second thing doesn't seem possible in C++, so I assume it's the first thing I'm supposed to do.
   
   
   
