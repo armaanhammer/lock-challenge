@@ -145,6 +145,13 @@ public:
     virtual ~CommandDispatcher()
     {
         // question why is it virtual? Is it needed in this case?
+        //
+        // AFAIK, virtual refers to members that an inhereting class will have
+        // but the current class does not. I'm not sure why a class would not
+        // have a destructor. Maybe this class only uses the implicit destructor,
+        // but inhereting classes need more complex ones?
+        //
+        // Still not sure why this class would need to be inhereted yet though.
     }
 
     bool addCommandHandler(std::string command, CommandHandler handler)
@@ -152,6 +159,13 @@ public:
         cout << "CommandDispatcher: addCommandHandler: " << command << std::endl;
 
         // implement
+        //
+        // I think I need to use this to add commands to the map (private memeber
+        // of this class). I'm not sure if I am supposed to call this programatically
+        // or statically. ie. Do I create a function that iterates through the public
+        // members of the Controller class and dynamically (at compile time, or maybe
+        // even at runtime) adds them to the map? Or am I supposed to just manually 
+        // write functions that do that inside of main()?
 
         return true;
     }
@@ -201,7 +215,7 @@ public:
 
         if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past iterator"); 
 
-        
+        // safely check for a get value for command
         if (itr_c != this->doc.MemberEnd()) {
             if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into itr_c for loop"); 
 
@@ -216,7 +230,9 @@ public:
         }// */ 
 
 
-        
+        // need to safely check and get value for payload
+        // (array of values?)
+
 
         /*
         // 3. Stringify the DOM
@@ -242,7 +258,7 @@ private:
 
 
     // Question: why delete these?
-    
+    //
     // generate compile error if copy attempted
     // (supposed to be un-copyable)
 
