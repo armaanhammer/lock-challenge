@@ -29,7 +29,7 @@ I debated about this for a bit. See [Reference in Appendix](Step_4_Appendix.md#)
 
 ### Doxygen
 
-Considerations for creating documentation remain the same as for Step 3: [Reference in Step 2 Appendix](Step_3_Appendix.md#doxygen-creation)
+Considerations for creating documentation remain the same as for Step 3: [Reference in Step 3 Appendix](Step_3_Appendix.md#doxygen-creation)
 
 ### Test conditions
 
