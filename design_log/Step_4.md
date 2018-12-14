@@ -25,7 +25,7 @@ Method
 
 I chose `cout` as my common resoure to protect. To accomplish this, I only need to lock a mutex and call my `chal::LockGuard` function from within the `thd_printer` again.
 
-I debated about this for a bit. See [Reference in Appendix](Step_4_Appendix.md#) for details. In the end, I decided to enable DEBUG printing inside of the `chal::LockGuard` class to demonstrate that locking and unlocking are occuring with each write to standard out from the threads.
+I debated about this for a bit. See [Reference in Appendix](Step_4_Appendix.md#coding) for details. In the end, I decided to enable DEBUG printing inside of the `chal::LockGuard` class to demonstrate that locking and unlocking are occuring with each write to standard out from the threads.
 
 ### Doxygen
 
@@ -138,6 +138,20 @@ To duplicate
 1. To run executable and pipe standard error to a file, run `./Lock.out 2> error_log.txt`.
 
 <br>
+
+Documentation
+---
+
+Doxygen documentation is available for this step of the project. 
+
+| [Step 4 main page](https://armaanhammer.github.io/lock-challenge/Step_4/html/index.html) | | |
+| --- | --- | --- |
+| LockGuard.h | [Documentation](https://armaanhammer.github.io/lock-challenge/Step_4/html/LockGuard_8h.html) | [Code](https://armaanhammer.github.io/lock-challenge/Step_4/html/LockGuard_8h_source.html) |
+| main.cpp | [Documentation](https://armaanhammer.github.io/lock-challenge/Step_4/html/main_8cpp.html) | [Code](https://armaanhammer.github.io/lock-challenge/Step_4/html/main_8cpp_source.html) |
+| main_no_debug.cpp | [Documentation](https://armaanhammer.github.io/lock-challenge/Step_4/html/main__no__debug_8cpp.html) | [Code](https://armaanhammer.github.io/lock-challenge/Step_4/html/main__no__debug_8cpp_source.html) |
+
+<br>
+
 
 Files
 ---
