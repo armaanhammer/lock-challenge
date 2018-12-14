@@ -1,4 +1,4 @@
-# Step 4: Protect a Commmon Resource
+# Step 4: Protect a Common Resource
 
 Requirements
 ---
