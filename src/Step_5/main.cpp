@@ -103,7 +103,7 @@ public:
     {
         cout << "Controller::exit: command: \n";
 
-        // implement
+        g_done = true;
 
         return true;
     }
@@ -163,6 +163,7 @@ public:
     bool dispatchCommand(std::string command_json)
     {
         cout << "COMMAND: " << command_json << endl;
+
         if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it to dispatchCommand"); 
 
         // implement
@@ -184,47 +185,47 @@ public:
             if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it INTO doc.HasParseError");
             return false;
         }
-
         if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past doc.HasParseError");
                  
 
-
-
-        
         assert(this->doc.IsObject());  //not sure yet why (or if) this is needed
+        if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past assert");
 
 
         // check if a value exists
-        //rapidjson::Value::ConstMemberIterator itr = this->doc.FindMember("hello");
+        //rapidjson::Value::ConstMemberIterator itr_c = this->doc.FindMember("hello");
         //this->doc.FindMember(this->test);
 
-        rapidjson::Value::ConstMemberIterator itr = this->doc.FindMember("command");
+        rapidjson::Value::ConstMemberIterator itr_c = this->doc.FindMember("command");
+        rapidjson::Value::ConstMemberIterator itr_p = this->doc.FindMember("payload");
 
-        if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past doc.Parse"); 
+        if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past iterator"); 
 
         
-        if (itr != this->doc.MemberEnd()) {
-            if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into for loop"); 
+        if (itr_c != this->doc.MemberEnd()) {
+            if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into itr_c for loop"); 
 
-            printf("%s\n", itr->value.GetString());
-            
-            
+            printf("%s\n", itr_c->value.GetString()); 
         }// */
-        
+
         /*
-        if (itr != this->doc.MemberEnd()) {
-            if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into for loop"); 
+        if (itr_p != this->doc.MemberEnd()) {
+            if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into itr_p for loop"); 
 
-            printf("%s\n", itr->value.GetString());
-        }// */
+            printf("%s\n", itr_p->value.GetString()); 
+        }// */ 
 
 
+        
+
+        /*
         // 3. Stringify the DOM
         StringBuffer buffer;
         Writer<StringBuffer> writer(buffer);
         this->doc.Accept(writer);
         // Output {"project":"rapidjson","stars":11}
         std::cout << buffer.GetString() << std::endl;
+        // */
 
 
         return true;
@@ -272,7 +273,7 @@ int main()
         cout << "\tenter command : ";
         getline(cin, command);
         if( !command_dispatcher.dispatchCommand(command) ) {
-            cout << "Oops, malformed JSON entered. Please try again" << endl;
+            cout << "Oops, malformed JSON entered. Please try again." << endl;
         }
     }
 
