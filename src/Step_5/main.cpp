@@ -14,11 +14,11 @@
 // https://github.com/Tencent/rapidjson
 //
 
-// std::function
-// std::bind
-// std::placeholders
-// std::map
-// std::make_pair
+// std::function                    << know this
+// std::bind                        << need to look up
+// std::placeholders                << need to look up
+// std::map                         << know this
+// std::make_pair                   << need to look up
 
 #include "rapidjson/document.h"         // DOM API
 #include "rapidjson/writer.h"
@@ -47,7 +47,7 @@ bool DEBUG = true;          // turn on debug messages
  */
 void DBG_PRNTR(std::string id, std::string msg) {
     
-    std::cout << "***\tDEBUG from " << id << ": " 
+    std::cerr << "***\tDEBUG from " << id << ": " 
               << msg << " \t***" << std::endl;
 }
 
