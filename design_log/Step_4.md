@@ -15,10 +15,6 @@ Prelims
 
 Environment remains the same as the previous steps.
 
-### Refamiliarization with C++
-
-Continue needing to refamiliarize myself with C++ after spending large amount of time with C and Python. See [Reference in Appendix](Step_4_Appendix.md#c-reference-material) for details.
-
 
 <br>
 
