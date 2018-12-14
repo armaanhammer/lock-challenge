@@ -48,10 +48,49 @@ Considerations for creating documentation remain the same as for Step 3: [Refere
 
 Results
 ---
-It produced this output to the terminal:
+
+It produced this output to the terminal when combining standard out and standard error:
 
 ```bash
-armaan@ubuntuVM:Step_3$ ./Lock.out 
+armaan@ubuntuVM:Step_4$ ./Lock.out
+main: starting all threads
+LockGuard adopted
+thread3: starting, waiting.
+LockGuard unlocked
+LockGuard adopted
+thread2: starting, waiting.
+LockGuard unlocked
+LockGuard adopted
+thread1: starting, waiting.
+LockGuard unlocked
+LockGuard adopted
+thread1: signal received, doing work ....
+LockGuard unlocked
+LockGuard adopted
+thread1: done with work, signal next thread
+LockGuard unlocked
+LockGuard adopted
+thread2: signal received, doing work ....
+LockGuard unlocked
+LockGuard adopted
+thread2: done with work, signal next thread
+LockGuard unlocked
+LockGuard adopted
+thread3: signal received, doing work ....
+LockGuard unlocked
+LockGuard adopted
+thread3: done with work, signal next thread
+LockGuard unlocked
+LockGuard adopted
+thread1: signal received, doing work ....
+LockGuard unlocked
+^C
+```
+
+And this output when only printing standard out:
+
+```bash
+armaan@ubuntuVM:Step_4$ ./Lock.out 2> error_log.txt
 main: starting all threads
 thread3: starting, waiting.
 thread2: starting, waiting.
@@ -63,22 +102,42 @@ thread2: done with work, signal next thread
 thread3: signal received, doing work ....
 thread3: done with work, signal next thread
 thread1: signal received, doing work ....
-thread1: done with work, signal next thread
-thread2: signal received, doing work ....
 ^C
-armaan@ubuntuVM:Step_3$ 
 ```
 
-And this output to error_log.txt:
+And this output when only printing standard error:
 
 ```bash
-
+armaan@ubuntuVM:Step_4$ cat error_log.txt
+LockGuard adopted
+LockGuard unlocked
+LockGuard adopted
+LockGuard unlocked
+LockGuard adopted
+LockGuard unlocked
+LockGuard adopted
+LockGuard unlocked
+LockGuard adopted
+LockGuard unlocked
+LockGuard adopted
+LockGuard unlocked
+LockGuard adopted
+LockGuard unlocked
+LockGuard adopted
+LockGuard unlocked
+LockGuard adopted
+LockGuard unlocked
+LockGuard adopted
+LockGuard unlocked
+armaan@ubuntu373VM:Step_4$ 
 ```
+
+These outputs match expetations.
 
 To duplicate
 ---
 
-1. Enure that the bool value for DEBUG is true in LockGuard.h
+1. Enure that the bool value for `DEBUG` inside of LockGuard.h is set to `true`.
 1. In [/src/Step_4/ directory](../src/Step_3) run `make`. Executable will build as *Lock.out*. 
 1. To run executable and pipe standard error to a file, run `./Lock.out 2> error_log.txt`.
 
