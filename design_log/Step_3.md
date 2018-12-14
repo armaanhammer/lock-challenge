@@ -109,7 +109,7 @@ armaan@ubuntuVM:Step_3$
 To duplicate
 ---
 
-In [/src/Step_4/ directory](../src/Step_3) run `make`. Executable will build as *Lock.out*. To run executable, run `./Lock.out`.
+In [/src/Step_3/ directory](../src/Step_3) run `make`. Executable will build as *Lock.out*. To run executable, run `./Lock.out`.
 
 <br>
 
