@@ -3,7 +3,7 @@
  * \brief contains all functions to demo thread synch
  *
  * \note set DEBUG to true in globals to turn on debug output file-wide, or 
- *       uncomment it inside a class to enable class-specific debug output.
+ *       uncomment it inside a function to enable function-specific debug output.
  * 
  * \note needs to be compiled with flag -pthread.
  *
@@ -26,9 +26,10 @@
 
 
 // Globals
-std::mutex mtx;                 // shared mutex
+std::mutex mtx;                 // shared mutex to signal threads
+std::mutex prnt_mtx;            // shared mutex to print from threads
 std::condition_variable cond;   // shared condition variable
-bool DEBUG = true;             // turn on debug messages
+bool DEBUG = false;             // turn on debug messages
 
 
 
@@ -89,10 +90,10 @@ void thd_printer(int id, std::string msg) {
 
     if(DEBUG) DBG_PRNTR(id, "made it to thd_printer");
 
-    //mtx.lock();
+    prnt_mtx.lock();
     if(DEBUG) DBG_PRNTR(id, "made it to mtx.lock");
     
-    //chal::LockGuard<std::mutex> lck (mtx, std::adopt_lock);
+    chal::LockGuard<std::mutex> lck (prnt_mtx, std::adopt_lock);
     if(DEBUG) DBG_PRNTR(id, "made it to LockGuard");
     
     std::cout << "thread" << id+1 << ": " << msg << std::endl;

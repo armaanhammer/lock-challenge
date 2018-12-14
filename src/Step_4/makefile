@@ -9,4 +9,4 @@ lock.o: main.cpp
 
 
 clean:
-	rm hello.o Hello.out lock.o Lock.out
+	rm lock.o Lock.out

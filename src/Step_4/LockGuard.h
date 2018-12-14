@@ -1,3 +1,15 @@
+/** 
+ * \file LockGuard.h
+ * \brief contains namespace chal and class LockGuard
+ * 
+ * \note set DEBUG to false within chal namespace to disable debug output.
+ *
+ * \note needs to be compiled with flag -pthread.
+ *
+ * \author Armaan Roshani
+ * \bug no known bugs
+ */ 
+
 #ifndef _LOCK_G_H  // header guard
 #define _LOCK_G_H
 
@@ -10,7 +22,7 @@ namespace chal { // challenge namespace
 
     bool DEBUG = true;
 
-    /** @brief A movable scoped lock type.
+    /** \brief A movable scoped lock type.
      *
      * This class has been kept as identical to std::lock_guard as possible
      *
@@ -29,19 +41,19 @@ namespace chal { // challenge namespace
                 { _M_device.lock(); 
                 
                 
-                if(DEBUG) std::cout << "LockGuard locked" << std::endl;
+                if(DEBUG) std::cerr << "LockGuard locked" << std::endl;
                 }
 
             LockGuard(mutex_type& __m, std::adopt_lock_t) : _M_device(__m)
                 {  
 
-                if(DEBUG) std::cout << "LockGuard adopted" << std::endl;
+                if(DEBUG) std::cerr << "LockGuard adopted" << std::endl;
                 } // calling thread owns mutex
 
             ~LockGuard()
                 { _M_device.unlock();
                 
-                if(DEBUG) std::cout << "LockGuard unlocked" << std::endl;
+                if(DEBUG) std::cerr << "LockGuard unlocked" << std::endl;
                 }
 
             // generate compile error if copy attempted
