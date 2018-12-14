@@ -134,7 +134,7 @@ To duplicate
 ---
 
 1. Enure that the bool value for `DEBUG` inside of LockGuard.h is set to `true`.
-1. In [/src/Step_4/ directory](../src/Step_3) run `make`. Executable will build as *Lock.out*. 
+1. In [/src/Step_4/ directory](../src/Step_4) run `make`. Executable will build as *Lock.out*. 
 1. To run executable and pipe standard error to a file, run `./Lock.out 2> error_log.txt`.
 
 <br>
