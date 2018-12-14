@@ -29,7 +29,7 @@ Method
 
 I chose `cout` as my common resoure to protect. To accomplish this, I only need to lock a mutex and call my `chal::LockGuard` function from within the `thd_printer` again.
 
-I debated about this for a bit. See [Reference in Appendix](Step_4_Appendix.md#) for details.
+I debated about this for a bit. See [Reference in Appendix](Step_4_Appendix.md#) for details. In the end, I decided to enable DEBUG printing inside of the `chal::LockGuard` class to demonstrate that locking and unlocking are occuring with each write to standard out from the threads.
 
 ### Doxygen
 
@@ -132,7 +132,7 @@ LockGuard unlocked
 armaan@ubuntu373VM:Step_4$ 
 ```
 
-These outputs match expetations.
+These outputs match expectations.
 
 To duplicate
 ---
