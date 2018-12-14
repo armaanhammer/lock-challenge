@@ -92,6 +92,18 @@ public:
         cout << "Controller::help: command: ";
 
         // implement
+        //
+        // print payload value "usage"
+        //
+        // Q: What condition might trigger a false return?
+        //
+        // Q: Should gatekeeping be performed prior to this 
+        // function call? i.e. if this function is called, 
+        // should it assume that the payload has a value "usage"?
+        //    If so, likey the map will need to be queried for 
+        //    allowable values to pass in.
+        //    If not, then this function should probably 
+        //    return false if no value "usage" exists in payload.
 
         return true;
     }
@@ -103,6 +115,11 @@ public:
     {
         cout << "Controller::exit: command: \n";
 
+        // print payload value "reason"
+        //
+        // Q: what condition might trigger a false return?
+
+        // terminate loop in main, causing controlled exit.
         g_done = true;
 
         return true;
@@ -110,6 +127,9 @@ public:
 
     /** \brief command handler for add 
      *
+     * Still am not sure what kind of functionality I need inside of this class.
+     * Perhaps everything just need to print or control program flow? If so this
+     * function will be useless and should be removed.
      */
     bool add(rapidjson::Value &payload)
     {
@@ -139,6 +159,8 @@ public:
     // ctor - need impl
     CommandDispatcher()
     {
+        // What goes in here likely depends on how the map is going to be 
+        // populated. 
     }
 
     // dtor - need impl
@@ -172,7 +194,9 @@ public:
 
     /** \brief initial receiver of command
      *
-     * does: what?
+     * Q: How many tasks should this function be in charge of? 
+     *
+     * Q: Should I use one DOM per JSON query, or reuse the same one?
      */
     bool dispatchCommand(std::string command_json)
     {
@@ -222,6 +246,11 @@ public:
             printf("%s\n", itr_c->value.GetString()); 
         }// */
 
+        // This won't work because payload is a value containing more values
+        // ValueTurtles all the way down!
+        //
+        // need to safely check and get value for payload
+        // (array of values?)
         /*
         if (itr_p != this->doc.MemberEnd()) {
             if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into itr_p for loop"); 
@@ -230,8 +259,6 @@ public:
         }// */ 
 
 
-        // need to safely check and get value for payload
-        // (array of values?)
 
 
         /*
