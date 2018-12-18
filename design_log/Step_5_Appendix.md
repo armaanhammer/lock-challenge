@@ -48,7 +48,7 @@ https://en.wikibooks.org/wiki/Introduction_to_Software_Engineering/UML/Introduct
 ![UML Observer design pattern](https://doanduyhai.files.wordpress.com/2012/08/observer.png)
 
 
-#### Observer pattern
+#### Dispatcher pattern
 
 ![UML Dispatcher design pattern](https://doanduyhai.files.wordpress.com/2012/08/dispatcher1.png) ![UML Dispatcher design pattern](https://doanduyhai.files.wordpress.com/2012/08/dispatcher_alternative.png)
 
