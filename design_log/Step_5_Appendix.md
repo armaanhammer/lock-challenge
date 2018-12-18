@@ -238,6 +238,12 @@ Reference
 
 #### std::bind                        << need to look up
 
+Binds parameters to functions
+
+
+
+source: https://www.youtube.com/watch?v=JtUZmkvroKg
+
 #### std::placeholders                << need to look up
 
 #### std::map                         << know this
