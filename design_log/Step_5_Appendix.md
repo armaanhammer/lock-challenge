@@ -1,18 +1,5 @@
 # Step 5 Appendix
 
-## Dispatcher abstraction
-
-Taken to be an event dispatcher, which maps functions to be called when string or int objects are passed to a message-passing interface. 
-
-Two components:
-1. Message-passing interface
-1. Parameterized method-passing for inhereted objects.
-
-
-https://www.youtube.com/watch?v=yD47_hq75q0
-
-https://www.youtube.com/watch?v=Tu3Y2_3QaUY
-
 ## CMAKE
 
 ### Parsing
@@ -29,6 +16,56 @@ add_executable(dispatcher main.cpp)
 ```
 
 It looks straightforward enough. Going to copy [dispatcher_challenge.cpp prompt](../prompt/dispatcher_challenge.cpp) to src and rename it [main.cpp](../src/Step_5/main.cpp) to comply.
+
+<br>
+
+Research
+---
+
+## Dispatcher abstraction
+
+Taken to be an event dispatcher, which maps functions to be called when string or int objects are passed to a message-passing interface. 
+
+Two components:
+1. Message-passing interface
+1. Parameterized method-passing for inhereted objects.
+
+
+https://www.youtube.com/watch?v=yD47_hq75q0
+
+https://www.youtube.com/watch?v=Tu3Y2_3QaUY
+
+Indentifying the fact that I probably need a much more solid understand of this construct, so diverting to research it more.
+
+### UML Design Patterns
+
+Unified Modeling Language
+
+https://en.wikibooks.org/wiki/Introduction_to_Software_Engineering/UML/Introduction
+
+#### Observer pattern
+
+![UML Observer design pattern](https://doanduyhai.files.wordpress.com/2012/08/observer.png)
+
+
+#### Observer pattern
+
+![UML Dispatcher design pattern](https://doanduyhai.files.wordpress.com/2012/08/dispatcher1.png) ![UML Dispatcher design pattern](https://doanduyhai.files.wordpress.com/2012/08/dispatcher_alternative.png)
+
+
+
+
+
+https://doanduyhai.wordpress.com/2012/08/04/design-pattern-the-asynchronous-dispatcher/
+
+
+
+https://en.wikibooks.org/wiki/Introduction_to_Software_Engineering/Architecture/Design_Patterns
+
+
+##### UML
+
+
 
 <br>
 
