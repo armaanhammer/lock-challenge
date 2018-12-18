@@ -24,6 +24,10 @@ Research
 
 ## Dispatcher abstraction
 
+Unfamiliar with Dispatcher abstraction --  more familiar with Publisher / Subscriber model, which I have used on multiple projects recently. For instance, both the CAN bus, and ROS (Robot Operating System) use them. Found [this article](https://hackernoon.com/observer-vs-pub-sub-pattern-50d3b27f838c) that compares the two models.
+
+
+
 Taken to be an event dispatcher, which maps functions to be called when string or int objects are passed to a message-passing interface. 
 
 Two components:
@@ -63,8 +67,11 @@ https://doanduyhai.wordpress.com/2012/08/04/design-pattern-the-asynchronous-disp
 https://en.wikibooks.org/wiki/Introduction_to_Software_Engineering/Architecture/Design_Patterns
 
 
-##### UML
+##### DOM
 
+Document Object Model -- A programming interface for HTML and XML documents. 
+
+https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction
 
 
 <br>
@@ -221,6 +228,43 @@ private:
 
 I think I am supposed to either traverse the Controller class and populate the map in CommandDispatcher based on the member functions of the Controller class. Or, I am supposed to do the opposite, and populate member functions in the Controller class based on what's in the map. That second thing doesn't seem possible in C++, so I assume it's the first thing I'm supposed to do.
   
+  
+<br>
+
+Reference
+---
+
+#### std::function                    << know this
+
+#### std::bind                        << need to look up
+
+#### std::placeholders                << need to look up
+
+#### std::map                         << know this
+
+key / value pair
+
+usage example:
+
+> /*
+ * map
+ * 
+ * - No duplicated key
+ */
+> map<char,int> mymap;
+> mymap.insert ( pair<char,int>('a',100) );
+> mymap.insert ( make_pair('z',200) );
+
+> map<char,int>::iterator it = mymap.begin();
+> mymap.insert(it, pair<char,int>('b',300));  // "it" is a hint
+
+> it = mymap.find('z');  // O(log(n))
+
+> // showing contents:
+> for ( it=mymap.begin() ; it != mymap.end(); it++ )
+>   cout << (*it).first << " => " << (*it).second << endl;
+
+#### std::make_pair                   << need to look up
   
   
   
