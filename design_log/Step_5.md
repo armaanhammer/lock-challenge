@@ -41,7 +41,8 @@ start Command Dispatch
 Current Progress
 ---
 
-Info on what I am currently working on is available in [Parsing Code (Appendix)](Step_5_Appendix.md#parsing-code) and [Brainstorming (Appendix)](Step_5_Appendix.md#brainstorming)
+Info on what I am currently working on is available in [Parsing Code (Appendix)](Step_5_Appendix.md#parsing-code), [Brainstorming (Appendix)](Step_5_Appendix.md#brainstorming), and [Research (Appendix)](Step_5_Appendix.md#research)
 
 Also, most functions have lengthy comments about what I am working through in [the code itself](../src/Step_5/main.cpp).
+
     
