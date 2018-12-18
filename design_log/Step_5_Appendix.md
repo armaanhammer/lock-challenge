@@ -268,6 +268,8 @@ for ( it=mymap.begin() ; it != mymap.end(); it++ )
 
 source: https://www.youtube.com/watch?v=6iyzPed7FrM
 
+Note: class template does NOT infer parameter types. Function template does.
+
 #### std::make_pair                   << need to look up
   
   
