@@ -234,19 +234,57 @@ I think I am supposed to either traverse the Controller class and populate the m
 Reference
 ---
 
-#### std::function                    << know this
+### std::function                    << know this
 
-#### std::bind                        << need to look up
+### std::bind                        << need to look up
 
-Binds parameters to functions
+* Binds parameters to functions
+* Guaranteed to make a copy of argument passed in.
+* NOT lightweight! Use judiciously.
+* Swallows extra arguments passed to it.
+
+example usage:
+```C++
+#include <functional>
+#include <iostream>
+
+template<typename T>
+void print(T i, const std::string &s)
+{
+  std:;cout << i << ' ' << s << '\n';
+}
+
+int main()
+{
+  int i = 5;
+  cont auto f = std::bind(&print<int>, std::placeholders::_1, std::placeholders::_2);
+  
+  f(i, "hello", 1, 2, 3, 4);  // more parameters get thrown away
+  i = 6;
+  f(i, world");
+  
+  std::function<void (const std::string &, int)> f2(f);
+  f2(i, "test"); // more parameters will produce a compile error
+  
+}
+```
+
+output:
+
+```
+shell:user$ ./bind.out
+5 hello
+6 world
+6 test
+```
 
 
 
 source: https://www.youtube.com/watch?v=JtUZmkvroKg
 
-#### std::placeholders                << need to look up
+### std::placeholders                << need to look up
 
-#### std::map                         << know this
+### std::map                         << know this
 
 key / value pair
 
@@ -276,7 +314,7 @@ source: https://www.youtube.com/watch?v=6iyzPed7FrM
 
 Note: class template does NOT infer parameter types. Function template does.
 
-#### std::make_pair                   << need to look up
+### std::make_pair                   << need to look up
   
   
   
