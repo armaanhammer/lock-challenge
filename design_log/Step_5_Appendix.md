@@ -317,6 +317,18 @@ Note: class template does NOT infer parameter types. Function template does.
 ### std::make_pair                   << need to look up
   
   
-  
+<br>
+
+Useful Tools
+---
+
+#### nm
+
+#### c++filt
+
+usage:
+
+```
+nm a.out | c++filt -t | less
   
   
