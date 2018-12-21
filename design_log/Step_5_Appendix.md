@@ -316,7 +316,19 @@ Note: class template does NOT infer parameter types. Function template does.
 
 ### std::make_pair                   << need to look up
   
-  
+
+<br> 
+
+Exception Handling
+---
+
+initially used `assert()` statements, then converted to `return false` statements, but want to capture more information about failing JSON. Using exceptions instead.
+
+try, catch, throw
+
+
+
+
 <br>
 
 Useful Tools
