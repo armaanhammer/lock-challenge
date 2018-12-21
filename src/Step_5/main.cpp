@@ -104,6 +104,8 @@ public:
         //    allowable values to pass in.
         //    If not, then this function should probably 
         //    return false if no value "usage" exists in payload.
+        
+
 
         return true;
     }
@@ -176,9 +178,18 @@ public:
         // Still not sure why this class would need to be inhereted yet though.
     }
 
+    /** \brief adds a command and handler pair to the map
+     *
+     *  \param command a string 
+     *  \param handler a CommandHandler object containing a DOM value
+     *
+     *  \return true is addition successful, false if not
+     */
     bool addCommandHandler(std::string command, CommandHandler handler)
     {
         cout << "CommandDispatcher: addCommandHandler: " << command << std::endl;
+
+        bool ret_val = true;
 
         // implement
         //
@@ -188,8 +199,26 @@ public:
         // members of the Controller class and dynamically (at compile time, or maybe
         // even at runtime) adds them to the map? Or am I supposed to just manually 
         // write functions that do that inside of main()?
+        
+        /// add command and handler pair to map
+        auto test = command_handlers_.insert( std::make_pair( command, handler));
 
-        return true;
+        //cout << test << endl;
+
+        
+        //if( command_handlers_.insert( std::make_pair( command, handler))) {
+        //if( test == std::make_pair( command, handler)) {
+        if( test.second == false) {
+            cout << "Command " << command << " already existed. Addition failed" << endl;
+            //cout << " with a value of " << ret.first->second << '\n';
+            ret_val = false;
+        }
+        else {
+            cout << "Command " << command << " added to map." << endl;
+            
+        } // */
+
+        return ret_val;
     }
 
     /** \brief initial receiver of command
