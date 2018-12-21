@@ -162,7 +162,10 @@ public:
     CommandDispatcher()
     {
         // What goes in here likely depends on how the map is going to be 
-        // populated. 
+        // populated.
+        
+
+
     }
 
     // dtor - need impl
@@ -269,14 +272,14 @@ public:
         rapidjson::Value::ConstMemberIterator itr_p = this->doc.FindMember("payload");
 
 
-        //DEBUG: checking to see if the loop below is needed
+        // DEBUG: checking to see if the loop below is needed
         printf("%s\n", itr_c->value.GetString());
-
 
         if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past iterator"); 
 
         // safely check for a get value for command
         // this might not be needed
+        // oh, thinking it might be needed because .getString() will crash in some instances
         if (itr_c != this->doc.MemberEnd()) {
             if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into itr_c for loop"); 
 
@@ -308,6 +311,28 @@ public:
         // */
 
 
+
+
+        // basic check and route. need much better version later
+        //
+
+        for( this->map_itr = command_handlers_.begin() ; this->map_itr != command_handlers_.end(); this->map_itr++ ) {
+            if( itr_c->value.GetString() == (*map_itr).first ) {
+                cout << itr_c->value.GetString() << " matched a value in map!" << endl
+                     << " Attempting to start command handler" << endl;
+                     (*map_itr).second(this->doc);
+            }
+        }
+
+            //cout << (*it).first << " => " << (*it).second << endl;
+        /*
+        if( itr_c->value.GetString() == "exit" ) {
+            //command_dispatcher.addCommandHandler( "help", controller.help); //needs static
+            command_handlers_[exit](this->doc);
+        }// */
+
+
+
         return true;
     }
 
@@ -319,7 +344,8 @@ private:
 
     rapidjson::Document doc;  // DOM API document 
 
-
+    // create an iterator for the map
+    std::map<std::string, CommandHandler>::iterator map_itr = this->command_handlers_.begin();
 
     // Question: why delete these?
     //
@@ -346,9 +372,9 @@ int main()
     //
     // Using polymorphism? Probably not
     
-    // Add available commands
+    // Add available commands manually
     command_dispatcher.addCommandHandler( "help", controller.help); //needs static
-    command_dispatcher.addCommandHandler( "exit", controller.exit);
+    command_dispatcher.addCommandHandler( "exit", controller.exit); //maybe use std::bind instead
 
     // command line interface for testing
     string command;
