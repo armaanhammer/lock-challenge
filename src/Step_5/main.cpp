@@ -87,7 +87,7 @@ public:
     /** \brief command handler for help
      *
      */
-    bool help(rapidjson::Value &payload)
+    static bool help(rapidjson::Value &payload)
     {
         cout << "Controller::help: command: ";
 
@@ -113,7 +113,7 @@ public:
     /** \brief command handler for exit
      *
      */
-    bool exit(rapidjson::Value &payload)
+    static bool exit(rapidjson::Value &payload)
     {
         cout << "Controller::exit: command: \n";
 
@@ -178,6 +178,7 @@ public:
         // Still not sure why this class would need to be inhereted yet though.
     }
 
+
     /** \brief adds a command and handler pair to the map
      *
      *  \param command a string 
@@ -220,6 +221,7 @@ public:
 
         return ret_val;
     }
+
 
     /** \brief initial receiver of command
      *
@@ -266,9 +268,15 @@ public:
         rapidjson::Value::ConstMemberIterator itr_c = this->doc.FindMember("command");
         rapidjson::Value::ConstMemberIterator itr_p = this->doc.FindMember("payload");
 
+
+        //DEBUG: checking to see if the loop below is needed
+        printf("%s\n", itr_c->value.GetString());
+
+
         if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past iterator"); 
 
         // safely check for a get value for command
+        // this might not be needed
         if (itr_c != this->doc.MemberEnd()) {
             if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into itr_c for loop"); 
 
@@ -336,7 +344,11 @@ int main()
     // Implement
     // add command handlers in Controller class to CommandDispatcher using addCommandHandler
     //
-    // Using polymorphism?
+    // Using polymorphism? Probably not
+    
+    // Add available commands
+    command_dispatcher.addCommandHandler( "help", controller.help); //needs static
+    command_dispatcher.addCommandHandler( "exit", controller.exit);
 
     // command line interface for testing
     string command;
