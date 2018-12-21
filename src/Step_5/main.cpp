@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include <functional>
+#include <exception>
 
 //
 // supporting tools and software
@@ -252,15 +253,38 @@ public:
         this->doc.Parse(command_ptr); // parse the received string
         if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past doc.Parse");
 
+        /*
         // check if there was json passed in
         if(this->doc.HasParseError()) { // no workie
             if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it INTO doc.HasParseError");
-            return false;
+            return false; // throw an exception instead?
         }
         if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past doc.HasParseError");
+        //*/
                  
 
-        assert(this->doc.IsObject());  //not sure yet why (or if) this is needed
+
+        /*
+        try {
+            if(this->doc.HasParseError()) { // no workie
+                if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it INTO doc.HasParseError");
+                throw "malformed JSON"; // throw an exception instead?
+            }
+        }
+
+        catch (const char* e) {
+            cout << "Standard exception: " << e << endl;
+            throw e;
+        } // */
+
+        if(this->doc.HasParseError()) { // no workie
+            if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it INTO doc.HasParseError");
+            throw "malformed JSON"; // throw an exception instead?
+        }
+
+
+
+        //assert(this->doc.IsObject());  // I don't like this because breaks execution
         if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past assert");
 
 
@@ -316,11 +340,19 @@ public:
         // basic check and route. need much better version later
         //
 
+        // command routing
+        // Note: This may not guarantee that only one command will be run. That depends on whether
+        // JSON supports multiple elements with the same name or not.
+        bool command_found = false;  // until proven otherwise
         for( this->map_itr = command_handlers_.begin() ; this->map_itr != command_handlers_.end(); this->map_itr++ ) {
+
+            // try to find match in map for command string
             if( itr_c->value.GetString() == (*map_itr).first ) {
                 cout << itr_c->value.GetString() << " matched a value in map!" << endl
                      << " Attempting to start command handler" << endl;
-                     (*map_itr).second(this->doc);
+
+                command_found = true;
+                (*map_itr).second(this->doc);  // dispatch command
             }
         }
 
@@ -333,7 +365,7 @@ public:
 
 
 
-        return true;
+        return command_found;
     }
 
 private:
@@ -382,9 +414,18 @@ int main()
         cout << "COMMANDS: {\"command\":\"exit\", \"payload\":{\"reason\":\"User requested exit.\"}}\n";
         cout << "\tenter command : ";
         getline(cin, command);
-        if( !command_dispatcher.dispatchCommand(command) ) {
-            cout << "Oops, malformed JSON entered. Please try again." << endl;
+        try {
+            command_dispatcher.dispatchCommand(command);
+            /*if( ! command_dispatcher.dispatchCommand(command) ) {
+                cout << "Oops, malformed JSON or incorrect command entered. Please try again." << endl;
+            }// */
         }
+        catch (const char* e)
+        {
+            cout << "Oops, " << e << ". Please try again." << endl;
+        }
+
+
     }
 
     std::cout << "COMMAND DISPATCHER: ENDED" << std::endl;
