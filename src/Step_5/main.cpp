@@ -204,6 +204,9 @@ public:
         // members of the Controller class and dynamically (at compile time, or maybe
         // even at runtime) adds them to the map? Or am I supposed to just manually 
         // write functions that do that inside of main()?
+        //
+        // It looks like C++ is not able to implement a programmatic enumberation of
+        // a class's public member functions, so I need to do it manually in main().
         
         /// add command and handler pair to map
         auto test = command_handlers_.insert( std::make_pair( command, handler));
@@ -236,79 +239,49 @@ public:
     bool dispatchCommand(std::string command_json)
     {
         cout << "COMMAND: " << command_json << endl;
-
         if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it to dispatchCommand"); 
 
-        // implement
-
-        const char *command_ptr = command_json.c_str();  // maybe typecast instead?
+        const char *command_ptr = command_json.c_str();  /// \bug maybe typecast instead?
         if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past command_ptr");
         if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, command_ptr);
-        //if(DEBUG) cout << *command_ptr << endl;
-        //if(DEBUG) cout << &command_ptr << endl;
-
  
         
-
-        this->doc.Parse(command_ptr); // parse the received string
+        // parse the received string
+        this->doc.Parse(command_ptr);
         if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past doc.Parse");
 
-        /*
-        // check if there was json passed in
-        if(this->doc.HasParseError()) { // no workie
-            if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it INTO doc.HasParseError");
-            return false; // throw an exception instead?
-        }
+        // check if JSON passed in. If not, throw error.
+        if(this->doc.HasParseError()) { throw "malformed JSON"; }
         if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past doc.HasParseError");
-        //*/
-                 
 
 
-        /*
-        try {
-            if(this->doc.HasParseError()) { // no workie
-                if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it INTO doc.HasParseError");
-                throw "malformed JSON"; // throw an exception instead?
-            }
-        }
-
-        catch (const char* e) {
-            cout << "Standard exception: " << e << endl;
-            throw e;
-        } // */
-
-        if(this->doc.HasParseError()) { // no workie
-            if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it INTO doc.HasParseError");
-            throw "malformed JSON"; // throw an exception instead?
-        }
-
-
-
-        //assert(this->doc.IsObject());  // I don't like this because breaks execution
-        if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past assert");
-
-
-        // check if a value exists
-        //rapidjson::Value::ConstMemberIterator itr_c = this->doc.FindMember("hello");
-        //this->doc.FindMember(this->test);
-
+        // create iterators for "command" and "payload", if they exist.
         rapidjson::Value::ConstMemberIterator itr_c = this->doc.FindMember("command");
         rapidjson::Value::ConstMemberIterator itr_p = this->doc.FindMember("payload");
 
 
-        // DEBUG: checking to see if the loop below is needed
-        printf("%s\n", itr_c->value.GetString());
-
-        if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past iterator"); 
-
-        // safely check for a get value for command
-        // this might not be needed
-        // oh, thinking it might be needed because .getString() will crash in some instances
+        // safely check for a value "command"
         if (itr_c != this->doc.MemberEnd()) {
-            if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into itr_c for loop"); 
+            if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into itr_c if"); 
+            printf("%s\n", itr_c->value.GetString()); /// \bug change to shared_print?
+        }
+        // if does not exist, throw exception
+        else { throw "no member \"command\" present in JSON"; }
+        // */
 
-            printf("%s\n", itr_c->value.GetString()); 
-        }// */
+
+        // safely check for a value "payload"
+        if (itr_p != this->doc.MemberEnd()) {
+            if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into itr_p if"); 
+            printf("%s\n", itr_p->value.GetString()); /// \bug change to shared_print?
+        }
+        // if does not exist, throw exception
+        else { throw "no member \"payload\" present in JSON"; }
+        // */
+
+
+        if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past iterator");
+
 
         // This won't work because payload is a value containing more values
         // ValueTurtles all the way down!
@@ -335,16 +308,12 @@ public:
         // */
 
 
-
-
-        // basic check and route. need much better version later
-        //
-
         // command routing
-        // Note: This may not guarantee that only one command will be run. That depends on whether
-        // JSON supports multiple elements with the same name or not.
+        /// \bug This may not guarantee that only one command will be run. That depends on whether
+        ///      JSON supports multiple elements with the same name or not.
         bool command_found = false;  // until proven otherwise
-        for( this->map_itr = command_handlers_.begin() ; this->map_itr != command_handlers_.end(); this->map_itr++ ) {
+        for( this->map_itr = command_handlers_.begin() ;
+             this->map_itr != command_handlers_.end(); this->map_itr++ ) {
 
             // try to find match in map for command string
             if( itr_c->value.GetString() == (*map_itr).first ) {
@@ -354,6 +323,9 @@ public:
                 command_found = true;
                 (*map_itr).second(this->doc);  // dispatch command
             }
+            // if does not exist, throw exception
+            else { throw "no match for command found in map"; }
+            // */
         }
 
             //cout << (*it).first << " => " << (*it).second << endl;
@@ -365,7 +337,7 @@ public:
 
 
 
-        return command_found;
+        return command_found; // should always be true if execution falls through to here
     }
 
 private:
@@ -416,9 +388,6 @@ int main()
         getline(cin, command);
         try {
             command_dispatcher.dispatchCommand(command);
-            /*if( ! command_dispatcher.dispatchCommand(command) ) {
-                cout << "Oops, malformed JSON or incorrect command entered. Please try again." << endl;
-            }// */
         }
         catch (const char* e)
         {
