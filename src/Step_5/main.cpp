@@ -232,9 +232,9 @@ public:
 
     /** \brief initial receiver of command
      *
-     * Q: How many tasks should this function be in charge of? 
+     *  \param command_json a raw string of JSON commands
      *
-     * Q: Should I use one DOM per JSON query, or reuse the same one?
+     *  \return true if command dispatched to handler
      */
     bool dispatchCommand(std::string command_json)
     {
@@ -273,14 +273,15 @@ public:
         // safely check for a value "payload"
         if (itr_p != this->doc.MemberEnd()) {
             if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into itr_p if"); 
-            printf("%s\n", itr_p->value.GetString()); /// \bug change to shared_print?
+            /// \bug of course this won't work, it's not a string.
+            //printf("%s\n", itr_p->value.GetString());
         }
         // if does not exist, throw exception
         else { throw "no member \"payload\" present in JSON"; }
         // */
 
 
-        if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past iterator");
+        if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past iterators");
 
 
         // This won't work because payload is a value containing more values
@@ -324,7 +325,10 @@ public:
                 (*map_itr).second(this->doc);  // dispatch command
             }
             // if does not exist, throw exception
-            else { throw "no match for command found in map"; }
+            else { 
+                if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into else for some reason");
+                throw "no match for command found in map"; 
+            }
             // */
         }
 
@@ -379,6 +383,15 @@ int main()
     // Add available commands manually
     command_dispatcher.addCommandHandler( "help", controller.help); //needs static
     command_dispatcher.addCommandHandler( "exit", controller.exit); //maybe use std::bind instead
+
+    //DEBUG
+    try {
+        command_dispatcher.dispatchCommand(help_command);
+    }
+    catch (const char* e)
+    {
+        cout << "Oops, " << e << ". Please try again." << endl;
+    }
 
     // command line interface for testing
     string command;
