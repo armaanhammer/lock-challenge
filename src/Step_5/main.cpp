@@ -36,7 +36,7 @@ bool g_done = false;
 
 
 
-bool DEBUG = true;          // turn on debug messages
+bool DEBUG = false;          // turn on debug messages
 
 /** \brief DEBUG PRINTER function
  *
@@ -59,20 +59,21 @@ void DBG_PRNTR(std::string id, std::string msg) {
 //
 // TEST COMMANDS
 //
-/*auto help_command = R"(
- {
-  "command":"help",
-  "payload": {
-    "usage":"Enter json command in 'command':'<command>','payload': { // json payload of arguments }",
-  }
- }
-)"; // */ // I don't have a damn clue why this one doesn't work.
 
 auto help_command = R"(
  {
   "command":"help",
   "payload": {
      "usage":"Enter json command in 'command':'<command>','payload': { // json payload of arguments }"
+  }
+ }
+)";
+
+auto help_command_fail = R"(
+ {
+  "command":"help",
+  "payload": {
+     "reason":"Write something."
   }
  }
 )";
@@ -84,102 +85,81 @@ auto exit_command = R"(
      "reason":"Exiting program on user request."
   }
  }
-)";
 
-
-auto help_command_fail = R"(
+)";auto exit_command_fail = R"(
  {
-  "command":"help",
+  "command":"exit",
   "payload": {
-     "reason":"Write something."
+     "booga":"gooba"
   }
  }
 )";
 
 
-
 /** \brief controller class of functions to "dispatch" from Command Dispatcher
  *
  */
-
 class Controller {
 public:
 
     /** \brief command handler for help
      *
-     * \param payload a JSON string possibly containing a reason
+     * \param payload a JSON string possibly containing a "usage" message
      *
+     * \return true if command handled successfully
      */
     static bool help(rapidjson::Value &payload)
     {
         cout << "Controller::help: command: ";
-
-        // implement
-        //
-        // print payload value "usage"
-        //
-        // Q: What condition might trigger a false return?
-        //
-        // Q: Should gatekeeping be performed prior to this 
-        // function call? i.e. if this function is called, 
-        // should it assume that the payload has a value "usage"?
-        //    If so, likey the map will need to be queried for 
-        //    allowable values to pass in.
-        //    If not, then this function should probably 
-        //    return false if no value "usage" exists in payload.
         
-        // 3. Stringify the DOM
+        // DEBUG - stringify the value
         StringBuffer buffer;
         Writer<StringBuffer> writer(buffer);
         payload.Accept(writer);
-        // Output {"project":"rapidjson","stars":11}
         std::cout << buffer.GetString() << std::endl;
         // */
         
-        /*
-        // parse the received string
-        payload.Parse(command_ptr);
-        if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past payload.Parse");
-
-        // check if JSON passed in. If not, throw error.
-        if(payload.HasParseError()) { throw "payload has malformed JSON"; }
-        if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past payload.HasParseError");
-
-
         // create iterator to look for "usage".
-        rapidjson::Value::ConstMemberIterator itr_r = this->doc.FindMember("command");
-
+        rapidjson::Value::ConstMemberIterator itr = payload.FindMember("usage");
 
         // safely check for a value "usage"
-        if (itr_r != this->doc.MemberEnd()) {
-            if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into itr_r if"); 
-            printf("%s\n", itr_c->value.GetString()); /// \bug change to shared_print?
+        if (itr != payload.MemberEnd()) {
+
+            // value exists. print to user
+            cout << itr->value.GetString() << endl; /// \bug change to shared_print?
         }
         // if does not exist, throw exception
         else { throw "no member \"usage\" present in payload JSON"; }
         // */
-
-        
-
-
-
 
         return true;
     }
     
     /** \brief command handler for exit
      *
+     * \param payload a JSON string possibly containing a reason
+     *
      */
     static bool exit(rapidjson::Value &payload)
     {
         cout << "Controller::exit: command: \n";
 
-        // print payload value "reason"
-        //
-        // Q: what condition might trigger a false return?
+        // create iterator to look for "reason".
+        rapidjson::Value::ConstMemberIterator itr = payload.FindMember("reason");
 
-        // terminate loop in main, causing controlled exit.
-        g_done = true;
+        // safely check for a value "reason"
+        if (itr != payload.MemberEnd()) {
+
+            // value exists. print to user
+            cout << itr->value.GetString() << endl; /// \bug change to shared_print?
+            
+            // terminate loop in main, causing controlled exit.
+            g_done = true;
+
+        }
+        // if does not exist, throw exception
+        else { throw "no member \"reason\" present in payload JSON"; }
+        // */
 
         return true;
     }
@@ -220,7 +200,7 @@ public:
 
 
 private:
-    std::string CUR_SCOPE = "class Controller";     // DEBUG
+    //static std::string CUR_SCOPE = "class Controller";     // DEBUG
 
 };
 
@@ -361,33 +341,17 @@ public:
 
         if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past iterators");
 
-        
-        // 3. Stringify the DOM
+        // DEBUG - stringify the DOM
         StringBuffer buffer;
         Writer<StringBuffer> writer(buffer);
         this->doc.Accept(writer);
-        // Output {"project":"rapidjson","stars":11}
         std::cout << buffer.GetString() << std::endl;
         // */
-        
-        // get payload
-        //rapidjson::Value payload = get_payload( this->doc);
-
-        //rapidjson::Value payload = this->doc["payload"];
-        //payload_test = this->doc["payload"];
 
         if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past get payload");
 
 
-
- 
-
-
-
-
         // command routing
-        /// \bug This may not guarantee that only one command will be run. That depends on whether
-        ///      JSON supports multiple elements with the same name or not.
         bool command_found = false;  // until proven otherwise
         for( this->map_itr = command_handlers_.begin() ;
              this->map_itr != command_handlers_.end(); this->map_itr++ ) {
@@ -399,23 +363,18 @@ public:
 
                 command_found = true;
                 
-                // dispatch command
-                //(*map_itr).second(this->doc); /// \bug change this to doc containing only
-                                              ///      "payload" Value
+                // dispatch payload to command handler
                 (*map_itr).second(this->doc["payload"]); 
+
+                break; // don't keep looping longer than necessary
             }
         }
 
-        // if does not exist, throw exception
+        // if command does not exist, throw exception
         if ( ! command_found) {
             if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into ! command_found if");
             throw "no match for command found in map"; 
         }
-
-
-
-
-
 
         return command_found; // should always be true if execution falls through to here
     }
@@ -464,11 +423,14 @@ int main()
     //command_dispatcher.addCommandHandler( "help", controller.help); //needs static
 
     //DEBUG
+    try { command_dispatcher.dispatchCommand(help_command_fail); } // should fail
+    catch (const char* e) { cout << "Oops, " << e << ". Please try again." << endl; }
+    cout << "\n\n\n"; // */
     try { command_dispatcher.dispatchCommand(help_command); }
     catch (const char* e) { cout << "Oops, " << e << ". Please try again." << endl; }
     cout << "\n\n\n"; // */
-    /*try { command_dispatcher.dispatchCommand(help_command_debug); }
-    catch (const char* e) { cout << "Oops, " << e << ". Please try again." << endl; }
+    try { command_dispatcher.dispatchCommand(exit_command_fail); }  // should fail
+    catch (const char* e) { cout << "Oops, " << e << ". Please try again." << endl; }    
     cout << "\n\n\n"; // */
     try { command_dispatcher.dispatchCommand(exit_command); }
     catch (const char* e) { cout << "Oops, " << e << ". Please try again." << endl; }
