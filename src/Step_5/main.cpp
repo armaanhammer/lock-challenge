@@ -77,6 +77,15 @@ auto exit_command = R"(
  }
 )";
 
+auto help_command_debug = R"(
+ {
+  "command":"help",
+  "payload": {
+     "reason":"Helping user on program request."
+  }
+ }
+)";
+
 
 /** \brief controller class of functions to "dispatch" from Command Dispatcher
  *
@@ -142,6 +151,19 @@ public:
 
         return true;
     }
+
+    static bool write_json(rapidjson::Value &payload) 
+    {
+        cout << "Controller::write_json command: \n";
+
+        // implement
+
+        return true;
+    }
+
+
+
+
 
 
 
@@ -211,7 +233,8 @@ public:
         /// add command and handler pair to map
         auto test = command_handlers_.insert( std::make_pair( command, handler));
 
-        //cout << test << endl;
+        // DEBUG
+        //cout << str(test) << endl;
 
         
         //if( command_handlers_.insert( std::make_pair( command, handler))) {
@@ -275,6 +298,9 @@ public:
             if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into itr_p if"); 
             /// \bug of course this won't work, it's not a string.
             //printf("%s\n", itr_p->value.GetString());
+            
+            // create a new doc containing only "payload" Value
+
         }
         // if does not exist, throw exception
         else { throw "no member \"payload\" present in JSON"; }
@@ -299,7 +325,7 @@ public:
 
 
 
-        /*
+        
         // 3. Stringify the DOM
         StringBuffer buffer;
         Writer<StringBuffer> writer(buffer);
@@ -322,15 +348,20 @@ public:
                      << " Attempting to start command handler" << endl;
 
                 command_found = true;
-                (*map_itr).second(this->doc);  // dispatch command
+                
+                // dispatch command
+                (*map_itr).second(this->doc); /// \bug change this to doc containing only
+                                              ///      "payload" Value
             }
-            // if does not exist, throw exception
-            else { 
-                if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into else for some reason");
-                throw "no match for command found in map"; 
-            }
-            // */
         }
+
+        // if does not exist, throw exception
+        if ( ! command_found) {
+            if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into ! command_found if");
+            throw "no match for command found in map"; 
+        }
+
+
 
             //cout << (*it).first << " => " << (*it).second << endl;
         /*
@@ -350,10 +381,29 @@ private:
 
     std::map<std::string, CommandHandler> command_handlers_; /// map of command handlers
 
-    rapidjson::Document doc;  // DOM API document 
+    std::map<std::string, CommandHandler>::iterator map_itr = 
+        this->command_handlers_.begin(); /// iterator for the map
 
-    // create an iterator for the map
-    std::map<std::string, CommandHandler>::iterator map_itr = this->command_handlers_.begin();
+    rapidjson::Document doc;  // DOM API document
+
+    
+    /** \brief return payload
+     *
+     * \note This might add needless complexity
+     */
+    bool get_payload(rapidjson::Value &payload)
+    {
+         //cout << "Controller::get_payload command: \n";
+
+
+
+
+
+        return true;
+    }       
+
+
+
 
     // Question: why delete these?
     //
@@ -384,14 +434,18 @@ int main()
     command_dispatcher.addCommandHandler( "help", controller.help); //needs static
     command_dispatcher.addCommandHandler( "exit", controller.exit); //maybe use std::bind instead
 
+    //DEBUG - should fail because already exists in map
+    command_dispatcher.addCommandHandler( "help", controller.help); //needs static
+
     //DEBUG
-    try {
-        command_dispatcher.dispatchCommand(help_command);
-    }
-    catch (const char* e)
-    {
-        cout << "Oops, " << e << ". Please try again." << endl;
-    }
+    try { command_dispatcher.dispatchCommand(help_command); }
+    catch (const char* e) { cout << "Oops, " << e << ". Please try again." << endl; }
+    cout << "\n\n\n";
+    try { command_dispatcher.dispatchCommand(help_command_debug); }
+    catch (const char* e) { cout << "Oops, " << e << ". Please try again." << endl; }
+    cout << "\n\n\n";
+    try { command_dispatcher.dispatchCommand(exit_command); }
+    catch (const char* e) { cout << "Oops, " << e << ". Please try again." << endl; }
 
     // command line interface for testing
     string command;
