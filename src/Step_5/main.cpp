@@ -54,6 +54,17 @@ void DBG_PRNTR(std::string id, std::string msg) {
 
 
 
+/** \brief EXCEPTION HANDLER function
+ *
+ *  \param excpt a const char* containing a message
+ * 
+ * Prints to standard out
+ * \warning NOT thread-safe; must be called within a thread-safe scope
+ */
+void ExceptionPrinter(const char* excpt) {
+    cout << "\nOops, " << excpt << ". Please try again.\n\n" << endl; 
+}
+
 
 
 //
@@ -96,6 +107,7 @@ auto exit_command = R"(
 )";
 
 
+
 /** \brief controller class of functions to "dispatch" from Command Dispatcher
  *
  */
@@ -135,6 +147,7 @@ public:
         return true;
     }
     
+
     /** \brief command handler for exit
      *
      * \param payload a JSON string possibly containing a reason
@@ -164,6 +177,10 @@ public:
         return true;
     }
 
+
+    // implement 3-4 more commands
+
+
     /** \brief command handler for add 
      *
      * Still am not sure what kind of functionality I need inside of this class.
@@ -179,6 +196,7 @@ public:
         return true;
     }
 
+
     static bool write_json(rapidjson::Value &payload) 
     {
         cout << "Controller::write_json command: \n";
@@ -189,20 +207,12 @@ public:
     }
 
 
-
-
-
-
-
-
-
-    // implement 3-4 more commands
-
-
 private:
     //static std::string CUR_SCOPE = "class Controller";     // DEBUG
 
 };
+
+
 
 // Bonus Question: why did I type cast this?
 // typedef: to make life easier
@@ -219,9 +229,8 @@ public:
         // What goes in here likely depends on how the map is going to be 
         // populated.
         
-
-
     }
+
 
     // dtor - need impl
     virtual ~CommandDispatcher()
@@ -248,40 +257,21 @@ public:
     {
         cout << "CommandDispatcher: addCommandHandler: " << command << std::endl;
 
-        bool ret_val = true;
+        bool add_succeeded = true;
 
-        // implement
-        //
-        // I think I need to use this to add commands to the map (private memeber
-        // of this class). I'm not sure if I am supposed to call this programatically
-        // or statically. ie. Do I create a function that iterates through the public
-        // members of the Controller class and dynamically (at compile time, or maybe
-        // even at runtime) adds them to the map? Or am I supposed to just manually 
-        // write functions that do that inside of main()?
-        //
-        // It looks like C++ is not able to implement a programmatic enumberation of
-        // a class's public member functions, so I need to do it manually in main().
-        
         /// add command and handler pair to map
         auto test = command_handlers_.insert( std::make_pair( command, handler));
 
-        // DEBUG
-        //cout << str(test) << endl;
-
-        
-        //if( command_handlers_.insert( std::make_pair( command, handler))) {
-        //if( test == std::make_pair( command, handler)) {
         if( test.second == false) {
             cout << "Command " << command << " already existed. Addition failed" << endl;
-            //cout << " with a value of " << ret.first->second << '\n';
-            ret_val = false;
+            add_succeeded = false;
         }
         else {
             cout << "Command " << command << " added to map." << endl;
             
-        } // */
+        }// */
 
-        return ret_val;
+        return add_succeeded;
     }
 
 
@@ -318,7 +308,7 @@ public:
         // safely check for a value "command"
         if (itr_c != this->doc.MemberEnd()) {
             if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into itr_c if"); 
-            printf("%s\n", itr_c->value.GetString()); /// \bug change to shared_print?
+            cout << "found command: " << itr_c->value.GetString() << endl; /// \bug change to shared_print?
         }
         // if does not exist, throw exception
         else { throw "no member \"command\" present in JSON"; }
@@ -327,12 +317,16 @@ public:
 
         // safely check for a value "payload"
         if (itr_p != this->doc.MemberEnd()) {
-            if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into itr_p if"); 
-            /// \bug of course this won't work, it's not a string.
-            //printf("%s\n", itr_p->value.GetString());
-            
-            // create a new doc containing only "payload" Value
+            if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into itr_p if");
 
+            // DEBUG - stringify the value
+            StringBuffer buffer;
+            Writer<StringBuffer> writer(buffer);
+            itr_p->value.Accept(writer);
+            // */
+
+            cout << "found payload: " 
+                 << buffer.GetString() << endl; /// \bug change to shared_print?
         }
         // if does not exist, throw exception
         else { throw "no member \"payload\" present in JSON"; }
@@ -342,7 +336,7 @@ public:
         if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past iterators");
 
         // DEBUG - stringify the DOM
-        StringBuffer buffer;
+        /*StringBuffer buffer;
         Writer<StringBuffer> writer(buffer);
         this->doc.Accept(writer);
         std::cout << buffer.GetString() << std::endl;
@@ -359,7 +353,7 @@ public:
             // try to find match in map for command string
             if( itr_c->value.GetString() == (*map_itr).first ) {
                 cout << itr_c->value.GetString() << " matched a value in map!" << endl
-                     << " Attempting to start command handler" << endl;
+                     << "Attempting to start command handler" << endl;
 
                 command_found = true;
                 
@@ -408,33 +402,26 @@ int main()
     std::cout << "COMMAND DISPATCHER: STARTED" << std::endl;
 
     CommandDispatcher command_dispatcher;
-    Controller controller;                 // controller class of functions to "dispatch" from Command Dispatcher
+    Controller controller;  // controller class of functions to "dispatch" from Command Dispatcher
 
-    // Implement
-    // add command handlers in Controller class to CommandDispatcher using addCommandHandler
-    //
-    // Using polymorphism? Probably not
-    
-    // Add available commands manually
+    // Add available command handlers in Controller class to CommandDispatcher manually
     command_dispatcher.addCommandHandler( "help", controller.help); //needs static
     command_dispatcher.addCommandHandler( "exit", controller.exit); //maybe use std::bind instead
 
     //DEBUG - should fail because already exists in map
     //command_dispatcher.addCommandHandler( "help", controller.help); //needs static
 
-    //DEBUG
+    
+    //DEBUG - send commands
     try { command_dispatcher.dispatchCommand(help_command_fail); } // should fail
-    catch (const char* e) { cout << "Oops, " << e << ". Please try again." << endl; }
-    cout << "\n\n\n"; // */
+    catch (const char* excpt) { ExceptionPrinter(excpt); } // handle exception
     try { command_dispatcher.dispatchCommand(help_command); }
-    catch (const char* e) { cout << "Oops, " << e << ". Please try again." << endl; }
-    cout << "\n\n\n"; // */
+    catch (const char* excpt) { ExceptionPrinter(excpt); } 
     try { command_dispatcher.dispatchCommand(exit_command_fail); }  // should fail
-    catch (const char* e) { cout << "Oops, " << e << ". Please try again." << endl; }    
-    cout << "\n\n\n"; // */
+    catch (const char* excpt) { ExceptionPrinter(excpt); } 
     try { command_dispatcher.dispatchCommand(exit_command); }
-    catch (const char* e) { cout << "Oops, " << e << ". Please try again." << endl; }
-    // */
+    catch (const char* excpt) { ExceptionPrinter(excpt); } 
+
 
     // command line interface for testing
     string command;
@@ -442,15 +429,8 @@ int main()
         cout << "COMMANDS: {\"command\":\"exit\", \"payload\":{\"reason\":\"User requested exit.\"}}\n";
         cout << "\tenter command : ";
         getline(cin, command);
-        try {
-            command_dispatcher.dispatchCommand(command);
-        }
-        catch (const char* e)
-        {
-            cout << "Oops, " << e << ". Please try again." << endl;
-        }
-
-
+        try { command_dispatcher.dispatchCommand(command); }
+        catch (const char* excpt) { ExceptionPrinter(excpt); } 
     }
 
     std::cout << "COMMAND DISPATCHER: ENDED" << std::endl;
