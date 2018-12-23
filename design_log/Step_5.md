@@ -64,6 +64,7 @@ start Command Dispatch
   * passes exceptions from Controller back to main
 * Controller()
   * performs commanded functions
+  * functions check whether their individual parameters are satisfied.
   * prints success to user
   * passes failures as exceptions back to CommandDispatcher
   
