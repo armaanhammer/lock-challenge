@@ -188,6 +188,8 @@ So, the raw JSON is:
 Brainstorming
 ---
 
+### Adding command handlers to map
+
 Trying to think of a way to programmatically populate a map with member functions of a class.
 
 Have a class with a bunch of members:
@@ -227,7 +229,50 @@ private:
 ```
 
 I think I am supposed to either traverse the Controller class and populate the map in CommandDispatcher based on the member functions of the Controller class. Or, I am supposed to do the opposite, and populate member functions in the Controller class based on what's in the map. That second thing doesn't seem possible in C++, so I assume it's the first thing I'm supposed to do.
-  
+
+Deciding to manually add the functions in main()
+
+### Controller::help
+
+        // implement
+        //
+        // print payload value "usage"
+        //
+        // Q: What condition might trigger a false return?
+        //
+        // Q: Should gatekeeping be performed prior to this 
+        // function call? i.e. if this function is called, 
+        // should it assume that the payload has a value "usage"?
+        //    If so, likey the map will need to be queried for 
+        //    allowable values to pass in.
+        //    If not, then this function should probably 
+        //    return false if no value "usage" exists in payload.
+        
+### CommandDispatcher::~CommandDispatcher
+
+        // question why is it virtual? Is it needed in this case?
+        //
+        // AFAIK, virtual refers to members that an inhereting class will have
+        // but the current class does not. I'm not sure why a class would not
+        // have a destructor. Maybe this class only uses the implicit destructor,
+        // but inhereting classes need more complex ones?
+        //
+        // Still not sure why this class would need to be inhereted yet though.
+
+### CommandDispatcher::addCommandHandler
+
+        // implement
+        //
+        // I think I need to use this to add commands to the map (private memeber
+        // of this class). I'm not sure if I am supposed to call this programatically
+        // or statically. ie. Do I create a function that iterates through the public
+        // members of the Controller class and dynamically (at compile time, or maybe
+        // even at runtime) adds them to the map? Or am I supposed to just manually 
+        // write functions that do that inside of main()?
+        //
+        // It looks like C++ is not able to implement a programmatic enumberation of
+        // a class's public member functions, so I need to do it manually in main().
+ 
   
 <br>
 
