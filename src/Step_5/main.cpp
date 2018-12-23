@@ -59,11 +59,20 @@ void DBG_PRNTR(std::string id, std::string msg) {
 //
 // TEST COMMANDS
 //
-auto help_command = R"(
+/*auto help_command = R"(
  {
   "command":"help",
   "payload": {
     "usage":"Enter json command in 'command':'<command>','payload': { // json payload of arguments }",
+  }
+ }
+)"; // */ // I don't have a damn clue why this one doesn't work.
+
+auto help_command = R"(
+ {
+  "command":"help",
+  "payload": {
+     "usage":"Enter json command in 'command':'<command>','payload': { // json payload of arguments }"
   }
  }
 )";
@@ -77,14 +86,16 @@ auto exit_command = R"(
  }
 )";
 
-auto help_command_debug = R"(
+
+auto help_command_fail = R"(
  {
   "command":"help",
   "payload": {
-     "reason":"Helping user on program request."
+     "reason":"Write something."
   }
  }
 )";
+
 
 
 /** \brief controller class of functions to "dispatch" from Command Dispatcher
@@ -95,6 +106,8 @@ class Controller {
 public:
 
     /** \brief command handler for help
+     *
+     * \param payload a JSON string possibly containing a reason
      *
      */
     static bool help(rapidjson::Value &payload)
@@ -115,6 +128,40 @@ public:
         //    If not, then this function should probably 
         //    return false if no value "usage" exists in payload.
         
+        // 3. Stringify the DOM
+        StringBuffer buffer;
+        Writer<StringBuffer> writer(buffer);
+        payload.Accept(writer);
+        // Output {"project":"rapidjson","stars":11}
+        std::cout << buffer.GetString() << std::endl;
+        // */
+        
+        /*
+        // parse the received string
+        payload.Parse(command_ptr);
+        if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past payload.Parse");
+
+        // check if JSON passed in. If not, throw error.
+        if(payload.HasParseError()) { throw "payload has malformed JSON"; }
+        if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past payload.HasParseError");
+
+
+        // create iterator to look for "usage".
+        rapidjson::Value::ConstMemberIterator itr_r = this->doc.FindMember("command");
+
+
+        // safely check for a value "usage"
+        if (itr_r != this->doc.MemberEnd()) {
+            if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into itr_r if"); 
+            printf("%s\n", itr_c->value.GetString()); /// \bug change to shared_print?
+        }
+        // if does not exist, throw exception
+        else { throw "no member \"usage\" present in payload JSON"; }
+        // */
+
+        
+
+
 
 
         return true;
@@ -170,6 +217,11 @@ public:
 
 
     // implement 3-4 more commands
+
+
+private:
+    std::string CUR_SCOPE = "class Controller";     // DEBUG
+
 };
 
 // Bonus Question: why did I type cast this?
@@ -261,7 +313,7 @@ public:
      */
     bool dispatchCommand(std::string command_json)
     {
-        cout << "COMMAND: " << command_json << endl;
+        cout << "\nCOMMAND: " << command_json << endl;
         if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it to dispatchCommand"); 
 
         const char *command_ptr = command_json.c_str();  /// \bug maybe typecast instead?
@@ -309,22 +361,6 @@ public:
 
         if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past iterators");
 
-
-        // This won't work because payload is a value containing more values
-        // ValueTurtles all the way down!
-        //
-        // need to safely check and get value for payload
-        // (array of values?)
-        /*
-        if (itr_p != this->doc.MemberEnd()) {
-            if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into itr_p for loop"); 
-
-            printf("%s\n", itr_p->value.GetString()); 
-        }// */ 
-
-
-
-
         
         // 3. Stringify the DOM
         StringBuffer buffer;
@@ -333,6 +369,20 @@ public:
         // Output {"project":"rapidjson","stars":11}
         std::cout << buffer.GetString() << std::endl;
         // */
+        
+        // get payload
+        //rapidjson::Value payload = get_payload( this->doc);
+
+        //rapidjson::Value payload = this->doc["payload"];
+        //payload_test = this->doc["payload"];
+
+        if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past get payload");
+
+
+
+ 
+
+
 
 
         // command routing
@@ -350,8 +400,9 @@ public:
                 command_found = true;
                 
                 // dispatch command
-                (*map_itr).second(this->doc); /// \bug change this to doc containing only
+                //(*map_itr).second(this->doc); /// \bug change this to doc containing only
                                               ///      "payload" Value
+                (*map_itr).second(this->doc["payload"]); 
             }
         }
 
@@ -363,12 +414,6 @@ public:
 
 
 
-            //cout << (*it).first << " => " << (*it).second << endl;
-        /*
-        if( itr_c->value.GetString() == "exit" ) {
-            //command_dispatcher.addCommandHandler( "help", controller.help); //needs static
-            command_handlers_[exit](this->doc);
-        }// */
 
 
 
@@ -385,25 +430,6 @@ private:
         this->command_handlers_.begin(); /// iterator for the map
 
     rapidjson::Document doc;  // DOM API document
-
-    
-    /** \brief return payload
-     *
-     * \note This might add needless complexity
-     */
-    bool get_payload(rapidjson::Value &payload)
-    {
-         //cout << "Controller::get_payload command: \n";
-
-
-
-
-
-        return true;
-    }       
-
-
-
 
     // Question: why delete these?
     //
@@ -435,17 +461,18 @@ int main()
     command_dispatcher.addCommandHandler( "exit", controller.exit); //maybe use std::bind instead
 
     //DEBUG - should fail because already exists in map
-    command_dispatcher.addCommandHandler( "help", controller.help); //needs static
+    //command_dispatcher.addCommandHandler( "help", controller.help); //needs static
 
     //DEBUG
     try { command_dispatcher.dispatchCommand(help_command); }
     catch (const char* e) { cout << "Oops, " << e << ". Please try again." << endl; }
-    cout << "\n\n\n";
-    try { command_dispatcher.dispatchCommand(help_command_debug); }
+    cout << "\n\n\n"; // */
+    /*try { command_dispatcher.dispatchCommand(help_command_debug); }
     catch (const char* e) { cout << "Oops, " << e << ". Please try again." << endl; }
-    cout << "\n\n\n";
+    cout << "\n\n\n"; // */
     try { command_dispatcher.dispatchCommand(exit_command); }
     catch (const char* e) { cout << "Oops, " << e << ". Please try again." << endl; }
+    // */
 
     // command line interface for testing
     string command;
