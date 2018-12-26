@@ -84,7 +84,7 @@ auto help_command_fail = R"(
  {
   "command":"help",
   "payload": {
-     "reason":"Write something."
+     "reason":"Not usage."
   }
  }
 )";
@@ -96,8 +96,9 @@ auto exit_command = R"(
      "reason":"Exiting program on user request."
   }
  }
+)";
 
-)";auto exit_command_fail = R"(
+auto exit_command_fail = R"(
  {
   "command":"exit",
   "payload": {
@@ -106,6 +107,14 @@ auto exit_command = R"(
  }
 )";
 
+auto sum_command = R"(
+ {
+  "command": "sum",
+  "payload":" {
+     "addends": [1, 2, 3, 4]
+  }
+ }
+)";
 
 
 /** \brief controller class of functions to "dispatch" from Command Dispatcher
@@ -118,7 +127,7 @@ public:
      *
      * \param payload a JSON string possibly containing a "usage" message
      *
-     * \return true if command handled successfully
+     * \return true if command handled successfully, otherwise generate exception
      */
     static bool help(rapidjson::Value &payload)
     {
@@ -152,6 +161,7 @@ public:
      *
      * \param payload a JSON string possibly containing a reason
      *
+     * \return true if command handled successfully, otherwise generate exception
      */
     static bool exit(rapidjson::Value &payload)
     {
@@ -187,11 +197,13 @@ public:
      * Perhaps everything just need to print or control program flow? If so this
      * function will be useless and should be removed.
      */
-    bool add(rapidjson::Value &payload)
+    bool (rapidjson::Value &payload)
     {
-        cout << "Controller::add command: \n";
+        cout << "Controller::sum command: \n";
 
         // implement
+
+
 
         return true;
     }
@@ -412,7 +424,8 @@ int main()
     //command_dispatcher.addCommandHandler( "help", controller.help); //needs static
 
     
-    //DEBUG - send commands
+    // DEBUG - send commands
+    // uncomment to rapidly test all functionality
     try { command_dispatcher.dispatchCommand(help_command_fail); } // should fail
     catch (const char* excpt) { ExceptionPrinter(excpt); } // handle exception
     try { command_dispatcher.dispatchCommand(help_command); }
@@ -420,7 +433,10 @@ int main()
     try { command_dispatcher.dispatchCommand(exit_command_fail); }  // should fail
     catch (const char* excpt) { ExceptionPrinter(excpt); } 
     try { command_dispatcher.dispatchCommand(exit_command); }
-    catch (const char* excpt) { ExceptionPrinter(excpt); } 
+    catch (const char* excpt) { ExceptionPrinter(excpt); }
+    try { command_dispatcher.dispatchCommand(sum_command); }
+    catch (const char* excpt) { ExceptionPrinter(excpt); }
+    // */
 
 
     // command line interface for testing
