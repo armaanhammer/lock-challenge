@@ -28,22 +28,22 @@
 using namespace rapidjson;
 using namespace std;
 
+// Operational globals. Do not change.
 bool g_done = false;
 
 
-//DEBUG
-//StringBuffer buffer;
-
-
-
+// User globals. Ok to change.
+bool TEST_ALL = true;        // test all functionality before prompting user
 bool DEBUG = false;          // turn on debug messages
+
+
 
 /** \brief DEBUG PRINTER function
  *
  *  \param id an integer that defines thread number (0 for main)
  *  \param msg a string containing message to be printed
  *
- * Prints to standard out
+ * Prints to standard error
  * \warning NOT thread-safe; must be called within a thread-safe scope
  */
 void DBG_PRNTR(std::string id, std::string msg) {
@@ -110,11 +110,41 @@ auto exit_command_fail = R"(
 auto sum_command = R"(
  {
   "command": "sum",
-  "payload":" {
-     "addends": [1, 2, 3, 4]
+  "payload": {
+     "addends": [1, 2, 3]
   }
  }
 )";
+
+auto sum_command_large = R"(
+ {
+  "command": "sum",
+  "payload": {
+     "addends": [1, 2, 3, 4, 5, 100, 999999999, -1, 0, -999]
+  }
+ }
+)";
+
+auto sum_fail_1 = R"(
+ {
+  "command": "sum",
+  "payload": {
+     "addends": ["apples", "oranges", "turtles"]
+  }
+ }
+)";
+
+auto sum_fail_2 = R"(
+ {
+  "command": "sum",
+  "payload": {
+     "well":"formed"
+     "json":"test"
+  }
+ }
+)";
+
+
 
 
 /** \brief controller class of functions to "dispatch" from Command Dispatcher
@@ -197,11 +227,54 @@ public:
      * Perhaps everything just need to print or control program flow? If so this
      * function will be useless and should be removed.
      */
-    bool (rapidjson::Value &payload)
+    static bool sum(rapidjson::Value &payload)
     {
         cout << "Controller::sum command: \n";
 
-        // implement
+        // create iterator to look for "addends".
+        rapidjson::Value::ConstMemberIterator itr = payload.FindMember("addends");
+
+        // safely check for a value "reason"
+        if (itr != payload.MemberEnd()) {
+
+            // value exists. check for array of numbers
+            //
+            // note: probably need to differntiate between ints and floats
+            // rapidJSON does not distinguish between the two, but C++ does
+
+            // reference for consecutive access
+            const Value& a = payload["addends"];
+            
+            for (Value::ConstValueIterator itr_a = a.Begin(); itr_a != a.End(); ++itr_a) {
+                
+                //printf("Type of member %s is %s\n",
+                //        itr->name.GetString(), kTypeNames[itr->value.GetType()]);
+            }
+
+
+
+    
+               
+               //printf("%d ", itr_a->GetInt()); 
+
+
+            if ( true ) {
+
+                // numbers exist. add them together (even if array of only 1 element)
+
+                // print sum to user
+                cout << itr->value.GetString() << endl; /// \bug change to shared_print?
+
+
+            }
+            // if numbers do not exist, throw exception
+            else { throw "no numbers exist in \"addends\" array, or \"addends\" not array"; }
+            
+
+        }
+        // if does not exist, throw exception
+        else { throw "no member \"addends\" present in payload JSON"; }
+        // */
 
 
 
@@ -209,11 +282,20 @@ public:
     }
 
 
-    static bool write_json(rapidjson::Value &payload) 
+    static bool query_payload(rapidjson::Value &payload) 
     {
-        cout << "Controller::write_json command: \n";
+        cout << "Controller::payload_type command: \n";
 
-        // implement
+        // array storing typenames
+        static const char* kTypeNames[] = { "Null", "False", "True", "Object", "Array", 
+                                            "String", "Number" };
+
+        // 
+        for (Value::ConstMemberIterator itr = payload.MemberBegin();
+                itr != payload.MemberEnd(); ++itr) {
+            printf("Type of member %s is %s\n",
+                    itr->name.GetString(), kTypeNames[itr->value.GetType()]);
+        }
 
         return true;
     }
@@ -417,10 +499,11 @@ int main()
     Controller controller;  // controller class of functions to "dispatch" from Command Dispatcher
 
     // Add available command handlers in Controller class to CommandDispatcher manually
-    command_dispatcher.addCommandHandler( "help", controller.help); //needs static
-    command_dispatcher.addCommandHandler( "exit", controller.exit); //maybe use std::bind instead
+    command_dispatcher.addCommandHandler( "help", controller.help); // needs static functions
+    command_dispatcher.addCommandHandler( "exit", controller.exit); // maybe use std::bind instead
+    command_dispatcher.addCommandHandler( "sum", controller.sum);   // and change to non-static
 
-    //DEBUG - should fail because already exists in map
+    // DEBUG - should generate warning on fail because already exists in map
     //command_dispatcher.addCommandHandler( "help", controller.help); //needs static
 
     
