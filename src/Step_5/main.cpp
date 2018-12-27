@@ -177,6 +177,7 @@ auto query_payload_command_2 = R"(
 )";
 
 
+
 /** \brief controller class of functions to "dispatch" from Command Dispatcher
  *
  */
@@ -312,6 +313,14 @@ public:
     }
 
 
+    /** \brief command handler for query_payload
+     *
+     * \param payload a JSON string possibly containing any allowed JSON value(s)
+     *
+     * \return true if command handled successfully, otherwise generate exception
+     *
+     * \sa derived from: http://rapidjson.org/md_doc_tutorial.html#QueryObject
+     */
     static bool query_payload(rapidjson::Value &payload) 
     {
         cout << "Controller::payload_type command: \n";
@@ -561,6 +570,7 @@ int main()
     // command line interface for testing
     string command;
     while( ! g_done ) {
+        cout << "\n\n\n";
         cout << "COMMANDS: {\"command\":\"exit\", \"payload\":{\"reason\":\"User requested exit.\"}}\n";
         cout << "\tenter command : ";
         getline(cin, command);
