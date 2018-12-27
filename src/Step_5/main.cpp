@@ -125,7 +125,7 @@ auto sum_command_large = R"(
  }
 )";
 
-auto sum_fail_1 = R"(
+auto sum_command_fail_1 = R"(
  {
   "command": "sum",
   "payload": {
@@ -134,17 +134,47 @@ auto sum_fail_1 = R"(
  }
 )";
 
-auto sum_fail_2 = R"(
+auto sum_command_fail_2 = R"(
  {
   "command": "sum",
   "payload": {
-     "well":"formed"
+     "well":"formed",
      "json":"test"
   }
  }
 )";
 
+auto query_payload_command = R"(
+ {
+  "command": "query_payload",
+  "payload": {
+     "well":"formed",
+     "json":"test",
+     "a": [1,2,3,4],
+     "number1":1,
+     "number2":34.7,
+     "b": [
+        "something":"more",
+        "here":"too"
+        ]
+  }
+ }
+)";
 
+auto query_payload_command_2 = R"(
+ {
+    "command": "query_payload",
+    "payload": {
+      "hello": "world",
+      "t": true ,
+      "f": false,
+      "n": null,
+      "i": 123,
+      "pi": 3.1416,
+      "a": [1, 2, 3, 4]
+   }
+ }
+)";
 
 
 /** \brief controller class of functions to "dispatch" from Command Dispatcher
@@ -502,6 +532,7 @@ int main()
     command_dispatcher.addCommandHandler( "help", controller.help); // needs static functions
     command_dispatcher.addCommandHandler( "exit", controller.exit); // maybe use std::bind instead
     command_dispatcher.addCommandHandler( "sum", controller.sum);   // and change to non-static
+    command_dispatcher.addCommandHandler( "query_payload", controller.query_payload); 
 
     // DEBUG - should generate warning on fail because already exists in map
     //command_dispatcher.addCommandHandler( "help", controller.help); //needs static
@@ -513,12 +544,17 @@ int main()
     catch (const char* excpt) { ExceptionPrinter(excpt); } // handle exception
     try { command_dispatcher.dispatchCommand(help_command); }
     catch (const char* excpt) { ExceptionPrinter(excpt); } 
-    try { command_dispatcher.dispatchCommand(exit_command_fail); }  // should fail
+
+    /*try { command_dispatcher.dispatchCommand(sum_command); }
+    catch (const char* excpt) { ExceptionPrinter(excpt); } // */
+    
+    try { command_dispatcher.dispatchCommand(query_payload_command_2); }
+    catch (const char* excpt) { ExceptionPrinter(excpt); }
+    
+    /*try { command_dispatcher.dispatchCommand(exit_command_fail); }  // should fail
     catch (const char* excpt) { ExceptionPrinter(excpt); } 
     try { command_dispatcher.dispatchCommand(exit_command); }
-    catch (const char* excpt) { ExceptionPrinter(excpt); }
-    try { command_dispatcher.dispatchCommand(sum_command); }
-    catch (const char* excpt) { ExceptionPrinter(excpt); }
+    catch (const char* excpt) { ExceptionPrinter(excpt); }   
     // */
 
 
