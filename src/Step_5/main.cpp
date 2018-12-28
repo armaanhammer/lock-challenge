@@ -313,14 +313,52 @@ public:
             // note: probably need to differntiate between ints and floats
             // rapidJSON does not distinguish between the two, but C++ does
 
+            bool has_number = false; // checking if array has numbers
+            bool only_ints = false; // checking if all numbers in array are ints
+            int num_elements = 0; // efficient vector allocation
+
             // reference for consecutive access
             const Value& a = payload["addends"];
+
+            // initial loop for vector allocation optimization
+            try { for (auto& v : a.GetArray()) ++num_elements; }
+            catch { throw "payload value \"addends\" is not an array"; }
+
+            // try assuming ints
+            try {
+
+                vector<int> 
+                // loop through array
+                for (auto& v : a.GetArray()) {
+
+                    if ( v.GetInt() ) {
+                        has_number = true;
+                    }
+                }
+            } 
+            // try assuming floats
+            catch {
+                try {
+
+                }
+            }
+
             
-            for (Value::ConstValueIterator itr_a = a.Begin(); itr_a != a.End(); ++itr_a) {
+            
+
+
+
+            // verify that elements are safe. Throw exception if not
+            // if numbers do not exist, throw exception
+            else { throw "no numbers exist in \"addends\" array, or \"addends\" not array"; }
+
+            
+            
+            /*for (Value::ConstValueIterator itr_a = a.Begin(); itr_a != a.End(); ++itr_a) {
                 
                 //printf("Type of member %s is %s\n",
                 //        itr->name.GetString(), kTypeNames[itr->value.GetType()]);
-            }
+            } // */
 
 
 
@@ -334,13 +372,11 @@ public:
                 // numbers exist. add them together (even if array of only 1 element)
 
                 // print sum to user
-                cout << itr->value.GetString() << endl; /// \bug change to shared_print?
+                //cout << itr->value.GetString() << endl; /// \bug change to shared_print?
 
 
             }
-            // if numbers do not exist, throw exception
-            else { throw "no numbers exist in \"addends\" array, or \"addends\" not array"; }
-            
+                        
 
         }
         // if does not exist, throw exception
@@ -365,14 +401,15 @@ public:
 
 
         //DEBUG
-        vector<int> test1 = { 1, 2, 3, 4, 5 };
-        int return1 = summation(&test1);
+        /*vector<int> test1 = { 1, 2, 3, 4, 5 };
+        int return1 = summation(test1);
         cout << return1 << endl;
         
-        /*float test2[] = { 1.1, 2.2, 3.3, 4.4, 5.5 };
+        vector<float> test2 = { 1.1, 2.2, 3.3, 4.4, 5.5 };
         float return2 = summation(test2);
         cout << return2 << endl;
-        double test3[] = { 1.1, 2.2, 3.3, 4.4, 5.5 };
+
+        vector<double> test3 = { 1.1, 2.2, 3.3, 4.4, 5.5 };
         double return3 = summation(test3);
         cout << return3 << endl;
         // */
@@ -393,8 +430,8 @@ private:
     /* \brief summation function for sum() and mean()
      *
      */
-    /*template<typename T>
-    static auto summation(T collection[]) -> T {
+    template<typename T>
+    static auto summation(vector<T> collection) -> T {
 
         T sum = 0; // initialize 
         
@@ -633,19 +670,19 @@ int main()
     
     // DEBUG - send commands
     // uncomment to rapidly test all functionality
-    try { command_dispatcher.dispatchCommand(help_command_fail); } // should fail
+    /*try { command_dispatcher.dispatchCommand(help_command_fail); } // should fail
     catch (const char* excpt) { ExceptionPrinter(excpt); } // handle exception
     try { command_dispatcher.dispatchCommand(help_command); }
-    catch (const char* excpt) { ExceptionPrinter(excpt); } 
+    catch (const char* excpt) { ExceptionPrinter(excpt); } // */
 
-    /*try { command_dispatcher.dispatchCommand(sum_command); }
+    try { command_dispatcher.dispatchCommand(sum_command); }
     catch (const char* excpt) { ExceptionPrinter(excpt); } // */
     
-    try { command_dispatcher.dispatchCommand(query_payload_command_2); }
+    /*try { command_dispatcher.dispatchCommand(query_payload_command_2); }
     catch (const char* excpt) { ExceptionPrinter(excpt); }
 
     try { command_dispatcher.dispatchCommand(mean_command); }
-    catch (const char* excpt) { ExceptionPrinter(excpt); }
+    catch (const char* excpt) { ExceptionPrinter(excpt); } // */
     
     /*try { command_dispatcher.dispatchCommand(exit_command_fail); }  // should fail
     catch (const char* excpt) { ExceptionPrinter(excpt); } 
