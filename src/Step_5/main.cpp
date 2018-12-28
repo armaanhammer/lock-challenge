@@ -117,7 +117,7 @@ auto sum_command = R"(
  }
 )";
 
-auto sum_command_large = R"(
+auto sum_command_long = R"(
  {
   "command": "sum",
   "payload": {
@@ -313,36 +313,71 @@ public:
             // note: probably need to differntiate between ints and floats
             // rapidJSON does not distinguish between the two, but C++ does
 
-            bool has_number = false; // checking if array has numbers
+            //bool has_number = false; // checking if array has numbers
             bool only_ints = false; // checking if all numbers in array are ints
             int num_elements = 0; // efficient vector allocation
+            int sum_i = 0;
+            float sum_f = 0;
 
             // reference for consecutive access
             const Value& a = payload["addends"];
 
             // initial loop for vector allocation optimization
             try { for (auto& v : a.GetArray()) ++num_elements; }
-            catch { throw "payload value \"addends\" is not an array"; }
+            catch (const exception& e) { throw "payload value \"addends\" is not an array"; }
 
             // try assuming ints
             try {
 
-                vector<int> 
-                // loop through array
-                for (auto& v : a.GetArray()) {
+                // create vector and allocate
+                vector<int> collection_vect;
+                collection_vect.reserve(num_elements);
 
-                    if ( v.GetInt() ) {
-                        has_number = true;
-                    }
-                }
+                // loop through array again, filling vector
+                // GetInt will cause exception if element other than int present
+                /// \bug GitInt causes cord dump when tried on string, and exception
+                ///      not caught for some reason. Thinking I need to refactor this part.
+                for (auto& v : a.GetArray()) { collection_vect.push_back(v.GetInt()); }
+
+                if(DEBUG) cerr << "Made it past for loop in the int try" << endl;
+
+                only_ints = true;
+
+                sum_i = summation(collection_vect);
             } 
-            // try assuming floats
-            catch {
+            // try again assuming floats
+            // catch prevents this from being run unless exception in int section
+            catch (...) {
                 try {
 
+                    // create vector and allocate
+                    vector<float> collection_vect;
+                    collection_vect.reserve(num_elements);
+
+                    // loop through array again, filling vector
+                    // GetInt will cause exception if element other than float present
+                    for (auto& v : a.GetArray()) { collection_vect.push_back(v.GetFloat()); }
+
+                    if(DEBUG) cerr << "Made it past for loop in the float try" << endl;
+
+                    sum_f = summation(collection_vect);
                 }
+                catch (const exception& e) { 
+                    throw "elements other than ints and floats present in \"addends\" array"; 
+                }
+                
+                if(DEBUG) cerr << "about to throw at end of float loop" << endl;
+
+                //throw; // not sure if I need this. Worried extraneous exceptions might
+                       // not be handled properly if this is not present, but also
+                       // concerned that this will pass unneccessary exceptions back to
+                       // main when numbers other than ints are found.
             }
 
+            if(DEBUG) cerr << "made it beyond float catch throw" << endl;
+
+            if(only_ints) cout << "The sum is: " << sum_i << endl;
+            else          cout << "The sum is: " << sum_f << endl; 
             
             
 
@@ -350,7 +385,7 @@ public:
 
             // verify that elements are safe. Throw exception if not
             // if numbers do not exist, throw exception
-            else { throw "no numbers exist in \"addends\" array, or \"addends\" not array"; }
+            //else { throw "no numbers exist in \"addends\" array, or \"addends\" not array"; }
 
             
             
@@ -367,15 +402,7 @@ public:
                //printf("%d ", itr_a->GetInt()); 
 
 
-            if ( true ) {
 
-                // numbers exist. add them together (even if array of only 1 element)
-
-                // print sum to user
-                //cout << itr->value.GetString() << endl; /// \bug change to shared_print?
-
-
-            }
                         
 
         }
@@ -677,7 +704,14 @@ int main()
 
     try { command_dispatcher.dispatchCommand(sum_command); }
     catch (const char* excpt) { ExceptionPrinter(excpt); } // */
-    
+    try { command_dispatcher.dispatchCommand(sum_command_long); }
+    catch (const char* excpt) { ExceptionPrinter(excpt); } // */   
+
+    try { command_dispatcher.dispatchCommand(sum_command_fail_1); }
+    catch (const char* excpt) { ExceptionPrinter(excpt); } // */
+    try { command_dispatcher.dispatchCommand(sum_command_fail_2); }
+    catch (const char* excpt) { ExceptionPrinter(excpt); } // */    
+
     /*try { command_dispatcher.dispatchCommand(query_payload_command_2); }
     catch (const char* excpt) { ExceptionPrinter(excpt); }
 
