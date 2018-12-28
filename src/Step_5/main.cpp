@@ -4,6 +4,7 @@
 #include <iostream>
 #include <functional>
 #include <exception>
+#include <vector>
 
 //
 // supporting tools and software
@@ -143,6 +144,16 @@ auto sum_command_fail_2 = R"(
   }
  }
 )";
+
+auto mean_command = R"(
+ {
+  "command": "mean",
+  "payload": {
+     "collection": [1, 2, 3, 4, 5]
+  }
+ }
+)";
+
 
 auto query_payload_command = R"(
  {
@@ -348,12 +359,25 @@ public:
      * Perhaps everything just need to print or control program flow? If so this
      * function will be useless and should be removed.
      */
-    static bool (rapidjson::Value &payload)
+    static bool mean(rapidjson::Value &payload)
     {
         cout << "Controller::mean command: \n";
 
 
+        //DEBUG
+        vector<int> test1 = { 1, 2, 3, 4, 5 };
+        int return1 = summation(&test1);
+        cout << return1 << endl;
         
+        /*float test2[] = { 1.1, 2.2, 3.3, 4.4, 5.5 };
+        float return2 = summation(test2);
+        cout << return2 << endl;
+        double test3[] = { 1.1, 2.2, 3.3, 4.4, 5.5 };
+        double return3 = summation(test3);
+        cout << return3 << endl;
+        // */
+
+
 
 
         return true;
@@ -369,10 +393,26 @@ private:
     /* \brief summation function for sum() and mean()
      *
      */
-    template<typename T>
-    auto summation(T collection[]) -> T {
+    /*template<typename T>
+    static auto summation(T collection[]) -> T {
 
         T sum = 0; // initialize 
+        
+        // loop through array
+        for (auto& num : collection) {
+
+            // add current number to sum
+            sum += num;
+        }
+
+        if(DEBUG) cerr << sum << endl;
+
+        return sum;
+    } // */
+    
+    /*static auto summation(int collection[]) -> T {
+
+        int sum = 0; // initialize 
         
         // loop through array
         for (auto num : collection) {
@@ -384,7 +424,8 @@ private:
         if(DEBUG) cerr << sum << endl;
 
         return sum;
-    }
+    } // */
+
 };
 
 
@@ -584,6 +625,7 @@ int main()
     command_dispatcher.addCommandHandler( "exit", controller.exit); // maybe use std::bind instead
     command_dispatcher.addCommandHandler( "sum", controller.sum);   // and change to non-static
     command_dispatcher.addCommandHandler( "query_payload", controller.query_payload); 
+    command_dispatcher.addCommandHandler( "mean", controller.mean); 
 
     // DEBUG - should generate warning on fail because already exists in map
     //command_dispatcher.addCommandHandler( "help", controller.help); //needs static
@@ -600,6 +642,9 @@ int main()
     catch (const char* excpt) { ExceptionPrinter(excpt); } // */
     
     try { command_dispatcher.dispatchCommand(query_payload_command_2); }
+    catch (const char* excpt) { ExceptionPrinter(excpt); }
+
+    try { command_dispatcher.dispatchCommand(mean_command); }
     catch (const char* excpt) { ExceptionPrinter(excpt); }
     
     /*try { command_dispatcher.dispatchCommand(exit_command_fail); }  // should fail
