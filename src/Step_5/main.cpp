@@ -252,6 +252,35 @@ public:
     // implement 3-4 more commands
 
 
+
+    /** \brief command handler for query_payload
+     *
+     * \param payload a JSON string possibly containing any allowed JSON value(s)
+     *
+     * \return true if command handled successfully, otherwise generate exception
+     *
+     * \sa derived from: http://rapidjson.org/md_doc_tutorial.html#QueryObject
+     */
+    static bool query_payload(rapidjson::Value &payload) 
+    {
+        cout << "Controller::payload_type command: \n";
+
+        // array storing typenames
+        static const char* kTypeNames[] = { "Null", "False", "True", "Object", "Array", 
+                                            "String", "Number" };
+
+        // 
+        for (Value::ConstMemberIterator itr = payload.MemberBegin();
+                itr != payload.MemberEnd(); ++itr) {
+            printf("Type of member %s is %s\n",
+                    itr->name.GetString(), kTypeNames[itr->value.GetType()]);
+        }
+
+        return true;
+    }
+
+
+
     /** \brief command handler for add 
      *
      * Still am not sure what kind of functionality I need inside of this class.
@@ -313,36 +342,49 @@ public:
     }
 
 
-    /** \brief command handler for query_payload
+    /** \brief command handler for mean
      *
-     * \param payload a JSON string possibly containing any allowed JSON value(s)
-     *
-     * \return true if command handled successfully, otherwise generate exception
-     *
-     * \sa derived from: http://rapidjson.org/md_doc_tutorial.html#QueryObject
+     * Still am not sure what kind of functionality I need inside of this class.
+     * Perhaps everything just need to print or control program flow? If so this
+     * function will be useless and should be removed.
      */
-    static bool query_payload(rapidjson::Value &payload) 
+    static bool (rapidjson::Value &payload)
     {
-        cout << "Controller::payload_type command: \n";
+        cout << "Controller::mean command: \n";
 
-        // array storing typenames
-        static const char* kTypeNames[] = { "Null", "False", "True", "Object", "Array", 
-                                            "String", "Number" };
 
-        // 
-        for (Value::ConstMemberIterator itr = payload.MemberBegin();
-                itr != payload.MemberEnd(); ++itr) {
-            printf("Type of member %s is %s\n",
-                    itr->name.GetString(), kTypeNames[itr->value.GetType()]);
-        }
+        
+
 
         return true;
     }
 
 
+
+
+
 private:
     //static std::string CUR_SCOPE = "class Controller";     // DEBUG
+    
+    /* \brief summation function for sum() and mean()
+     *
+     */
+    template<typename T>
+    auto summation(T collection[]) -> T {
 
+        T sum = 0; // initialize 
+        
+        // loop through array
+        for (auto num : collection) {
+
+            // add current number to sum
+            sum += num;
+        }
+
+        if(DEBUG) cerr << sum << endl;
+
+        return sum;
+    }
 };
 
 
