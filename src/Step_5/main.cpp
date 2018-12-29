@@ -173,15 +173,17 @@ auto mean_command_long = R"(
  }
 )";
 
+// This fails to register as valid JSON for some reason. 
+// Think there might be a whitespace issue.
 auto query_payload_command = R"(
  {
   "command": "query_payload",
   "payload": {
-     "well":"formed",
-     "json":"test",
+     "well": "formed",
+     "json": "test",
      "a": [1,2,3,4],
-     "number1":1,
-     "number2":34.7,
+     "number1": 1,
+     "number2": 34.7,
      "b": [
         "something":"more",
         "here":"too"
@@ -278,8 +280,9 @@ public:
     }
 
 
-    // implement 3-4 more commands
-
+    /* 
+     * Additional commands below 
+     */
 
 
     /** \brief command handler for query_payload
@@ -295,14 +298,24 @@ public:
         cout << "Controller::payload_type command: \n";
 
         // array storing typenames
-        static const char* kTypeNames[] = { "Null", "False", "True", "Object", "Array", 
-                                            "String", "Number" };
-
-        // 
+        static const char* kTypeNames[] = { 
+            "Null", 
+            "False", 
+            "True", 
+            "Object", 
+            "Array", 
+            "String", 
+            "Number" 
+        };
+ 
         for (Value::ConstMemberIterator itr = payload.MemberBegin();
                 itr != payload.MemberEnd(); ++itr) {
-            printf("Type of member %s is %s\n",
-                    itr->name.GetString(), kTypeNames[itr->value.GetType()]);
+
+            cout << "Type of member " << itr->name.GetString()
+                 << " is " << kTypeNames[itr->value.GetType()] << endl;
+
+            //printf("Type of member %s is %s\n",
+            //        itr->name.GetString(), kTypeNames[itr->value.GetType()]);
         }
 
         return true;
@@ -312,9 +325,17 @@ public:
 
     /** \brief command handler for sum_ints
      *
-     * Still am not sure what kind of functionality I need inside of this class.
-     * Perhaps everything just need to print or control program flow? If so this
-     * function will be useless and should be removed.
+     * \param payload a JSON string possibly containing an array value
+     *
+     * \return true if command handled successfully, otherwise generate exception
+     *
+     * \throws exception when payload contains no value "addends"
+     * \throws exception when addends is not an array
+     * \throws exception when no integers in array
+     *
+     * This function looks for an array named "addends". If it exists, it traverses
+     * it and prints the sum of all integers present in the array. All non-integer 
+     * members of the arry are ignored.
      */
     static bool sum_ints(rapidjson::Value &payload)
     {
@@ -323,23 +344,12 @@ public:
         // create iterator to look for "addends".
         rapidjson::Value::ConstMemberIterator itr = payload.FindMember("addends");
 
-        // safely check for a value "reason"
+        // safely check for a value "addends"
         if (itr != payload.MemberEnd()) {
 
             // value exists. check for array of numbers
-            //
-            // note: probably need to differntiate between ints and floats
-            // rapidJSON does not distinguish between the two, but C++ does
-
-            /*
-            //bool has_number = false; // checking if array has numbers
-            bool only_ints = false; // checking if all numbers in array are ints
-            float sum_f = 0;
-            // */
             
-            int sum_i = 0;
             int num_ints = 0; // efficient vector allocation
-
 
             // reference for consecutive access
             const Value& a = payload["addends"];
@@ -359,10 +369,9 @@ public:
             vector<int> int_vect;
             int_vect.reserve(num_ints);
 
+            int sum_i = 0;
+
             // loop through array again, filling vector
-            // GetInt will cause exception if element other than int present
-            /// \bug GitInt causes cord dump when tried on string, and exception
-            ///      not caught for some reason. Thinking I need to refactor this part.
             for (auto& v : a.GetArray()) {
 
                 // only add int elements
@@ -372,117 +381,90 @@ public:
 
             if(DEBUG) cerr << "Made it past for loop in the int try" << endl;
 
-            //only_ints = true;
-
             sum_i = summation(int_vect);
 
             cout << sum_i << endl;
 
-            /*
-            // try assuming ints
-            try {
-
-                // create vector and allocate
-                vector<int> collection_vect;
-                collection_vect.reserve(num_elements);
-
-                // loop through array again, filling vector
-                // GetInt will cause exception if element other than int present
-                /// \bug GitInt causes cord dump when tried on string, and exception
-                ///      not caught for some reason. Thinking I need to refactor this part.
-                for (auto& v : a.GetArray()) {
-                    
-                    
-                    collection_vect.push_back(v.GetInt()); 
-                
-                }
-
-                if(DEBUG) cerr << "Made it past for loop in the int try" << endl;
-
-                only_ints = true;
-
-                sum_i = summation(collection_vect);
-            } 
-            // try again assuming floats
-            // catch prevents this from being run unless exception in int section
-            catch (...) {
-                try {
-
-                    // create vector and allocate
-                    vector<float> collection_vect;
-                    collection_vect.reserve(num_elements);
-
-                    // loop through array again, filling vector
-                    // GetInt will cause exception if element other than float present
-                    for (auto& v : a.GetArray()) { collection_vect.push_back(v.GetFloat()); }
-
-                    if(DEBUG) cerr << "Made it past for loop in the float try" << endl;
-
-                    sum_f = summation(collection_vect);
-                }
-                catch (const exception& e) { 
-                    throw "elements other than ints and floats present in \"addends\" array"; 
-                }
-                
-                if(DEBUG) cerr << "about to throw at end of float loop" << endl;
-
-                //throw; // not sure if I need this. Worried extraneous exceptions might
-                       // not be handled properly if this is not present, but also
-                       // concerned that this will pass unneccessary exceptions back to
-                       // main when numbers other than ints are found.
-            }
-
-            if(DEBUG) cerr << "made it beyond float catch throw" << endl;
-
-            if(only_ints) cout << "The sum is: " << sum_i << endl;
-            else          cout << "The sum is: " << sum_f << endl; // */ 
-            
-            
-
-
-
-            // verify that elements are safe. Throw exception if not
-            // if numbers do not exist, throw exception
-            //else { throw "no numbers exist in \"addends\" array, or \"addends\" not array"; }
-
-            
-            
-            /*for (Value::ConstValueIterator itr_a = a.Begin(); itr_a != a.End(); ++itr_a) {
-                
-                //printf("Type of member %s is %s\n",
-                //        itr->name.GetString(), kTypeNames[itr->value.GetType()]);
-            } // */
-
-
-
-    
-               
-               //printf("%d ", itr_a->GetInt()); 
-
-
-
-                        
-
         }
         // if does not exist, throw exception
         else { throw "no member \"addends\" present in payload JSON"; }
-        // */
-
-
 
         return true;
     }
 
 
+
     /** \brief command handler for mean
      *
-     * Still am not sure what kind of functionality I need inside of this class.
-     * Perhaps everything just need to print or control program flow? If so this
-     * function will be useless and should be removed.
+     * \todo mean_int is an almost identical function to sum_ints. May be more efficient
+     *       to break large amount of functionality out into a private member function.
+     *       Will need to figure out division of labor if so.
+     *
+     * \param payload a JSON string possibly containing an array value
+     *
+     * \return true if command handled successfully, otherwise generate exception
+     *
+     * \throws exception when payload contains no value "addends"
+     * \throws exception when addends is not an array
+     * \throws exception when no integers in array
+     *
+     * This function looks for an array named "addends". If it exists, it traverses
+     * it, and prints the mean of all integers present in the array. All non-integer
+     * members of the arry are ignored.
      */
     static bool mean_ints(rapidjson::Value &payload)
     {
         cout << "Controller::mean command: \n";
+
+        // create iterator to look for "addends".
+        rapidjson::Value::ConstMemberIterator itr = payload.FindMember("addends");
+
+        // safely check for a value "addends"
+        if (itr != payload.MemberEnd()) {
+
+            // value exists. check for array of numbers
+            
+            int num_ints = 0; // efficient vector allocation
+
+            // reference for consecutive access
+            const Value& a = payload["addends"];
+
+            // make sure addends is an array. throw exception if not
+            if ( ! a.IsArray() ) throw "payload value \"addends\" is not an array";
+
+            // initial loop for vector allocation optimization
+            for (auto& v : a.GetArray()) {
+                if (v.IsInt()) ++num_ints;
+            }
+
+            // if no integers in array, throw exception
+            if ( num_ints == 0 ) { throw "no integers in array"; }
+
+            // create vector and allocate
+            vector<int> int_vect;
+            int_vect.reserve(num_ints);
+
+            int sum_i = 0;
+
+            // loop through array again, filling vector
+            for (auto& v : a.GetArray()) {
+
+                // only add int elements
+                if ( v.IsInt() )  int_vect.push_back(v.GetInt()); 
+            
+            }
+
+            if(DEBUG) cerr << "Made it past for loop in the int try" << endl;
+
+            sum_i = summation(int_vect);
+
+            cout << (sum_i/num_ints) << endl; /// \bug concerned that this may convert 
+                                              ///      int to float?
+
+        }
+        // if does not exist, throw exception
+        else { throw "no member \"addends\" present in payload JSON"; }
+
 
 
         //DEBUG
@@ -512,7 +494,7 @@ public:
 private:
     //static std::string CUR_SCOPE = "class Controller";     // DEBUG
     
-    /* \brief summation function for sum() and mean()
+    /* \brief summation function for sum_ints() and mean_ints()
      *
      */
     template<typename T>
@@ -532,22 +514,6 @@ private:
         return sum;
     } // */
     
-    /*static auto summation(int collection[]) -> T {
-
-        int sum = 0; // initialize 
-        
-        // loop through array
-        for (auto num : collection) {
-
-            // add current number to sum
-            sum += num;
-        }
-
-        if(DEBUG) cerr << sum << endl;
-
-        return sum;
-    } // */
-
 };
 
 
@@ -575,12 +541,14 @@ public:
     {
         // question why is it virtual? Is it needed in this case?
         //
-        // AFAIK, virtual refers to members that an inhereting class will have
-        // but the current class does not. I'm not sure why a class would not
-        // have a destructor. Maybe this class only uses the implicit destructor,
-        // but inhereting classes need more complex ones?
+        // Virtual refers to members that an inhereting class will implement that the
+        // superclass does not implement, or to a member that the inhereting class will 
+        // overload.
         //
-        // Still not sure why this class would need to be inhereted yet though.
+        // I'm not sure why this class would not have an explicit destructor but one of 
+        // its inhereting classes would. I am not using inhereting classes for this. If
+        // I was, perhaps this class would use the implicit destructor, but the inhereting 
+        // classes would need more complex ones.
     }
 
 
@@ -600,13 +568,13 @@ public:
         /// add command and handler pair to map
         auto test = command_handlers_.insert( std::make_pair( command, handler));
 
+        /// check if command already added to map
         if( test.second == false) {
             cout << "Command " << command << " already existed. Addition failed" << endl;
             add_succeeded = false;
         }
         else {
             cout << "Command " << command << " added to map." << endl;
-            
         }// */
 
         return add_succeeded;
@@ -646,7 +614,7 @@ public:
         // safely check for a value "command"
         if (itr_c != this->doc.MemberEnd()) {
             if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into itr_c if"); 
-            cout << "found command: " << itr_c->value.GetString() << endl; /// \bug change to shared_print?
+            cout << "found command: " << itr_c->value.GetString() << endl; /// \todo change to shared_print?
         }
         // if does not exist, throw exception
         else { throw "no member \"command\" present in JSON"; }
@@ -673,16 +641,6 @@ public:
 
         if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past iterators");
 
-        // DEBUG - stringify the DOM
-        /*StringBuffer buffer;
-        Writer<StringBuffer> writer(buffer);
-        this->doc.Accept(writer);
-        std::cout << buffer.GetString() << std::endl;
-        // */
-
-        if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past get payload");
-
-
         // command routing
         bool command_found = false;  // until proven otherwise
         for( this->map_itr = command_handlers_.begin() ;
@@ -691,7 +649,7 @@ public:
             // try to find match in map for command string
             if( itr_c->value.GetString() == (*map_itr).first ) {
                 cout << itr_c->value.GetString() << " matched a value in map!" << endl
-                     << "Attempting to start command handler" << endl;
+                     << "Attempting to start command handler" << endl; /// \todo change to shared print?
 
                 command_found = true;
                 
@@ -753,9 +711,11 @@ int main()
     //command_dispatcher.addCommandHandler( "help", controller.help); //needs static
 
     
-    // array of test commands
-    /// \note exit_command test command is commented out to allow fallthrough to user prompt.
-    ///       If desired, ok to uncomment.
+    /** array of test commands
+     *
+     * \note exit_command test command is commented out to allow fallthrough to user prompt.
+     *       If desired, ok to uncomment.
+     */
     string test_commands[] = {
 
         help_command,
@@ -789,39 +749,6 @@ int main()
             catch (const char* excpt) { ExceptionPrinter(excpt); }  
         }
     }
-
-
-    // DEBUG - send commands
-    // uncomment to rapidly test all functionality
-    /*try { command_dispatcher.dispatchCommand(help_command_fail); } // should fail
-    catch (const char* excpt) { ExceptionPrinter(excpt); } // handle exception
-    try { command_dispatcher.dispatchCommand(help_command); }
-    catch (const char* excpt) { ExceptionPrinter(excpt); } // */
-
-    /*try { command_dispatcher.dispatchCommand(sum_command); }
-    catch (const char* excpt) { ExceptionPrinter(excpt); } 
-    try { command_dispatcher.dispatchCommand(sum_command_long); }
-    catch (const char* excpt) { ExceptionPrinter(excpt); } // */   
-    
-    /*try { command_dispatcher.dispatchCommand(sum_command_floats); }
-    catch (const char* excpt) { ExceptionPrinter(excpt); } // */  
-
-    /*try { command_dispatcher.dispatchCommand(sum_command_fail_1); }
-    catch (const char* excpt) { ExceptionPrinter(excpt); } 
-    try { command_dispatcher.dispatchCommand(sum_command_fail_2); }
-    catch (const char* excpt) { ExceptionPrinter(excpt); } // */    
-
-    /*try { command_dispatcher.dispatchCommand(query_payload_command_2); }
-    catch (const char* excpt) { ExceptionPrinter(excpt); }
-
-    try { command_dispatcher.dispatchCommand(mean_command); }
-    catch (const char* excpt) { ExceptionPrinter(excpt); } // */
-    
-    /*try { command_dispatcher.dispatchCommand(exit_command_fail); }  // should fail
-    catch (const char* excpt) { ExceptionPrinter(excpt); } 
-    try { command_dispatcher.dispatchCommand(exit_command); }
-    catch (const char* excpt) { ExceptionPrinter(excpt); }   
-    // */
 
 
     // command line interface for testing
