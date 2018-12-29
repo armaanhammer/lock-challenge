@@ -35,6 +35,7 @@ bool g_done = false;
 
 // User globals. Ok to change.
 bool TEST_ALL = true;        // test all functionality before prompting user
+bool VERBOSE = false;        // turn on verbose messages
 bool DEBUG = false;          // turn on debug messages
 
 
@@ -110,7 +111,7 @@ auto exit_command_fail = R"(
 
 auto sum_command = R"(
  {
-  "command": "sum",
+  "command": "sum_ints",
   "payload": {
      "addends": [1, 2, 3]
   }
@@ -119,16 +120,25 @@ auto sum_command = R"(
 
 auto sum_command_long = R"(
  {
-  "command": "sum",
+  "command": "sum_ints",
   "payload": {
      "addends": [1, 2, 3, 4, 5, 100, 999999999, -1, 0, -999]
   }
  }
 )";
 
+auto sum_command_floats = R"(
+ {
+  "command": "sum_ints",
+  "payload": {
+     "addends": [1, 2, 3, 4.5, 5.0, 100.1, 999999999.1, -1.1, 0, -999.1]
+  }
+ }
+)";
+
 auto sum_command_fail_1 = R"(
  {
-  "command": "sum",
+  "command": "sum_ints",
   "payload": {
      "addends": ["apples", "oranges", "turtles"]
   }
@@ -154,6 +164,14 @@ auto mean_command = R"(
  }
 )";
 
+auto mean_command_long = R"(
+ {
+  "command": "sum_ints",
+  "payload": {
+     "addends": [1, 2, 3, 4, 5, 100, 999999999, -1, 0, -999]
+  }
+ }
+)";
 
 auto query_payload_command = R"(
  {
@@ -292,13 +310,13 @@ public:
 
 
 
-    /** \brief command handler for add 
+    /** \brief command handler for sum_ints
      *
      * Still am not sure what kind of functionality I need inside of this class.
      * Perhaps everything just need to print or control program flow? If so this
      * function will be useless and should be removed.
      */
-    static bool sum(rapidjson::Value &payload)
+    static bool sum_ints(rapidjson::Value &payload)
     {
         cout << "Controller::sum command: \n";
 
@@ -313,19 +331,54 @@ public:
             // note: probably need to differntiate between ints and floats
             // rapidJSON does not distinguish between the two, but C++ does
 
+            /*
             //bool has_number = false; // checking if array has numbers
             bool only_ints = false; // checking if all numbers in array are ints
-            int num_elements = 0; // efficient vector allocation
-            int sum_i = 0;
             float sum_f = 0;
+            // */
+            
+            int sum_i = 0;
+            int num_ints = 0; // efficient vector allocation
+
 
             // reference for consecutive access
             const Value& a = payload["addends"];
 
-            // initial loop for vector allocation optimization
-            try { for (auto& v : a.GetArray()) ++num_elements; }
-            catch (const exception& e) { throw "payload value \"addends\" is not an array"; }
+            // make sure addends is an array. throw exception if not
+            if ( ! a.IsArray() ) throw "payload value \"addends\" is not an array";
 
+            // initial loop for vector allocation optimization
+            for (auto& v : a.GetArray()) {
+                if (v.IsInt()) ++num_ints;
+            }
+
+            // if no integers in array, throw exception
+            if ( num_ints == 0 ) { throw "no integers in array"; }
+
+            // create vector and allocate
+            vector<int> int_vect;
+            int_vect.reserve(num_ints);
+
+            // loop through array again, filling vector
+            // GetInt will cause exception if element other than int present
+            /// \bug GitInt causes cord dump when tried on string, and exception
+            ///      not caught for some reason. Thinking I need to refactor this part.
+            for (auto& v : a.GetArray()) {
+
+                // only add int elements
+                if ( v.IsInt() )  int_vect.push_back(v.GetInt()); 
+            
+            }
+
+            if(DEBUG) cerr << "Made it past for loop in the int try" << endl;
+
+            //only_ints = true;
+
+            sum_i = summation(int_vect);
+
+            cout << sum_i << endl;
+
+            /*
             // try assuming ints
             try {
 
@@ -337,7 +390,12 @@ public:
                 // GetInt will cause exception if element other than int present
                 /// \bug GitInt causes cord dump when tried on string, and exception
                 ///      not caught for some reason. Thinking I need to refactor this part.
-                for (auto& v : a.GetArray()) { collection_vect.push_back(v.GetInt()); }
+                for (auto& v : a.GetArray()) {
+                    
+                    
+                    collection_vect.push_back(v.GetInt()); 
+                
+                }
 
                 if(DEBUG) cerr << "Made it past for loop in the int try" << endl;
 
@@ -377,7 +435,7 @@ public:
             if(DEBUG) cerr << "made it beyond float catch throw" << endl;
 
             if(only_ints) cout << "The sum is: " << sum_i << endl;
-            else          cout << "The sum is: " << sum_f << endl; 
+            else          cout << "The sum is: " << sum_f << endl; // */ 
             
             
 
@@ -422,7 +480,7 @@ public:
      * Perhaps everything just need to print or control program flow? If so this
      * function will be useless and should be removed.
      */
-    static bool mean(rapidjson::Value &payload)
+    static bool mean_ints(rapidjson::Value &payload)
     {
         cout << "Controller::mean command: \n";
 
@@ -687,14 +745,52 @@ int main()
     // Add available command handlers in Controller class to CommandDispatcher manually
     command_dispatcher.addCommandHandler( "help", controller.help); // needs static functions
     command_dispatcher.addCommandHandler( "exit", controller.exit); // maybe use std::bind instead
-    command_dispatcher.addCommandHandler( "sum", controller.sum);   // and change to non-static
+    command_dispatcher.addCommandHandler( "sum_ints", controller.sum_ints);   // and change to non-static
     command_dispatcher.addCommandHandler( "query_payload", controller.query_payload); 
-    command_dispatcher.addCommandHandler( "mean", controller.mean); 
+    command_dispatcher.addCommandHandler( "mean_ints", controller.mean_ints); 
 
     // DEBUG - should generate warning on fail because already exists in map
     //command_dispatcher.addCommandHandler( "help", controller.help); //needs static
 
     
+    // array of test commands
+    /// \note exit_command test command is commented out to allow fallthrough to user prompt.
+    ///       If desired, ok to uncomment.
+    string test_commands[] = {
+
+        help_command,
+        help_command_fail, // */
+
+        sum_command,
+        sum_command_long,
+        sum_command_floats, 
+        sum_command_fail_1, 
+        sum_command_fail_2, // */
+
+        mean_command, 
+        mean_command_long, // */
+
+        query_payload_command,
+        query_payload_command_2, // */
+
+        exit_command_fail/*, 
+        exit_command // */
+
+    };
+
+    
+    // if set, send all test commands to command dispatcher
+    if (TEST_ALL) {
+
+        for (auto& com : test_commands) {
+
+            //catch and handle each exception
+            try { command_dispatcher.dispatchCommand(com); }
+            catch (const char* excpt) { ExceptionPrinter(excpt); }  
+        }
+    }
+
+
     // DEBUG - send commands
     // uncomment to rapidly test all functionality
     /*try { command_dispatcher.dispatchCommand(help_command_fail); } // should fail
@@ -702,13 +798,16 @@ int main()
     try { command_dispatcher.dispatchCommand(help_command); }
     catch (const char* excpt) { ExceptionPrinter(excpt); } // */
 
-    try { command_dispatcher.dispatchCommand(sum_command); }
-    catch (const char* excpt) { ExceptionPrinter(excpt); } // */
+    /*try { command_dispatcher.dispatchCommand(sum_command); }
+    catch (const char* excpt) { ExceptionPrinter(excpt); } 
     try { command_dispatcher.dispatchCommand(sum_command_long); }
     catch (const char* excpt) { ExceptionPrinter(excpt); } // */   
+    
+    /*try { command_dispatcher.dispatchCommand(sum_command_floats); }
+    catch (const char* excpt) { ExceptionPrinter(excpt); } // */  
 
-    try { command_dispatcher.dispatchCommand(sum_command_fail_1); }
-    catch (const char* excpt) { ExceptionPrinter(excpt); } // */
+    /*try { command_dispatcher.dispatchCommand(sum_command_fail_1); }
+    catch (const char* excpt) { ExceptionPrinter(excpt); } 
     try { command_dispatcher.dispatchCommand(sum_command_fail_2); }
     catch (const char* excpt) { ExceptionPrinter(excpt); } // */    
 
