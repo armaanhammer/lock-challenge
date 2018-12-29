@@ -157,16 +157,25 @@ auto sum_command_fail_2 = R"(
 
 auto mean_command = R"(
  {
-  "command": "mean",
+  "command": "mean_ints",
   "payload": {
-     "collection": [1, 2, 3, 4, 5]
+     "addends": [1, 2, 3, 4, 5]
+  }
+ }
+)";
+
+auto mean_command_fraction = R"(
+ {
+  "command": "mean_ints",
+  "payload": {
+     "addends": [1, 2, 2]
   }
  }
 )";
 
 auto mean_command_long = R"(
  {
-  "command": "sum_ints",
+  "command": "mean_ints",
   "payload": {
      "addends": [1, 2, 3, 4, 5, 100, 999999999, -1, 0, -999]
   }
@@ -219,18 +228,13 @@ public:
      *
      * \param payload a JSON string possibly containing a "usage" message
      *
-     * \return true if command handled successfully, otherwise generate exception
+     * \throws exception if JSON contains no value "usage"
+     *
+     * \return true if command handled successfully
      */
     static bool help(rapidjson::Value &payload)
     {
-        cout << "Controller::help: command: ";
-        
-        // DEBUG - stringify the value
-        StringBuffer buffer;
-        Writer<StringBuffer> writer(buffer);
-        payload.Accept(writer);
-        std::cout << buffer.GetString() << std::endl;
-        // */
+        cout << "Controller::help: command: \n";
         
         // create iterator to look for "usage".
         rapidjson::Value::ConstMemberIterator itr = payload.FindMember("usage");
@@ -253,7 +257,7 @@ public:
      *
      * \param payload a JSON string possibly containing a reason
      *
-     * \return true if command handled successfully, otherwise generate exception
+     * \return true if command handled successfully
      */
     static bool exit(rapidjson::Value &payload)
     {
@@ -313,9 +317,6 @@ public:
 
             cout << "Type of member " << itr->name.GetString()
                  << " is " << kTypeNames[itr->value.GetType()] << endl;
-
-            //printf("Type of member %s is %s\n",
-            //        itr->name.GetString(), kTypeNames[itr->value.GetType()]);
         }
 
         return true;
@@ -335,11 +336,11 @@ public:
      *
      * This function looks for an array named "addends". If it exists, it traverses
      * it and prints the sum of all integers present in the array. All non-integer 
-     * members of the arry are ignored.
+     * members of the array are ignored.
      */
     static bool sum_ints(rapidjson::Value &payload)
     {
-        cout << "Controller::sum command: \n";
+        cout << "Controller::sum_ints command: \n";
 
         // create iterator to look for "addends".
         rapidjson::Value::ConstMemberIterator itr = payload.FindMember("addends");
@@ -394,7 +395,7 @@ public:
 
 
 
-    /** \brief command handler for mean
+    /** \brief command handler for mean_ints
      *
      * \todo mean_int is an almost identical function to sum_ints. May be more efficient
      *       to break large amount of functionality out into a private member function.
@@ -410,11 +411,11 @@ public:
      *
      * This function looks for an array named "addends". If it exists, it traverses
      * it, and prints the mean of all integers present in the array. All non-integer
-     * members of the arry are ignored.
+     * members of the array are ignored.
      */
     static bool mean_ints(rapidjson::Value &payload)
     {
-        cout << "Controller::mean command: \n";
+        cout << "Controller::mean_ints command: \n";
 
         // create iterator to look for "addends".
         rapidjson::Value::ConstMemberIterator itr = payload.FindMember("addends");
@@ -465,37 +466,28 @@ public:
         // if does not exist, throw exception
         else { throw "no member \"addends\" present in payload JSON"; }
 
-
-
-        //DEBUG
-        /*vector<int> test1 = { 1, 2, 3, 4, 5 };
-        int return1 = summation(test1);
-        cout << return1 << endl;
-        
-        vector<float> test2 = { 1.1, 2.2, 3.3, 4.4, 5.5 };
-        float return2 = summation(test2);
-        cout << return2 << endl;
-
-        vector<double> test3 = { 1.1, 2.2, 3.3, 4.4, 5.5 };
-        double return3 = summation(test3);
-        cout << return3 << endl;
-        // */
-
-
-
-
         return true;
     }
 
 
-
+    /** \todo write additional member functions to handle other number types such
+     *        as float, double, or Uint64.
+     */
 
 
 private:
     //static std::string CUR_SCOPE = "class Controller";     // DEBUG
     
-    /* \brief summation function for sum_ints() and mean_ints()
+    /** \brief summation function for sum_ints() and mean_ints()
      *
+     * \param collection a vector of numbers to add together
+     *
+     * \return sum of numbers of same type as vector passed in.
+     *
+     * This function takes in a vector of numbers and addes them together. It
+     * supports all number types in C++ including int, float, etc. It was written
+     * to accomodate future functions like sum_int and mean_int that take in
+     * other types of numbers.
      */
     template<typename T>
     static auto summation(vector<T> collection) -> T {
@@ -549,6 +541,8 @@ public:
         // its inhereting classes would. I am not using inhereting classes for this. If
         // I was, perhaps this class would use the implicit destructor, but the inhereting 
         // classes would need more complex ones.
+        //
+        // In my case, I do not believe it is needed.
     }
 
 
@@ -557,7 +551,7 @@ public:
      *  \param command a string 
      *  \param handler a CommandHandler object containing a DOM value
      *
-     *  \return true is addition successful, false if not
+     *  \return true if addition successful, false if not
      */
     bool addCommandHandler(std::string command, CommandHandler handler)
     {
@@ -574,7 +568,7 @@ public:
             add_succeeded = false;
         }
         else {
-            cout << "Command " << command << " added to map." << endl;
+            if(VERBOSE) cout << "Command " << command << " added to map." << endl;
         }// */
 
         return add_succeeded;
@@ -585,6 +579,11 @@ public:
      *
      *  \param command_json a raw string of JSON commands
      *
+     *  \throws exception if JSON malformed
+     *  \throws exception if JSON contains no member "command"
+     *  \throws exception if JSON contains no member "payload"
+     *  \throws exception if no match for command found in map
+     *
      *  \return true if command dispatched to handler
      */
     bool dispatchCommand(std::string command_json)
@@ -592,7 +591,7 @@ public:
         cout << "\nCOMMAND: " << command_json << endl;
         if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it to dispatchCommand"); 
 
-        const char *command_ptr = command_json.c_str();  /// \bug maybe typecast instead?
+        const char *command_ptr = command_json.c_str();  /// \todo maybe typecast instead?
         if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past command_ptr");
         if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, command_ptr);
  
@@ -614,7 +613,8 @@ public:
         // safely check for a value "command"
         if (itr_c != this->doc.MemberEnd()) {
             if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into itr_c if"); 
-            cout << "found command: " << itr_c->value.GetString() << endl; /// \todo change to shared_print?
+            cout << "found command: " << itr_c->value.GetString() << endl; 
+            /// < \todo change to shared_print?
         }
         // if does not exist, throw exception
         else { throw "no member \"command\" present in JSON"; }
@@ -625,14 +625,15 @@ public:
         if (itr_p != this->doc.MemberEnd()) {
             if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into itr_p if");
 
-            // DEBUG - stringify the value
-            StringBuffer buffer;
-            Writer<StringBuffer> writer(buffer);
-            itr_p->value.Accept(writer);
-            // */
+            if(VERBOSE) {
+                // stringify the value
+                StringBuffer buffer;
+                Writer<StringBuffer> writer(buffer);
+                itr_p->value.Accept(writer);
 
-            cout << "found payload: " 
-                 << buffer.GetString() << endl; /// \bug change to shared_print?
+                /// \todo change to shared_print?
+                cout << "found payload: " << buffer.GetString() << endl;
+            }
         }
         // if does not exist, throw exception
         else { throw "no member \"payload\" present in JSON"; }
@@ -648,8 +649,12 @@ public:
 
             // try to find match in map for command string
             if( itr_c->value.GetString() == (*map_itr).first ) {
-                cout << itr_c->value.GetString() << " matched a value in map!" << endl
-                     << "Attempting to start command handler" << endl; /// \todo change to shared print?
+
+                if(VERBOSE) {
+                    /// \todo change to shared print?
+                    cout << itr_c->value.GetString() << " matched a value in map!" << endl
+                         << "Attempting to start command handler" << endl; 
+                }
 
                 command_found = true;
                 
@@ -668,6 +673,7 @@ public:
 
         return command_found; // should always be true if execution falls through to here
     }
+
 
 private:
     std::string CUR_SCOPE = "class CommandDispatcher";  // DEBUG - current scope
@@ -713,8 +719,8 @@ int main()
     
     /** array of test commands
      *
-     * \note exit_command test command is commented out to allow fallthrough to user prompt.
-     *       If desired, ok to uncomment.
+     * \note exit_command test command commented out to allow fallthrough to user prompt.
+     *       Ok to uncomment if desired.
      */
     string test_commands[] = {
 
@@ -727,7 +733,8 @@ int main()
         sum_command_fail_1, 
         sum_command_fail_2, // */
 
-        mean_command, 
+        mean_command,
+        mean_command_fraction,
         mean_command_long, // */
 
         query_payload_command,
