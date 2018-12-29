@@ -64,7 +64,8 @@ void DBG_PRNTR(std::string id, std::string msg) {
  * \warning NOT thread-safe; must be called within a thread-safe scope
  */
 void ExceptionPrinter(const char* excpt) {
-    cout << "\nOops, " << excpt << ". Please try again.\n\n" << endl; 
+    cout << "EXCEPTION: Oops, " << excpt 
+         << ". Please try again." << endl; 
 }
 
 
@@ -72,6 +73,16 @@ void ExceptionPrinter(const char* excpt) {
 //
 // TEST COMMANDS
 //
+
+auto fail_command = R"(
+ {
+  "command":"fail",
+  "payload": {
+     "Does not":"really matter what is in here."
+  }
+ }
+)";
+
 
 auto help_command = R"(
  {
@@ -147,7 +158,7 @@ auto sum_command_fail_1 = R"(
 
 auto sum_command_fail_2 = R"(
  {
-  "command": "sum",
+  "command": "sum_ints",
   "payload": {
      "well":"formed",
      "json":"test"
@@ -588,7 +599,7 @@ public:
      */
     bool dispatchCommand(std::string command_json)
     {
-        cout << "\nCOMMAND: " << command_json << endl;
+        cout << "\n\nCOMMAND: " << command_json << endl;
         if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it to dispatchCommand"); 
 
         const char *command_ptr = command_json.c_str();  /// \todo maybe typecast instead?
@@ -613,8 +624,11 @@ public:
         // safely check for a value "command"
         if (itr_c != this->doc.MemberEnd()) {
             if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into itr_c if"); 
-            cout << "found command: " << itr_c->value.GetString() << endl; 
-            /// < \todo change to shared_print?
+
+            if(VERBOSE) {
+                /// \todo change to shared_print?
+                cout << "found command: " << itr_c->value.GetString() << endl;
+            }
         }
         // if does not exist, throw exception
         else { throw "no member \"command\" present in JSON"; }
@@ -724,6 +738,8 @@ int main()
      */
     string test_commands[] = {
 
+        fail_command, // */
+        
         help_command,
         help_command_fail, // */
 
