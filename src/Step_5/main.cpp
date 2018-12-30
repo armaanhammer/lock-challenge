@@ -16,11 +16,11 @@
 // https://github.com/Tencent/rapidjson
 //
 
-// std::function                    << know this
-// std::bind                        << need to look up
-// std::placeholders                << need to look up
-// std::map                         << know this
-// std::make_pair                   << need to look up
+// std::function                    << need
+// std::bind                        << may not need
+// std::placeholders                << need
+// std::map                         << need
+// std::make_pair                   << need
 
 #include "rapidjson/document.h"         // DOM API
 #include "rapidjson/writer.h"
@@ -34,9 +34,9 @@ bool g_done = false;
 
 
 // User globals. Ok to change.
-bool TEST_ALL = true;        /// test all functionality before prompting user
-bool VERBOSE = false;        /// turn on verbose messages
-bool DEBUG = false;          /// turn on debug messages
+bool TEST_ALL = true;        /// < test all functionality before prompting user
+bool VERBOSE = false;        /// < turn on verbose messages
+bool DEBUG = false;          /// < turn on debug messages
 
 
 
