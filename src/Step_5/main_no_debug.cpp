@@ -40,22 +40,6 @@ bool DEBUG = false;          ///< turn on debug messages
 
 
 
-/** \brief DEBUG PRINTER function
- *
- *  \param id an integer that defines thread number (0 for main)
- *  \param msg a string containing message to be printed
- *
- * Prints to standard error
- * \warning NOT thread-safe; must be called within a thread-safe scope
- */
-void DBG_PRNTR(std::string id, std::string msg) {
-    
-    std::cerr << "***\tDEBUG from " << id << ": " 
-              << msg << " \t***" << std::endl;
-}
-
-
-
 /** \brief EXCEPTION HANDLER function
  *
  *  \param excpt a const char* containing a message
@@ -600,21 +584,14 @@ public:
     bool dispatchCommand(std::string command_json)
     {
         cout << "\n\nCOMMAND: " << command_json << endl;
-        if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it to dispatchCommand"); 
 
         const char *command_ptr = command_json.c_str();  /// \todo maybe typecast instead?
-        if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past command_ptr");
-        if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, command_ptr);
- 
         
         // parse the received string
         this->doc.Parse(command_ptr);
-        if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past doc.Parse");
 
         // check if JSON passed in. If not, throw error.
         if(this->doc.HasParseError()) { throw "malformed JSON"; }
-        if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past doc.HasParseError");
-
 
         // create iterators for "command" and "payload", if they exist.
         rapidjson::Value::ConstMemberIterator itr_c = this->doc.FindMember("command");
@@ -623,7 +600,6 @@ public:
 
         // safely check for a value "command"
         if (itr_c != this->doc.MemberEnd()) {
-            if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into itr_c if"); 
 
             if(VERBOSE) {
                 /// \todo change to shared_print?
@@ -637,7 +613,6 @@ public:
 
         // safely check for a value "payload"
         if (itr_p != this->doc.MemberEnd()) {
-            if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into itr_p if");
 
             if(VERBOSE) {
                 // stringify the value
@@ -653,8 +628,6 @@ public:
         else { throw "no member \"payload\" present in JSON"; }
         // */
 
-
-        if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it past iterators");
 
         // command routing
         bool command_found = false;  // until proven otherwise
@@ -681,7 +654,6 @@ public:
 
         // if command does not exist, throw exception
         if ( ! command_found) {
-            if(DEBUG) DBG_PRNTR(this->CUR_SCOPE, "made it into ! command_found if");
             throw "no match for command found in map"; 
         }
 
@@ -690,8 +662,6 @@ public:
 
 
 private:
-    std::string CUR_SCOPE = "class CommandDispatcher";  // DEBUG - current scope
-
     std::map<std::string, CommandHandler> command_handlers_; /// map of command handlers
 
     std::map<std::string, CommandHandler>::iterator map_itr = 
