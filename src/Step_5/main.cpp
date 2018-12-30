@@ -34,9 +34,9 @@ bool g_done = false;
 
 
 // User globals. Ok to change.
-bool TEST_ALL = true;        // test all functionality before prompting user
-bool VERBOSE = false;        // turn on verbose messages
-bool DEBUG = false;          // turn on debug messages
+bool TEST_ALL = true;        /// test all functionality before prompting user
+bool VERBOSE = false;        /// turn on verbose messages
+bool DEBUG = false;          /// turn on debug messages
 
 
 
@@ -254,7 +254,7 @@ public:
         if (itr != payload.MemberEnd()) {
 
             // value exists. print to user
-            cout << itr->value.GetString() << endl; /// \bug change to shared_print?
+            cout << itr->value.GetString() << endl; /// < \todo change to shared_print?
         }
         // if does not exist, throw exception
         else { throw "no member \"usage\" present in payload JSON"; }
@@ -281,7 +281,7 @@ public:
         if (itr != payload.MemberEnd()) {
 
             // value exists. print to user
-            cout << itr->value.GetString() << endl; /// \bug change to shared_print?
+            cout << itr->value.GetString() << endl; /// < \todo change to shared_print?
             
             // terminate loop in main, causing controlled exit.
             g_done = true;
