@@ -3,22 +3,32 @@
 Requirements
 ---
 
->  
+> 5) Platform Dispatcher
+> See attached *.cpp file
+
+The prompt cpp file is available here: [/prompt/dispatcher_challenge.cpp](../prompt/dispatcher_challenge.cpp)
 
 <br>
 
 Prelims
 ---
 
-### Environment
-
-Environment remains the same as the previous steps.
-
 ### Research
 
-Since I have not had prior exposure to several concepts needed for this task, I performed significant research and brainstorming to understand what was going on and what I needed to do. Some information about that process is available in these sections:
+Since I have not had prior exposure to several concepts needed for this task, I performed significant research and brainstorming to understand what was going on and what I needed to do. Some information about that process is available in these sections of the Appendix:
 
-[Parsing Code (Appendix)](Step_5_Appendix.md#parsing-code), [Brainstorming (Appendix)](Step_5_Appendix.md#brainstorming), and [Research (Appendix)](Step_5_Appendix.md#research)
+* [Parsing Code (Appendix)](Step_5_Appendix.md#parsing-code)
+* [Brainstorming (Appendix)](Step_5_Appendix.md#brainstorming)
+* [Research (Appendix)](Step_5_Appendix.md#research)
+
+### Environment
+
+The general environment remains the same as the previous steps.
+
+#### CMAKE
+
+I set up my CMAKE environment based on the prompt CMakeLists.txt available here: [/prompt/CMakeLists.txt](../prompt/CMakeLists.txt). My final CMakeLists.txt file has some changes. Commentary is available in the [Reference in Appendix](Step_5_Appendix.md#cmake).
+
 
 
 
