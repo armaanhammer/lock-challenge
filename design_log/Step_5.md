@@ -3,20 +3,22 @@
 To duplicate
 ---
 
-1. In [/src/Step_5/ directory](../src/Step_5) run ``. Build environment will be set up in [/src/Step_5/build/ directory](../src/Step_5/build/)
-1. Enure that the bool value for `TEST_ALL` inside of main.cpp is set to `true`.
-1. In [/src/Step_5/build/ directory](../src/Step_5/build/) run `make`. Executable will build as `dispatcher`. 
+1. Ensure that the rapidjson headers exist in the [/src/Step_5/rapidjson/ directory](../src/Step_5/rapidjson). For convenience, the headers from the [66eb606 commit](https://github.com/Tencent/rapidjson/tree/66eb6067b10fd02e419f88816a8833a64eb33551/include/rapidjson) have been included already. It may be possible to update the headers to whatever currently exists in [rapidjson/include/rapidjson](https://github.com/Tencent/rapidjson/tree/master/include/rapidjson) if desired.
+1. In the [/src/Step_5/build/ directory](../src/Step_5/build) run `cmake ../`. Build environment will be set up in the current directory using the [CMakeLists.txt file](../src/Step_5/CMakeLists.txt) in the parent directory.
+1. Enure that the bool value for `TEST_ALL` [on line 37 of main.cpp](../src/Step_5/main.cpp#L37) is set to `true` if desired.
+   * A value of `true` will cause all test commands to be sent to the dispatcher upon program startup.
+   * A value of `false` will skip all tests and immediately fall through to a user prompt.
+1. In the [/src/Step_5/build/ directory](../src/Step_5/build/) run `make`. Executable will build as `dispatcher`. 
 1. To run executable, run `./dispatcher`.
-1. If the final command (exit_command) on line is not commented out, the exit_command will succeed, terminating execution. If it is commented out, execution will fall through to a user prompt. You may enter JSON for parsing.
+1. If the final command (exit_command) [on line 824 of main.cpp](../src/Step_5/main.cpp#L824) is not commented out, the exit_command will succeed, terminating execution. If it is commented out, execution will fall through to a user prompt. You may enter JSON for parsing.
 
 
 Files
 ---
 
-* [main.cpp](../src/Step_5/main.cpp)
-* [main_no_debug.cpp](../src/Step_5/main_no_debug.cpp)  [(explanation)]()
-* []()
-* [Doxyfile]()
+* [main.cpp](../src/Step_5/main.cpp) (with DEBUG code)
+* [main_no_debug.cpp](../src/Step_5/main_no_debug.cpp) (identical, except without DEBUG code)
+* [CMakeLists.txt file](../src/Step_5/CMakeLists.txt) (slightly modified from [prompt file](../prompt/CMakeLists.txt)
 
 
 Documentation
