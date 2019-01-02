@@ -19,7 +19,7 @@ Files
 
 * [main.cpp](../src/Step_5/main.cpp) (with DEBUG code)
 * [main_no_debug.cpp](../src/Step_5/main_no_debug.cpp) (identical, except without DEBUG code)
-* [CMakeLists.txt file](../src/Step_5/CMakeLists.txt) (slightly modified from [prompt file](../prompt/CMakeLists.txt)
+* [CMakeLists.txt file](../src/Step_5/CMakeLists.txt) (slightly modified from [prompt file](../prompt/CMakeLists.txt))
 
 
 Documentation
