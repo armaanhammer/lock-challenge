@@ -3,7 +3,7 @@
 To duplicate
 ---
 
-1. Rapidjson headers need to be placed in the [/src/Step_5/rapidjson/ directory](../src/Step_5/rapidjson) for the program to build. For convenience, the headers from the [66eb606 commit](https://github.com/Tencent/rapidjson/tree/66eb6067b10fd02e419f88816a8833a64eb33551/include/rapidjson) have been included already. If desired, it may be possible to update the headers to the current commit by replacing the entire rapidjson directory in this project the current [rapidjson/include/rapidjson directory](https://github.com/Tencent/rapidjson/tree/master/include/rapidjson).
+1. Rapidjson headers need to be placed in the [/src/Step_5/rapidjson/ directory](../src/Step_5/rapidjson) for the program to build. For convenience, the headers from the [66eb606 commit](https://github.com/Tencent/rapidjson/tree/66eb6067b10fd02e419f88816a8833a64eb33551/include/rapidjson) have been included already. If desired, it may be possible to update the headers to the current commit by replacing the entire rapidjson directory in this project with the current [rapidjson/include/rapidjson directory](https://github.com/Tencent/rapidjson/tree/master/include/rapidjson).
 1. In the [/src/Step_5/build/ directory](../src/Step_5/build) run `cmake ../`. The build environment will be set up in that directory using the [CMakeLists.txt file](../src/Step_5/CMakeLists.txt) in the parent directory.
 1. Enure that the bool value for `TEST_ALL` [on line 37 of main.cpp](../src/Step_5/main.cpp#L37) is set to the desired value:
    * A value of `true` will cause all test commands to be sent to the dispatcher upon program startup.
