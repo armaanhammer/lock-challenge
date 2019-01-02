@@ -181,25 +181,6 @@ Controller::mean_ints command:
 
 COMMAND: 
  {
-  "command": "query_payload",
-  "payload": {
-     "well": "formed",
-     "json": "test",
-     "a": [1,2,3,4],
-     "number1": 1,
-     "number2": 34.7,
-     "b": [
-        "something":"more",
-        "here":"too"
-        ]
-  }
- }
-
-EXCEPTION: Oops, malformed JSON. Please try again.
-
-
-COMMAND: 
- {
     "command": "query_payload",
     "payload": {
       "hello": "world",
@@ -248,6 +229,10 @@ COMMAND DISPATCHER: ENDED
 ```
 
 This output matches expectations.
+
+### Notable results:
+
+
 
 
 Test conditions
