@@ -7,7 +7,6 @@ In [/src/Step_3/ directory](../src/Step_3) run `make`. Executable will build as 
 
 <br>
 
-
 Files
 ---
 
@@ -16,7 +15,6 @@ Files
 * [main_no_debug.cpp](../src/Step_3/main_no_debug.cpp)
 
 <br>
-
 
 Documentation
 ---
@@ -30,7 +28,6 @@ Doxygen documentation is available for this step of the project.
 | main_no_debug.cpp | [Documentation](https://armaanhammer.github.io/lock-challenge/Step_3/html/main__no__debug_8cpp.html) | [Code](https://armaanhammer.github.io/lock-challenge/Step_3/html/main__no__debug_8cpp_source.html) |
 
 <br>
-
 
 Results
 ---
