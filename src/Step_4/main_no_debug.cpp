@@ -64,7 +64,7 @@ void thd_printer(int id, std::string msg) {
 ///
 void thd_worker (const int id, int &next_thd, std::default_random_engine &rand_e) {
 
-    int wait_tm; ///< time to randomize
+    int wait_tm; // time to randomize
 
     thd_printer(id, "starting, waiting.");
 
@@ -75,10 +75,10 @@ void thd_worker (const int id, int &next_thd, std::default_random_engine &rand_e
         mtx.lock();
         std::unique_lock<std::mutex> locker (mtx, std::adopt_lock);
         
-        /// wait for condition signal
-        /// Upon condition signal, check if current thread is next
-        /// if yes continue, if not keep waiting
-        /// lambda function creates condition predicate//// 
+        // wait for condition signal
+        // Upon condition signal, check if current thread is next
+        // if yes continue, if not keep waiting
+        // lambda function creates condition predicate 
         cond.wait(locker, [&]() { return id == next_thd; });
 
         thd_printer(id, "signal received, doing work ....");
@@ -92,8 +92,17 @@ void thd_worker (const int id, int &next_thd, std::default_random_engine &rand_e
         thd_printer(id, "done with work, signal next thread");
 
         // if topmost thread, reset next_thd
-        if(next_thd == NUM_THDS-1) next_thd = 0;
-        else( ++next_thd); ///< otherwise, just increment 
+        if( next_thd == NUM_THDS-1 ) { 
+            next_thd = 0;
+        }
+        // otherwise, just increment
+        /// \bug The next line was originally set to:
+        ///      else( ++next_thd);
+        ///      AFAIK, that should not have compiled. I just noticed this, so
+        ///      going to recompile and see what happens.
+        else {
+            ++next_thd;
+        } 
 
         cond.notify_all();  ///< restart sequence
     }
@@ -105,33 +114,32 @@ int main () {
     //bool DEBUG = true;
     int id = -1; // identifier to pass to Debug Printer
 
-    std::thread threads[NUM_THDS]; /// create an array of NUM_THDS thread objects
+    std::thread threads[NUM_THDS]; // create an array of NUM_THDS thread objects
     int next_thd = -1; // prevent a spurious wake from prematurely activating thread 0
 
-    std::default_random_engine rand_e; /// create a pseudo-random engine
+    std::default_random_engine rand_e; // create a pseudo-random engine
    
     std::cout << "main: starting all threads" << std::endl;
 
     // spawn NUM_THDS threads:
     for (int i=0; i<NUM_THDS; ++i) {
 
-        /// populate the array of thread objects
-        /// pass in: * their unique ID by value
-        ///          * an integer to keep track of thread order by reference
-        ///          * a shared psuedo-random number generator by reference
+        // populate the array of thread objects
+        // pass in: * their unique ID by value
+        //          * an integer to keep track of thread order by reference
+        //          * a shared psuedo-random number generator by reference
         threads[i] = std::thread(thd_worker, i, std::ref(next_thd), std::ref(rand_e));
     }
 
-    /// wait for 3 seconds
+    // wait for 3 seconds
     std::this_thread::sleep_for(std::chrono::seconds(3));
 
     cond.notify_all();  // start sequence
     next_thd = 0;       // allow thread 0 to be activated
 
     // clean up
-    for (auto& th : threads) {
+    for ( auto& th : threads ) {
         th.join();
-        
     }
 
     return 0;

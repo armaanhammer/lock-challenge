@@ -8,7 +8,7 @@
 /// \note needs to be compiled with flag -pthread.
 ///
 /// \author Armaan Roshani
-/// \bug no known bugs
+/// 
 ///
 
 
@@ -42,7 +42,7 @@ bool DEBUG = false;             // turn on debug messages
 /// Prints to standard out
 /// \warning NOT thread-safe; must be called within a thread-safe scope
 ///
-void DBG_PRNTR(int id, std::string msg) {
+void debugPrinter(int id, std::string msg) {
     
     std::cerr << "***\tDEBUG from" << id+1 << ": " 
               << msg << "\t***" << std::endl;
@@ -51,12 +51,12 @@ void DBG_PRNTR(int id, std::string msg) {
 /// 
 /// \brief DEBUG PRINTER function overload
 ///
-/// \overload DBG_PRNTR
+/// \overload debugPrinter
 ///
 /// \param id an integer that defines thread number (0 for main)
 /// \param next_thd an integer indicating next thread to run
 ///
-void DBG_PRNTR(int id, int next_thd) {
+void debugPrinter(int id, int next_thd) {
     
     std::cerr << "***\tDEBUG from" << id+1 << ": " 
               << " next: " << next_thd << "\t***" << std::endl;
@@ -65,13 +65,13 @@ void DBG_PRNTR(int id, int next_thd) {
 /// 
 /// \brief DEBUG PRINTER function overload
 ///
-/// \overload DBG_PRNTR
+/// \overload debugPrinter
 ///
 /// \param id an integer that defines thread number (0 for main)
 /// \param msg a string containing message to be printed
 /// \param next_thd an integer indicating next thread to run
 ///
-void DBG_PRNTR(int id, std::string msg, int next_thd) {
+void debugPrinter(int id, std::string msg, int next_thd) {
     
     std::cerr << "***\tDEBUG from" << id+1 << ": " 
               << msg << " next: " << next_thd << "\t***" << std::endl;
@@ -91,13 +91,16 @@ void DBG_PRNTR(int id, std::string msg, int next_thd) {
 void thd_printer(int id, std::string msg) {
     //bool DEBUG = true;
 
-    if(DEBUG) DBG_PRNTR(id, "made it to thd_printer");
+    if(DEBUG) 
+        debugPrinter(id, "made it to thd_printer");
 
     prnt_mtx.lock();
-    if(DEBUG) DBG_PRNTR(id, "made it to mtx.lock");
+    if(DEBUG) 
+        debugPrinter(id, "made it to mtx.lock");
     
     chal::LockGuard<std::mutex> lck (prnt_mtx, std::adopt_lock);
-    if(DEBUG) DBG_PRNTR(id, "made it to LockGuard");
+    if(DEBUG) 
+        debugPrinter(id, "made it to LockGuard");
     
     std::cout << "thread" << id+1 << ": " << msg << std::endl;
 }
@@ -117,9 +120,10 @@ void thd_printer(int id, std::string msg) {
 void thd_worker (const int id, int &next_thd, std::default_random_engine &rand_e) {
     //bool DEBUG = true;
     
-    if(DEBUG) DBG_PRNTR(id, next_thd);
+    if(DEBUG) 
+        debugPrinter(id, next_thd);
 
-    int wait_tm; ///< time to randomize
+    int wait_tm; // time to randomize
 
     thd_printer(id, "starting, waiting.");
 
@@ -127,17 +131,20 @@ void thd_worker (const int id, int &next_thd, std::default_random_engine &rand_e
     while(1) {
     
         // lock mutex
-        if(DEBUG) DBG_PRNTR(id, "ABOUT TO LOCK", next_thd);
+        if(DEBUG) 
+            debugPrinter(id, "ABOUT TO LOCK", next_thd);
         mtx.lock();
         std::unique_lock<std::mutex> locker (mtx, std::adopt_lock);
         
-        /// wait for condition signal
-        /// Upon condition signal, check if current thread is next
-        /// if yes continue, if not keep waiting
-        /// lambda function creates condition predicate//// 
-        if(DEBUG) DBG_PRNTR(id, "made it to cond.wait");   
+        // wait for condition signal
+        // Upon condition signal, check if current thread is next
+        // if yes continue, if not keep waiting
+        // lambda function creates condition predicate 
+        if(DEBUG) 
+            debugPrinter(id, "made it to cond.wait");   
         cond.wait(locker, [&]() { return id == next_thd; });
-        if(DEBUG) DBG_PRNTR(id, "made it past cond.wait");   
+        if(DEBUG) 
+            debugPrinter(id, "made it past cond.wait");   
 
         thd_printer(id, "signal received, doing work ....");
 
@@ -145,18 +152,30 @@ void thd_worker (const int id, int &next_thd, std::default_random_engine &rand_e
         wait_tm = 1 + rand_e() % 5; 
          
         // sleep to simulate work
-        if(DEBUG) DBG_PRNTR(id, "sleeping for:", wait_tm);
+        if(DEBUG) 
+            debugPrinter(id, "sleeping for:", wait_tm);
         std::this_thread::sleep_for(std::chrono::seconds(wait_tm));
 
         thd_printer(id, "done with work, signal next thread");
-        if(DEBUG) DBG_PRNTR(id, "returned from thd_printer");
+        if(DEBUG) 
+            debugPrinter(id, "returned from thd_printer");
 
         // if topmost thread, reset next_thd
-        if(next_thd == NUM_THDS-1) next_thd = 0;
-        else( ++next_thd); ///< otherwise, just increment 
+        if(next_thd == NUM_THDS-1) { 
+            next_thd = 0;
+        }
+        // otherwise, just increment
+        /// \bug The next line was originally set to:
+        ///      else( ++next_thd);
+        ///      AFAIK, that should not have compiled. I just noticed this, so
+        ///      going to recompile and see what happens.
+        else {
+            ++next_thd;
+        } 
 
-        if(DEBUG) DBG_PRNTR(id, "ABOUT TO NOTIFY", next_thd);
-        cond.notify_all();  ///< restart sequence
+        if(DEBUG) 
+            debugPrinter(id, "ABOUT TO NOTIFY", next_thd);
+        cond.notify_all();  // restart sequence
     }
 }
 
@@ -176,30 +195,35 @@ int main () {
     // spawn NUM_THDS threads:
     for (int i=0; i<NUM_THDS; ++i) {
         
-        if(DEBUG) DBG_PRNTR(id, "main for loop #");
+        if(DEBUG) 
+            debugPrinter(id, "main for loop #");
 
-        /// populate the array of thread objects
-        /// pass in: * their unique ID by value
-        ///          * an integer to keep track of thread order by reference
-        ///          * a shared psuedo-random number generator by reference
+        // populate the array of thread objects
+        // pass in: * their unique ID by value
+        //          * an integer to keep track of thread order by reference
+        //          * a shared psuedo-random number generator by reference
         threads[i] = std::thread(thd_worker, i, std::ref(next_thd), std::ref(rand_e));
     }
 
     /// wait for 3 seconds
     std::this_thread::sleep_for(std::chrono::seconds(3));
 
-    if(DEBUG) DBG_PRNTR(id, "waited three seconds");
+    if(DEBUG) 
+        debugPrinter(id, "waited three seconds");
 
     cond.notify_all();  // start sequence
     next_thd = 0;       // allow thread 0 to be activated
 
-    if(DEBUG) DBG_PRNTR(id, "main join for starting");
+    if(DEBUG) 
+        debugPrinter(id, "main join for starting");
 
     // clean up
-    for (auto& th : threads) {
+    for ( auto& th : threads ) {
         th.join();
         
-        if(DEBUG) DBG_PRNTR(id, "an instance of main for join loop");
+        if(DEBUG) {
+            debugPrinter(id, "an instance of main for join loop");
+        }
     }
 
     return 0;
