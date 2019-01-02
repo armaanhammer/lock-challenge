@@ -44,12 +44,10 @@ Step 5: Dispatcher Challenge
 
 * [Documentation](https://armaanhammer.github.io/lock-challenge/Step_5/html/index.html)
 * [Code](src/Step_5)
-* [Design log](design_log/Step_5.md) (in progress)
+* [Design log](design_log/Step_5.md)
 
 
 Step 6 (in progress)
----
-
 ---
 
 
