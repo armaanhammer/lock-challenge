@@ -36,15 +36,24 @@ Doxygen documentation is available for this step of the project.
 Results
 ---
 
-Running the program with `VERBOSE` disabled and with `exit_command` not commented out produced this output to the terminal:
+### Example 1
+
+Running the program with:
+* `TEST_ALL` enabled
+* `VERBOSE` disabled
+* `exit_command` not commented out 
+produced this output to the terminal:
 
 ```bash
+armaan@ubuntuVM:build$ ./dispatcher 
 COMMAND DISPATCHER: STARTED
 CommandDispatcher: addCommandHandler: help
 CommandDispatcher: addCommandHandler: exit
 CommandDispatcher: addCommandHandler: sum_ints
 CommandDispatcher: addCommandHandler: query_payload
 CommandDispatcher: addCommandHandler: mean_ints
+CommandDispatcher: addCommandHandler: help
+Command help already existed. Addition failed
 
 
 COMMAND: 
@@ -226,13 +235,66 @@ COMMAND:
 Controller::exit: command: 
 Exiting program on user request.
 COMMAND DISPATCHER: ENDED
+armaan@ubuntuVM:build$
 ```
 
 This output matches expectations.
 
-### Notable results:
+### Example 2
+
+Running the program with:
+* `TEST_ALL` disabled
+* `VERBOSE` enable
+produced this output to the terminal, including user commands entered at prompt:
+
+```bash
+armaan@ubuntuVM:build$ ./dispatcher 
+COMMAND DISPATCHER: STARTED
+CommandDispatcher: addCommandHandler: help
+Command help added to map.
+CommandDispatcher: addCommandHandler: exit
+Command exit added to map.
+CommandDispatcher: addCommandHandler: sum_ints
+Command sum_ints added to map.
+CommandDispatcher: addCommandHandler: query_payload
+Command query_payload added to map.
+CommandDispatcher: addCommandHandler: mean_ints
+Command mean_ints added to map.
+CommandDispatcher: addCommandHandler: help
+Command help already existed. Addition failed
 
 
+
+COMMANDS: {"command":"exit", "payload":{"reason":"User requested exit."}}
+	enter command : {"command":"help","payload":{"usage":"something arbitrary"}}
+
+
+COMMAND: {"command":"help","payload":{"usage":"something arbitrary"}}
+found command: help
+found payload: {"usage":"something arbitrary"}
+help matched a value in map!
+Attempting to start command handler
+Controller::help: command: 
+something arbitrary
+
+
+
+COMMANDS: {"command":"exit", "payload":{"reason":"User requested exit."}}
+	enter command : {"command":"exit","payload":{"reason":"I've been looking at the computer for far too long, and my eyes are going square."}}
+
+
+COMMAND: {"command":"exit","payload":{"reason":"I've been looking at the computer for far too long, and my eyes are going square."}}
+found command: exit
+found payload: {"reason":"I've been looking at the computer for far too long, and my eyes are going square."}
+exit matched a value in map!
+Attempting to start command handler
+Controller::exit: command: 
+I've been looking at the computer for far too long, and my eyes are going square.
+COMMAND DISPATCHER: ENDED
+armaan@ubuntuVM:build$ 
+```
+
+This output also matches expectations.
 
 
 Test conditions
@@ -243,6 +305,7 @@ Test conditions
     * unhandled exceptions
     * seg faults
     * other memory errors
+  * Produce output identical to examples from prompt.
   * Successfully add commands to map.
     * If conflict, throw and handle exception.
   * Parse strings for JSON.
