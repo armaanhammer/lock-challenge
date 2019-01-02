@@ -36,31 +36,243 @@ Doxygen documentation is available for this step of the project.
 Results
 ---
 
-It produced this output to the terminal when combining standard out and standard error:
+Running the program with `VERBOSE` disabled and with `exit_command` not commented out produced this output to the terminal:
 
 ```bash
+COMMAND DISPATCHER: STARTED
+CommandDispatcher: addCommandHandler: help
+CommandDispatcher: addCommandHandler: exit
+CommandDispatcher: addCommandHandler: sum_ints
+CommandDispatcher: addCommandHandler: query_payload
+CommandDispatcher: addCommandHandler: mean_ints
+
+
+COMMAND: 
+ {
+  "command":"fail",
+  "payload": {
+     "Does not":"really matter what is in here."
+  }
+ }
+
+EXCEPTION: Oops, no match for command found in map. Please try again.
+
+
+COMMAND: 
+ {
+  "command":"help",
+  "payload": {
+     "usage":"Enter json command in 'command':'<command>','payload': { // json payload of arguments }"
+  }
+ }
+
+Controller::help: command: 
+Enter json command in 'command':'<command>','payload': { // json payload of arguments }
+
+
+COMMAND: 
+ {
+  "command":"help",
+  "payload": {
+     "reason":"Not usage."
+  }
+ }
+
+Controller::help: command: 
+EXCEPTION: Oops, no member "usage" present in payload JSON. Please try again.
+
+
+COMMAND: 
+ {
+  "command": "sum_ints",
+  "payload": {
+     "addends": [1, 2, 3]
+  }
+ }
+
+Controller::sum_ints command: 
+6
+
+
+COMMAND: 
+ {
+  "command": "sum_ints",
+  "payload": {
+     "addends": [1, 2, 3, 4, 5, 100, 999999999, -1, 0, -999]
+  }
+ }
+
+Controller::sum_ints command: 
+999999114
+
+
+COMMAND: 
+ {
+  "command": "sum_ints",
+  "payload": {
+     "addends": [1, 2, 3, 4.5, 5.0, 100.1, 999999999.1, -1.1, 0, -999.1]
+  }
+ }
+
+Controller::sum_ints command: 
+6
+
+
+COMMAND: 
+ {
+  "command": "sum_ints",
+  "payload": {
+     "addends": ["apples", "oranges", "turtles"]
+  }
+ }
+
+Controller::sum_ints command: 
+EXCEPTION: Oops, no integers in array. Please try again.
+
+
+COMMAND: 
+ {
+  "command": "sum_ints",
+  "payload": {
+     "well":"formed",
+     "json":"test"
+  }
+ }
+
+Controller::sum_ints command: 
+EXCEPTION: Oops, no member "addends" present in payload JSON. Please try again.
+
+
+COMMAND: 
+ {
+  "command": "mean_ints",
+  "payload": {
+     "addends": [1, 2, 3, 4, 5]
+  }
+ }
+
+Controller::mean_ints command: 
+3
+
+
+COMMAND: 
+ {
+  "command": "mean_ints",
+  "payload": {
+     "addends": [1, 2, 2]
+  }
+ }
+
+Controller::mean_ints command: 
+1
+
+
+COMMAND: 
+ {
+  "command": "mean_ints",
+  "payload": {
+     "addends": [1, 2, 3, 4, 5, 100, 999999999, -1, 0, -999]
+  }
+ }
+
+Controller::mean_ints command: 
+99999911
+
+
+COMMAND: 
+ {
+  "command": "query_payload",
+  "payload": {
+     "well": "formed",
+     "json": "test",
+     "a": [1,2,3,4],
+     "number1": 1,
+     "number2": 34.7,
+     "b": [
+        "something":"more",
+        "here":"too"
+        ]
+  }
+ }
+
+EXCEPTION: Oops, malformed JSON. Please try again.
+
+
+COMMAND: 
+ {
+    "command": "query_payload",
+    "payload": {
+      "hello": "world",
+      "t": true ,
+      "f": false,
+      "n": null,
+      "i": 123,
+      "pi": 3.1416,
+      "a": [1, 2, 3, 4]
+   }
+ }
+
+Controller::payload_type command: 
+Type of member hello is String
+Type of member t is True
+Type of member f is False
+Type of member n is Null
+Type of member i is Number
+Type of member pi is Number
+Type of member a is Array
+
+
+COMMAND: 
+ {
+  "command":"exit",
+  "payload": {
+     "booga":"gooba"
+  }
+ }
+
+Controller::exit: command: 
+EXCEPTION: Oops, no member "reason" present in payload JSON. Please try again.
+
+
+COMMAND: 
+ {
+  "command":"exit",
+  "payload": {
+     "reason":"Exiting program on user request."
+  }
+ }
+
+Controller::exit: command: 
+Exiting program on user request.
+COMMAND DISPATCHER: ENDED
 ```
 
-And this output when only printing standard out:
-
-```bash
-```
-
-And this output when only printing standard error:
-
-```bash
-```
-
-These outputs match expectations.
+This output matches expectations.
 
 
 Test conditions
 ---
 
 * Pass: 
-  * 
-  * Avoid anomalous behavior, including but not limted to, .
-  * Demonstrate that .
+  * Avoid anomalous behavior, including but not limited to:
+    * unhandled exceptions
+    * seg faults
+    * other memory errors
+  * Successfully add commands to map.
+    * If conflict, throw and handle exception.
+  * Parse strings for JSON.
+    * If no JSON present, throw and handle exception.
+    * If JSON present, parse JSON for "command" and "payload" key/value pairs.
+      * If one or both not present, throw and handle exception.
+      * If both present, query map for matching command.
+        * If no matching command, throw and handle exception.
+        * If matching command found, pass value stored by "payload" key to command handler function.
+  * Inside of each command handler function, parse value passed in for JSON.
+    * If no match for required key/value pair, throw and handle exception.
+    * If match for required key/value pair, safely determine if value contains valid data.
+      * If value does not contain valid data, throw and handle exception.
+      * If value either contains only valid data, or both valid and invalid data, handle command using valid data.
+  * Continue indefinitely until "exit" command successfully handled.
 * Fail: Any other result.
 
 
@@ -72,6 +284,8 @@ Method
 
 ## Design Constraints
 
+The project involved gluing together parts of an already-established codebase, and creating new functionality on top of it. To facilitate smooth operation, needed to establish what constraints the existing code placed on my implementations. Here are the constraints identified:
+
 * main()
   * adds command handlers in Controller class to CommandDispatcher using addCommandHandler
   * invokes CommandDispatcher::dispatchCommand using a raw string.
@@ -80,17 +294,25 @@ Method
   * invokes command handler functions using either rapidjson::value or rapidjson::document objects
 * Controller()
   * implements command handler functions
+  * return values are bool
   
 ## Design Decisions
 
+To design around these constraints, I needed to parse out a reasonable division of labor for the functions I implemented, and determine how information would be passed back and forth. I chose to allow functions at all depths to print to the user, except on error conditions. On errors, I chose to throw exceptions which get passed back to and handled by main(). Were I to continue to improve on this code, I would consider creating a shared print function for all the other functions to call so the output stream is consolidated to one place.
+
+Here is a psuedo-code division of labor for my implementations:
+
 * main()
   * prints success to user
-  * catches failure messages exceptions and prints to user
+  * catches failure message exceptions from all other parts of program and passes them to exceptionPrinter
+* exceptionPrinter()
+  * prints to user
+  * returns to main
 * CommandDispatcher()
   * parses raw string from main into a rapidjson::document
   * performs initial checks to verify that "command" and "payload" values exist
-  * extracts "payload" value from document and creates new document to pass to command handler
-  * attempts to invoke command handler function matching "command" 
+  * attempts to find command handler function matching "command" 
+  * extracts "payload" value from document and passes by reference to command handler
   * prints success to user
   * passes failures as exceptions back to main
   * passes exceptions from Controller back to main
