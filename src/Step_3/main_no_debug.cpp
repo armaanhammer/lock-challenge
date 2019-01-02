@@ -84,8 +84,10 @@ void thd_worker (const int id, int &next_thd, std::default_random_engine &rand_e
         thd_printer(id, "done with work, signal next thread");
 
         // if topmost thread, reset next_thd
-        if(next_thd == NUM_THDS-1) next_thd = 0;
-        else( ++next_thd); ///< otherwise, just increment 
+        if(next_thd == NUM_THDS-1) 
+            next_thd = 0;
+        else 
+            ++next_thd; ///< otherwise, just increment 
 
         cond.notify_all();  ///< restart sequence
     }
@@ -104,7 +106,7 @@ int main () {
     std::cout << "main: starting all threads" << std::endl;
 
     // spawn NUM_THDS threads:
-    for (int i=0; i<NUM_THDS; ++i) {
+    for ( int i=0; i<NUM_THDS; ++i ) {
 
         // populate the array of thread objects
         // pass in: * their unique ID by value
@@ -120,7 +122,7 @@ int main () {
     next_thd = 0;       // allow thread 0 to be activated
 
     // clean up
-    for (auto& th : threads) {
+    for ( auto& th : threads ) {
         th.join();
     }
 
