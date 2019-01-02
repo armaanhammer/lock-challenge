@@ -1,0 +1,189 @@
+COMMAND DISPATCHER: STARTED
+CommandDispatcher: addCommandHandler: help
+CommandDispatcher: addCommandHandler: exit
+CommandDispatcher: addCommandHandler: sum_ints
+CommandDispatcher: addCommandHandler: query_payload
+CommandDispatcher: addCommandHandler: mean_ints
+CommandDispatcher: addCommandHandler: help
+Command help already existed. Addition failed
+
+
+COMMAND: 
+ {
+  "command":"fail",
+  "payload": {
+     "Does not":"really matter what is in here."
+  }
+ }
+
+EXCEPTION: Oops, no match for command found in map. Please try again.
+
+
+COMMAND: 
+ {
+  "command":"help",
+  "payload": {
+     "usage":"Enter json command in 'command':'<command>','payload': { // json payload of arguments }"
+  }
+ }
+
+Controller::help: command: 
+Enter json command in 'command':'<command>','payload': { // json payload of arguments }
+
+
+COMMAND: 
+ {
+  "command":"help",
+  "payload": {
+     "reason":"Not usage."
+  }
+ }
+
+Controller::help: command: 
+EXCEPTION: Oops, no member "usage" present in payload JSON. Please try again.
+
+
+COMMAND: 
+ {
+  "command": "sum_ints",
+  "payload": {
+     "addends": [1, 2, 3]
+  }
+ }
+
+Controller::sum_ints command: 
+6
+
+
+COMMAND: 
+ {
+  "command": "sum_ints",
+  "payload": {
+     "addends": [1, 2, 3, 4, 5, 100, 999999999, -1, 0, -999]
+  }
+ }
+
+Controller::sum_ints command: 
+999999114
+
+
+COMMAND: 
+ {
+  "command": "sum_ints",
+  "payload": {
+     "addends": [1, 2, 3, 4.5, 5.0, 100.1, 999999999.1, -1.1, 0, -999.1]
+  }
+ }
+
+Controller::sum_ints command: 
+6
+
+
+COMMAND: 
+ {
+  "command": "sum_ints",
+  "payload": {
+     "addends": ["apples", "oranges", "turtles"]
+  }
+ }
+
+Controller::sum_ints command: 
+EXCEPTION: Oops, no integers in array. Please try again.
+
+
+COMMAND: 
+ {
+  "command": "sum_ints",
+  "payload": {
+     "well":"formed",
+     "json":"test"
+  }
+ }
+
+Controller::sum_ints command: 
+EXCEPTION: Oops, no member "addends" present in payload JSON. Please try again.
+
+
+COMMAND: 
+ {
+  "command": "mean_ints",
+  "payload": {
+     "addends": [1, 2, 3, 4, 5]
+  }
+ }
+
+Controller::mean_ints command: 
+3
+
+
+COMMAND: 
+ {
+  "command": "mean_ints",
+  "payload": {
+     "addends": [1, 2, 2]
+  }
+ }
+
+Controller::mean_ints command: 
+1
+
+
+COMMAND: 
+ {
+  "command": "mean_ints",
+  "payload": {
+     "addends": [1, 2, 3, 4, 5, 100, 999999999, -1, 0, -999]
+  }
+ }
+
+Controller::mean_ints command: 
+99999911
+
+
+COMMAND: 
+ {
+    "command": "query_payload",
+    "payload": {
+      "hello": "world",
+      "t": true ,
+      "f": false,
+      "n": null,
+      "i": 123,
+      "pi": 3.1416,
+      "a": [1, 2, 3, 4]
+   }
+ }
+
+Controller::payload_type command: 
+Type of member hello is String
+Type of member t is True
+Type of member f is False
+Type of member n is Null
+Type of member i is Number
+Type of member pi is Number
+Type of member a is Array
+
+
+COMMAND: 
+ {
+  "command":"exit",
+  "payload": {
+     "booga":"gooba"
+  }
+ }
+
+Controller::exit: command: 
+EXCEPTION: Oops, no member "reason" present in payload JSON. Please try again.
+
+
+COMMAND: 
+ {
+  "command":"exit",
+  "payload": {
+     "reason":"Exiting program on user request."
+  }
+ }
+
+Controller::exit: command: 
+Exiting program on user request.
+COMMAND DISPATCHER: ENDED
