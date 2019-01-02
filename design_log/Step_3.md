@@ -5,7 +5,6 @@ To duplicate
 
 In [/src/Step_3/ directory](../src/Step_3) run `make`. Executable will build as *Lock.out*. To run executable, run `./Lock.out`.
 
-<br>
 
 Files
 ---
@@ -14,7 +13,6 @@ Files
 * [main.cpp](../src/Step_3/main.cpp)
 * [main_no_debug.cpp](../src/Step_3/main_no_debug.cpp)
 
-<br>
 
 Documentation
 ---
@@ -27,7 +25,7 @@ Doxygen documentation is available for this step of the project.
 | main.cpp | [Documentation](https://armaanhammer.github.io/lock-challenge/Step_3/html/main_8cpp.html) | [Code](https://armaanhammer.github.io/lock-challenge/Step_3/html/main_8cpp_source.html) |
 | main_no_debug.cpp | [Documentation](https://armaanhammer.github.io/lock-challenge/Step_3/html/main__no__debug_8cpp.html) | [Code](https://armaanhammer.github.io/lock-challenge/Step_3/html/main__no__debug_8cpp_source.html) |
 
-<br>
+
 
 Results
 ---
@@ -52,7 +50,7 @@ thread2: signal received, doing work ....
 armaan@ubuntuVM:Step_3$ 
 ```
 
-<br>
+
 
 
 Test conditions
@@ -63,7 +61,7 @@ Test conditions
   * Avoid anomalous thread behavior, including but not limted to, deadlock and data races.
 * Fail: Any other result.
 
-<br>
+
 
 
 Method
@@ -85,7 +83,7 @@ I wrote three functions to do work, and one overloaded function to facilitate de
 
 Considerations for creating documentation are discussed here: [Reference in Appendix](Step_3_Appendix.md#doxygen-creation)
 
-<br>
+
 
 
 Requirements
@@ -122,7 +120,7 @@ Requirements
 >           on and on and on until you CTRL-C the program
 > ```
 
-<br>
+
 
 
 Prelims
