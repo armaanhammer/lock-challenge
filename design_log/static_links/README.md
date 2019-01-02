@@ -1,0 +1,1 @@
+The files in this folder can be ignored. They are created from files in the parent folder, and only exist to facilitate doxygen generation. They contain static links to content, rather than dynamic links, so they will link correctly from within Doxygen.
