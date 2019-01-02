@@ -69,19 +69,19 @@ Method
 
 ### Research
 
-Details about my research into threading and other topics are available here: [Reference in Appendix](Step_3_Appendix.md#research)
+Details about my research into threading and other topics are available here: [Reference in Appendix](https://github.com/armaanhammer/lock-challenge/tree/master/design_log/Step_3_Appendix.md#research)
 
 ### Coding
 
-I wrote three functions to do work, and one overloaded function to facilitate debug. See [Reference in Appendix](Step_1_Appendix.md#coding) for details. In brief, they are: 
-* A [general-purpose print function](Step_3_Appendix.md#thread-print-function) that the threads call from a thread-safe state
-* A [thread worker function](Step_3_Appendix.md#thread-worker-function) that listens for a signal, verifies whether it is its turn or not, and updates the other threads on whose turn it is.
-* A [main function](Step_3_Appendix.md#main-function) that initializes everything up and sets it in motion.
-* A [debug print function](Step_3_Appendix.md#debug-print-function) called from many places in the code only if a bool controlling it is set to *true*.
+I wrote three functions to do work, and one overloaded function to facilitate debug. See [Reference in Appendix](https://github.com/armaanhammer/lock-challenge/tree/master/design_log/Step_1_Appendix.md#coding) for details. In brief, they are: 
+* A [general-purpose print function](https://github.com/armaanhammer/lock-challenge/tree/master/design_log/Step_3_Appendix.md#thread-print-function) that the threads call from a thread-safe state
+* A [thread worker function](https://github.com/armaanhammer/lock-challenge/tree/master/design_log/Step_3_Appendix.md#thread-worker-function) that listens for a signal, verifies whether it is its turn or not, and updates the other threads on whose turn it is.
+* A [main function](https://github.com/armaanhammer/lock-challenge/tree/master/design_log/Step_3_Appendix.md#main-function) that initializes everything up and sets it in motion.
+* A [debug print function](https://github.com/armaanhammer/lock-challenge/tree/master/design_log/Step_3_Appendix.md#debug-print-function) called from many places in the code only if a bool controlling it is set to *true*.
 
 ### Doxygen
 
-Considerations for creating documentation are discussed here: [Reference in Appendix](Step_3_Appendix.md#doxygen-creation)
+Considerations for creating documentation are discussed here: [Reference in Appendix](https://github.com/armaanhammer/lock-challenge/tree/master/design_log/Step_3_Appendix.md#doxygen-creation)
 
 
 
@@ -128,7 +128,7 @@ Prelims
 
 ### Parsing Requirements
 
-Initially had trouble parsing requirements. [Reference in Appendix](Step_3_Appendix.md#parsing-prompt)
+Initially had trouble parsing requirements. [Reference in Appendix](https://github.com/armaanhammer/lock-challenge/tree/master/design_log/Step_3_Appendix.md#parsing-prompt)
 
 ### Environment
 
@@ -136,4 +136,4 @@ Environment remains the same as the previous steps.
 
 ### Refamiliarization with C++
 
-Continue needing to refamiliarize myself with C++ after spending large amount of time with C and Python. See [Reference in Appendix](Step_3_Appendix.md#c-reference-material) for details.
+Continue needing to refamiliarize myself with C++ after spending large amount of time with C and Python. See [Reference in Appendix](https://github.com/armaanhammer/lock-challenge/tree/master/design_log/Step_3_Appendix.md#c-reference-material) for details.
