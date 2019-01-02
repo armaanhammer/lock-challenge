@@ -17,6 +17,10 @@ add_executable(dispatcher main.cpp)
 
 It looks straightforward enough. Going to copy [dispatcher_challenge.cpp prompt](../prompt/dispatcher_challenge.cpp) to src and rename it [main.cpp](../src/Step_5/main.cpp) to comply.
 
+After some trial and error, it appears that debug symbols are not added to the executable with this CMakeLists.txt. I need to run gdb, so I tried adding this line: `set(CMAKE_BUILD_TYPE Debug)` but it did not seem to have any effect. Searching around a bit showed that I can pass flags in explicitly, so I added this line as well: `add_compile_options(-Wall -Wextra -Wpedantic -g)`.
+
+
+
 <br>
 
 Research
