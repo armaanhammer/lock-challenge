@@ -10,7 +10,8 @@ To duplicate
    * A value of `false` will skip all tests and immediately fall through to a user prompt.
 1. In the [/src/Step_5/build/ directory](../src/Step_5/build/) run `make`. Executable will build as `dispatcher`. 
 1. To run executable, run `./dispatcher`.
-1. If the final command (exit_command) [on line 824 of main.cpp](../src/Step_5/main.cpp#L824) is not commented out, the exit_command will succeed, terminating execution. If it is commented out, execution will fall through to a user prompt. You may enter JSON for parsing.
+1. If the final command (exit_command) [on line 824 of main.cpp](../src/Step_5/main.cpp#L824) is not commented out, the exit_command will succeed, terminating execution. If it is commented out, execution will fall through to a user prompt. 
+1. At the user prompt, JSON may be entered for parsing.
 
 
 Files
