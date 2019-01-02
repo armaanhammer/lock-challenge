@@ -96,7 +96,6 @@ void thd_worker (const int id, int &next_thd, std::default_random_engine &rand_e
 
 
 int main () {
-    int id = -1; // identifier to pass to Debug Printer
 
     std::thread threads[NUM_THDS]; /// create an array of NUM_THDS thread objects
     int next_thd = -1; // prevent a spurious wake from prematurely activating thread 0
