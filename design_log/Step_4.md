@@ -12,9 +12,9 @@ Files
 ---
 
 * [LockGuard.h](../src/Step_4/LockGuard.h)
-* [main.cpp](../src/Step_4/main.cpp)
-* [main_no_debug.cpp](../src/Step_4/main_no_debug.cpp)
-* [error_log.txt](../src/Step_4/error_log.txt)
+* [main.cpp](../src/Step_4/main.cpp) (with DEBUG code)
+* [main_no_debug.cpp](../src/Step_4/main_no_debug.cpp) (identical, except without DEBUG code)
+* [error_log.txt](../src/Step_4/error_log.txt) 
 
 
 Documentation
