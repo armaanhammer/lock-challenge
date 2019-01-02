@@ -23,9 +23,7 @@ After some trial and error, it appears that debug symbols are not added to the e
 
 but it did not seem to have any effect. Searching around a bit showed that I can pass flags in explicitly, so I added this line as well: 
 
-```
-add_compile_options(-Wall -Wextra -Wpedantic -g)
-```
+```add_compile_options(-Wall -Wextra -Wpedantic -g)```
 
 
 
