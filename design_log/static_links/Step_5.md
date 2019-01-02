@@ -397,8 +397,8 @@ The general environment remains the same as the previous steps.
 
 #### CMAKE
 
-I set up my CMAKE environment based on the prompt CMakeLists.txt available here: [https://github.com/armaanhammer/lock-challenge/tree/master/prompt/CMakeLists.txt](../prompt/CMakeLists.txt). My final CMakeLists.txt file has some changes. Commentary is available in the [Reference in Appendix](https://github.com/armaanhammer/lock-challenge/tree/master/design_log/Step_5_Appendix.md#cmake).
+I set up my CMAKE environment based on the prompt CMakeLists.txt available here: [https://github.com/armaanhammer/lock-challenge/tree/master/prompt/CMakeLists.txt](https://github.com/armaanhammer/lock-challenge/blob/master/prompt/CMakeLists.txt). My final CMakeLists.txt file has some changes. Commentary is available in the [Reference in Appendix](https://github.com/armaanhammer/lock-challenge/tree/master/design_log/Step_5_Appendix.md#cmake).
 
 ### Doxygen
 
-Considerations for creating documentation remain the same as for Step 3: [Reference in Step 3 Appendix](Step_3_Appendix.md#doxygen-creation)
+Considerations for creating documentation remain the same as for Step 3: [Reference in Step 3 Appendix](https://github.com/armaanhammer/lock-challenge/blob/master/design_log/Step_3_Appendix.md#doxygen-creation)
