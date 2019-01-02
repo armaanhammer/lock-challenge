@@ -23,13 +23,13 @@ Files and Documentation
 
 Doxygen documentation is available for this step of the project. 
 
-[Step 3 Documentation main page](https://armaanhammer.github.io/lock-challenge/Step_3/html/index.html)
+[Step 3 Doxygen main page](https://armaanhammer.github.io/lock-challenge/Step_3/html/index.html)
 
-| Files | | |
+| File on GitHub | Code in Doxygen | Documentation in Doxygen |
 | --- | --- | --- |
-| LockGuard.h | [Documentation](https://armaanhammer.github.io/lock-challenge/Step_3/html/LockGuard_8h.html) | [Code](https://armaanhammer.github.io/lock-challenge/Step_3/html/LockGuard_8h_source.html) |
-| main.cpp | [Documentation](https://armaanhammer.github.io/lock-challenge/Step_3/html/main_8cpp.html) | [Code](https://armaanhammer.github.io/lock-challenge/Step_3/html/main_8cpp_source.html) |
-| main_no_debug.cpp | [Documentation](https://armaanhammer.github.io/lock-challenge/Step_3/html/main__no__debug_8cpp.html) | [Code](https://armaanhammer.github.io/lock-challenge/Step_3/html/main__no__debug_8cpp_source.html) |
+| [LockGuard.h](../src/Step_3/LockGuard.h) | [Code](https://armaanhammer.github.io/lock-challenge/Step_3/html/LockGuard_8h_source.html) | [Documentation](https://armaanhammer.github.io/lock-challenge/Step_3/html/LockGuard_8h.html) |
+| [main.cpp](../src/Step_3/main.cpp) | [Code](https://armaanhammer.github.io/lock-challenge/Step_3/html/main_8cpp_source.html) | [Documentation](https://armaanhammer.github.io/lock-challenge/Step_3/html/main_8cpp.html) |
+| [main_no_debug.cpp](../src/Step_3/main_no_debug.cpp) | [Code](https://armaanhammer.github.io/lock-challenge/Step_3/html/main__no__debug_8cpp_source.html) | [Documentation](https://armaanhammer.github.io/lock-challenge/Step_3/html/main__no__debug_8cpp.html) |
 
 <br>
 
