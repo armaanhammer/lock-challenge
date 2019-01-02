@@ -9,14 +9,12 @@ The purpose of this design log is twofold:
 
 ## Table of Contents
 
-* [Step 1](Step_1.md) details my implementation of lock_guard
+* [Step 1](Step_1.md) Reimplement LockGuard
 
-* [Step 2](Step_2.md) details my threading testbench
+* [Step 2](Step_2.md) Specify Threads
 
-* [Step 3](Step_3.md) details my ...
+* [Step 3](Step_3.md) Synchronize Threads
 
-* [Step 4](Step_4.md) ...
+* [Step 4](Step_4.md) Protect a Resource
 
-* [Step 5](Step_5.md) ...
-
-* [Step 6](Step_6.md) ...
+* [Step 5](Step_5.md) Dispatcher Challenge
