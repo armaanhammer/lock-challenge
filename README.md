@@ -12,35 +12,40 @@ My goals in completing this challenge are:
 Step 1: Reimplement LockGuard
 ---
 
-* [Design log](design_log/Step_1.md)
 * [Code](src/Step_1)
+* [Design log](design_log/Step_1.md)
+
 
 Step 2: Specify Threads
 ---
 
-* [Design log](design_log/Step_2.md)
 * [Code](src/Step_2)
+* [Design log](design_log/Step_2.md)
+
 
 Step 3: Synchronize Threads
 ---
 
-* [Design log](design_log/Step_3.md)
-* [Code](src/Step_3)
 * [Documentation](https://armaanhammer.github.io/lock-challenge/Step_3/html/index.html)
+* [Code](src/Step_3)
+* [Design log](design_log/Step_3.md)
+
 
 Step 4: Protect a Resource
 ---
 
-* [Design log](design_log/Step_4.md)
-* [Code](src/Step_4)
 * [Documentation](https://armaanhammer.github.io/lock-challenge/Step_4/html/index.html)
+* [Code](src/Step_4)
+* [Design log](design_log/Step_4.md)
+
 
 Step 5: Dispatcher Challenge
 ---
 
-* [Design log](design_log/Step_5.md) (in progress)
-* [Code](src/Step_5)
 * [Documentation](https://armaanhammer.github.io/lock-challenge/Step_5/html/index.html)
+* [Code](src/Step_5)
+* [Design log](design_log/Step_5.md) (in progress)
+
 
 Step 6 (in progress)
 ---
