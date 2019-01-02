@@ -441,4 +441,4 @@ What does this do? Says it is a constructor definition. Occurs inside of a struc
 
 https://www.youtube.com/watch?v=mS9755gF66w
 
-
+Not necessary to resolve immediately. Keeping question for reference.
