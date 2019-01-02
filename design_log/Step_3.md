@@ -10,8 +10,8 @@ Files
 ---
 
 * [LockGuard.h](../src/Step_3/LockGuard.h)
-* [main.cpp](../src/Step_3/main.cpp)
-* [main_no_debug.cpp](../src/Step_3/main_no_debug.cpp)
+* [main.cpp](../src/Step_3/main.cpp) (with DEBUG code)
+* [main_no_debug.cpp](../src/Step_3/main_no_debug.cpp) (identical, except without DEBUG code)
 
 
 Documentation
