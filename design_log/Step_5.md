@@ -42,6 +42,7 @@ Running the program with:
 * `TEST_ALL` enabled
 * `VERBOSE` disabled
 * `exit_command` not commented out 
+
 produced this output to the terminal:
 
 ```bash
@@ -245,6 +246,7 @@ This output matches expectations.
 Running the program with:
 * `TEST_ALL` disabled
 * `VERBOSE` enable
+
 produced this output to the terminal, including user commands entered at prompt:
 
 ```bash
