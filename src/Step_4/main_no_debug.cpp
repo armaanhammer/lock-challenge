@@ -95,11 +95,6 @@ void thd_worker (const int id, int &next_thd, std::default_random_engine &rand_e
         if( next_thd == NUM_THDS-1 ) { 
             next_thd = 0;
         }
-        // otherwise, just increment
-        /// \bug The next line was originally set to:
-        ///      else( ++next_thd);
-        ///      AFAIK, that should not have compiled. I just noticed this, so
-        ///      going to recompile and see what happens.
         else {
             ++next_thd;
         } 
