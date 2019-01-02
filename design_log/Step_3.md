@@ -18,12 +18,13 @@ Files
 <br>
 
 
-Documentation
+Files and Documentation
 ---
 
 Doxygen documentation is available for this step of the project. 
 
-| [Step 3 main page](https://armaanhammer.github.io/lock-challenge/Step_3/html/index.html) | | |
+[Step 3 Documentation main page](https://armaanhammer.github.io/lock-challenge/Step_3/html/index.html)
+
 | --- | --- | --- |
 | LockGuard.h | [Documentation](https://armaanhammer.github.io/lock-challenge/Step_3/html/LockGuard_8h.html) | [Code](https://armaanhammer.github.io/lock-challenge/Step_3/html/LockGuard_8h_source.html) |
 | main.cpp | [Documentation](https://armaanhammer.github.io/lock-challenge/Step_3/html/main_8cpp.html) | [Code](https://armaanhammer.github.io/lock-challenge/Step_3/html/main_8cpp_source.html) |
