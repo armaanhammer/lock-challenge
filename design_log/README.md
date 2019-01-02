@@ -11,12 +11,12 @@ The purpose of this design log is twofold:
 Table of Contents
 ---
 
-## * [Step 1](Step_1.md) Reimplement LockGuard
+### * [Step 1](Step_1.md) Reimplement LockGuard
 
-## * [Step 2](Step_2.md) Specify Threads
+### * [Step 2](Step_2.md) Specify Threads
 
-## * [Step 3](Step_3.md) Synchronize Threads
+### * [Step 3](Step_3.md) Synchronize Threads
 
-## * [Step 4](Step_4.md) Protect a Resource
+### * [Step 4](Step_4.md) Protect a Resource
 
-## * [Step 5](Step_5.md) Dispatcher Challenge
+### * [Step 5](Step_5.md) Dispatcher Challenge
