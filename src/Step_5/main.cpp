@@ -195,26 +195,7 @@ auto mean_command_long = R"(
  }
 )";
 
-// This fails to register as valid JSON for some reason. 
-// Think there might be a whitespace issue.
 auto query_payload_command = R"(
- {
-  "command": "query_payload",
-  "payload": {
-     "well": "formed",
-     "json": "test",
-     "a": [1,2,3,4],
-     "number1": 1,
-     "number2": 34.7,
-     "b": [
-        "something":"more",
-        "here":"too"
-        ]
-  }
- }
-)";
-
-auto query_payload_command_2 = R"(
  {
     "command": "query_payload",
     "payload": {
@@ -787,7 +768,7 @@ int main()
     command_dispatcher.addCommandHandler( "mean_ints", controller.mean_ints); 
 
     // DEBUG - should generate warning on fail because "help" already exists in map
-    //command_dispatcher.addCommandHandler( "help", controller.help); //needs static
+    command_dispatcher.addCommandHandler( "help", controller.help);
 
     
     // array of test commands
@@ -817,8 +798,7 @@ int main()
         mean_command_fraction,
         mean_command_long, // */
 
-        query_payload_command,
-        query_payload_command_2, // */
+        query_payload_command, // */
 
         exit_command_fail/*, 
         exit_command // */
