@@ -63,24 +63,41 @@ $(function() {
 <div class="title">Step 4: Protect a Common Resource </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h2>Requirements </h2>
-<blockquote class="doxtable">
-<p>4) Use your implementation of c++11 lock_guard (NOT std::lock_guard) to protect a common resource in your threading example from #3 and #4 </p>
-</blockquote>
-<p><br />
-</p>
-<h2>Prelims </h2>
-<h3>Environment</h3>
-<p>Environment remains the same as the previous steps.</p>
-<p><br />
-</p>
-<h2>Method </h2>
-<h3>Coding</h3>
-<p>I chose <code>cout</code> as my common resoure to protect. To accomplish this, I only need to lock a mutex and call my <code><a class="el" href="classchal_1_1LockGuard.html" title="A movable scoped lock type. ">chal::LockGuard</a></code> function from within the <code>thd_printer</code> again.</p>
-<p>I debated about this for a bit. See <a href="Step_4_Appendix.md#">Reference in Appendix</a> for details. In the end, I decided to enable DEBUG printing inside of the <code><a class="el" href="classchal_1_1LockGuard.html" title="A movable scoped lock type. ">chal::LockGuard</a></code> class to demonstrate that locking and unlocking are occuring with each write to standard out from the threads.</p>
-<h3>Doxygen</h3>
-<p>Considerations for creating documentation remain the same as for Step 3: <a href="Step_3_Appendix.md#doxygen-creation">Reference in Step 3 Appendix</a></p>
-<h3>Test conditions</h3>
+<div class="textblock"><h2>To duplicate </h2>
+<ol type="1">
+<li>Enure that the bool value for <code>DEBUG</code> inside of <a class="el" href="LockGuard_8h.html" title="contains namespace chal and class LockGuard ">LockGuard.h</a> is set to <code>true</code>.</li>
+</ol>
+<ol type="1">
+<li>In <a href="https://github.com/armaanhammer/lock-challenge/tree/master/src/Step_4">Step_4/ directory</a> run <code>make</code>. Executable will build as <em>Lock.out</em>.</li>
+</ol>
+<ol type="1">
+<li>To run executable and pipe standard error to a file, run <code>./Lock.out 2&gt; error_log.txt</code>.</li>
+</ol>
+<h2>Files </h2>
+<ul>
+<li><a href="https://github.com/armaanhammer/lock-challenge/tree/master/src/Step_4/LockGuard.h">LockGuard.h</a></li>
+<li><a href="https://github.com/armaanhammer/lock-challenge/tree/master/src/Step_4/main.cpp">main.cpp</a> (with DEBUG code)</li>
+<li><a href="https://github.com/armaanhammer/lock-challenge/tree/master/src/Step_4/main_no_debug.cpp">main_no_debug.cpp</a> (identical, except without DEBUG code)</li>
+<li><a href="https://github.com/armaanhammer/lock-challenge/tree/master/src/Step_4/error_log.txt">error_log.txt</a></li>
+</ul>
+<h2>Documentation </h2>
+<p>Doxygen documentation is available for this step of the project.</p>
+<table class="doxtable">
+<tr>
+<th><a href="https://armaanhammer.github.io/lock-challenge/Step_4/html/index.html">Step 4 main page</a> </th><th></th><th></th></tr>
+<tr>
+<td><a class="el" href="LockGuard_8h.html" title="contains namespace chal and class LockGuard ">LockGuard.h</a> </td><td><a href="https://armaanhammer.github.io/lock-challenge/Step_4/html/LockGuard_8h.html">Documentation</a> </td><td><a href="https://armaanhammer.github.io/lock-challenge/Step_4/html/LockGuard_8h_source.html">Code</a> </td></tr>
+<tr>
+<td><a class="el" href="main_8cpp.html" title="contains all functions to demo thread synch ">main.cpp</a> </td><td><a href="https://armaanhammer.github.io/lock-challenge/Step_4/html/main_8cpp.html">Documentation</a> </td><td><a href="https://armaanhammer.github.io/lock-challenge/Step_4/html/main_8cpp_source.html">Code</a> </td></tr>
+<tr>
+<td><a class="el" href="main__no__debug_8cpp.html" title="contains all functions to demo thread synch ">main_no_debug.cpp</a> </td><td><a href="https://armaanhammer.github.io/lock-challenge/Step_4/html/main__no__debug_8cpp.html">Documentation</a> </td><td><a href="https://armaanhammer.github.io/lock-challenge/Step_4/html/main__no__debug_8cpp_source.html">Code</a> </td></tr>
+</table>
+<h2>Results </h2>
+<p>It produced this output to the terminal when combining standard out and standard error:</p>
+<div class="fragment"><div class="line">armaan@ubuntuVM:Step_4$ ./Lock.out</div><div class="line">main: starting all threads</div><div class="line">LockGuard adopted</div><div class="line">thread3: starting, waiting.</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">thread2: starting, waiting.</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">thread1: starting, waiting.</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">thread1: signal received, doing work ....</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">thread1: done with work, signal next thread</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">thread2: signal received, doing work ....</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">thread2: done with work, signal next thread</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">thread3: signal received, doing work ....</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">thread3: done with work, signal next thread</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">thread1: signal received, doing work ....</div><div class="line">LockGuard unlocked</div><div class="line">^C</div></div><!-- fragment --><p>And this output when only printing standard out:</p>
+<div class="fragment"><div class="line">armaan@ubuntuVM:Step_4$ ./Lock.out 2&gt; error_log.txt</div><div class="line">main: starting all threads</div><div class="line">thread3: starting, waiting.</div><div class="line">thread2: starting, waiting.</div><div class="line">thread1: starting, waiting.</div><div class="line">thread1: signal received, doing work ....</div><div class="line">thread1: done with work, signal next thread</div><div class="line">thread2: signal received, doing work ....</div><div class="line">thread2: done with work, signal next thread</div><div class="line">thread3: signal received, doing work ....</div><div class="line">thread3: done with work, signal next thread</div><div class="line">thread1: signal received, doing work ....</div><div class="line">^C</div></div><!-- fragment --><p>And this output when only printing standard error:</p>
+<div class="fragment"><div class="line">armaan@ubuntuVM:Step_4$ cat error_log.txt</div><div class="line">LockGuard adopted</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">LockGuard unlocked</div><div class="line">armaan@ubuntu373VM:Step_4$ </div></div><!-- fragment --><p>These outputs match expectations.</p>
+<h2>Test conditions </h2>
 <ul>
 <li>Pass:<ul>
 <li>Duplicate behavior from Step 3.</li>
@@ -90,32 +107,19 @@ $(function() {
 </li>
 <li>Fail: Any other result.</li>
 </ul>
-<p><br />
-</p>
-<h2>Results </h2>
-<p>It produced this output to the terminal when combining standard out and standard error:</p>
-<div class="fragment"><div class="line">armaan@ubuntuVM:Step_4$ ./Lock.out</div><div class="line">main: starting all threads</div><div class="line">LockGuard adopted</div><div class="line">thread3: starting, waiting.</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">thread2: starting, waiting.</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">thread1: starting, waiting.</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">thread1: signal received, doing work ....</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">thread1: done with work, signal next thread</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">thread2: signal received, doing work ....</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">thread2: done with work, signal next thread</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">thread3: signal received, doing work ....</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">thread3: done with work, signal next thread</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">thread1: signal received, doing work ....</div><div class="line">LockGuard unlocked</div><div class="line">^C</div></div><!-- fragment --><p>And this output when only printing standard out:</p>
-<div class="fragment"><div class="line">armaan@ubuntuVM:Step_4$ ./Lock.out 2&gt; error_log.txt</div><div class="line">main: starting all threads</div><div class="line">thread3: starting, waiting.</div><div class="line">thread2: starting, waiting.</div><div class="line">thread1: starting, waiting.</div><div class="line">thread1: signal received, doing work ....</div><div class="line">thread1: done with work, signal next thread</div><div class="line">thread2: signal received, doing work ....</div><div class="line">thread2: done with work, signal next thread</div><div class="line">thread3: signal received, doing work ....</div><div class="line">thread3: done with work, signal next thread</div><div class="line">thread1: signal received, doing work ....</div><div class="line">^C</div></div><!-- fragment --><p>And this output when only printing standard error:</p>
-<div class="fragment"><div class="line">armaan@ubuntuVM:Step_4$ cat error_log.txt</div><div class="line">LockGuard adopted</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">LockGuard unlocked</div><div class="line">LockGuard adopted</div><div class="line">LockGuard unlocked</div><div class="line">armaan@ubuntu373VM:Step_4$ </div></div><!-- fragment --><p>These outputs match expectations.</p>
-<h2>To duplicate </h2>
-<ol type="1">
-<li>Enure that the bool value for <code>DEBUG</code> inside of <a class="el" href="LockGuard_8h.html" title="contains namespace chal and class LockGuard ">LockGuard.h</a> is set to <code>true</code>.</li>
-</ol>
-<ol type="1">
-<li>In <a href="../src/Step_4">/src/Step_4/ directory</a> run <code>make</code>. Executable will build as <em>Lock.out</em>.</li>
-</ol>
-<ol type="1">
-<li>To run executable and pipe standard error to a file, run <code>./Lock.out 2&gt; error_log.txt</code>.</li>
-</ol>
-<p><br />
-</p>
-<h2>Files </h2>
-<ul>
-<li><a href="../src/Step_4/LockGuard.h">LockGuard.h</a></li>
-<li><a href="../src/Step_4/main.cpp">main.cpp</a></li>
-<li><a href="../src/Step_4/main_no_debug.cpp">main_no_debug.cpp</a></li>
-<li><a href="../src/Step_4/error_log.txt">error_log.txt</a> </li>
-</ul>
+<h2>Method </h2>
+<h3>Coding</h3>
+<p>I chose <code>cout</code> as my common resoure to protect. To accomplish this, I only need to lock a mutex and call my <code><a class="el" href="classchal_1_1LockGuard.html" title="A movable scoped lock type. ">chal::LockGuard</a></code> function from within the <code>thd_printer</code> again.</p>
+<p>I debated about this for a bit. See <a href="https://github.com/armaanhammer/lock-challenge/tree/master/design_log/Step_4_Appendix.md#coding">Reference in Appendix</a> for details. In the end, I decided to enable DEBUG printing inside of the <code><a class="el" href="classchal_1_1LockGuard.html" title="A movable scoped lock type. ">chal::LockGuard</a></code> class to demonstrate that locking and unlocking are occuring with each write to standard out from the threads.</p>
+<h3>Doxygen</h3>
+<p>Considerations for creating documentation remain the same as for Step 3: <a href="https://github.com/armaanhammer/lock-challenge/tree/master/design_log/Step_3_Appendix.md#doxygen-creation">Reference in Step 3 Appendix</a></p>
+<h2>Requirements </h2>
+<blockquote class="doxtable">
+<p>4) Use your implementation of c++11 lock_guard (NOT std::lock_guard) to protect a common resource in your threading example from #3 and #4 </p>
+</blockquote>
+<h2>Prelims </h2>
+<h3>Environment</h3>
+<p>Environment remains the same as the previous steps. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

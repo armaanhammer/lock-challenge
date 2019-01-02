@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['dbg_5fprntr',['DBG_PRNTR',['../main_8cpp.html#a03ba0d809d4caf78c3974fc4685cb096',1,'DBG_PRNTR(int id, std::string msg):&#160;main.cpp'],['../main_8cpp.html#a49bacbafdd5a3c7e28c5f7dc1ab7a638',1,'DBG_PRNTR(int id, int next_thd):&#160;main.cpp'],['../main_8cpp.html#a374a029ed1b1f1de9ca2e6422dea08df',1,'DBG_PRNTR(int id, std::string msg, int next_thd):&#160;main.cpp']]]
+  ['debugprinter',['debugPrinter',['../main_8cpp.html#ac8219baea48d84fd2ad495976a4a5bb9',1,'debugPrinter(int id, std::string msg):&#160;main.cpp'],['../main_8cpp.html#ab016f1a38fca201dbdd2926081714448',1,'debugPrinter(int id, int next_thd):&#160;main.cpp'],['../main_8cpp.html#a98b519f1a73533c21227bdca7210743b',1,'debugPrinter(int id, std::string msg, int next_thd):&#160;main.cpp']]]
 ];

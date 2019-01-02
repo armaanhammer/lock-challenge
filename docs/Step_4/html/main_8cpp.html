@@ -95,13 +95,13 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a03ba0d809d4caf78c3974fc4685cb096"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a03ba0d809d4caf78c3974fc4685cb096">DBG_PRNTR</a> (int id, std::string msg)</td></tr>
-<tr class="memdesc:a03ba0d809d4caf78c3974fc4685cb096"><td class="mdescLeft">&#160;</td><td class="mdescRight">DEBUG PRINTER function.  <a href="#a03ba0d809d4caf78c3974fc4685cb096">More...</a><br /></td></tr>
-<tr class="separator:a03ba0d809d4caf78c3974fc4685cb096"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49bacbafdd5a3c7e28c5f7dc1ab7a638"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a49bacbafdd5a3c7e28c5f7dc1ab7a638">DBG_PRNTR</a> (int id, int next_thd)</td></tr>
-<tr class="separator:a49bacbafdd5a3c7e28c5f7dc1ab7a638"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a374a029ed1b1f1de9ca2e6422dea08df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a374a029ed1b1f1de9ca2e6422dea08df">DBG_PRNTR</a> (int id, std::string msg, int next_thd)</td></tr>
-<tr class="separator:a374a029ed1b1f1de9ca2e6422dea08df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8219baea48d84fd2ad495976a4a5bb9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#ac8219baea48d84fd2ad495976a4a5bb9">debugPrinter</a> (int id, std::string msg)</td></tr>
+<tr class="memdesc:ac8219baea48d84fd2ad495976a4a5bb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">DEBUG PRINTER function.  <a href="#ac8219baea48d84fd2ad495976a4a5bb9">More...</a><br /></td></tr>
+<tr class="separator:ac8219baea48d84fd2ad495976a4a5bb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab016f1a38fca201dbdd2926081714448"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#ab016f1a38fca201dbdd2926081714448">debugPrinter</a> (int id, int next_thd)</td></tr>
+<tr class="separator:ab016f1a38fca201dbdd2926081714448"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98b519f1a73533c21227bdca7210743b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a98b519f1a73533c21227bdca7210743b">debugPrinter</a> (int id, std::string msg, int next_thd)</td></tr>
+<tr class="separator:a98b519f1a73533c21227bdca7210743b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aafa960185677581243509263e144b9e0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#aafa960185677581243509263e144b9e0">thd_printer</a> (int id, std::string msg)</td></tr>
 <tr class="memdesc:aafa960185677581243509263e144b9e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">thread print function  <a href="#aafa960185677581243509263e144b9e0">More...</a><br /></td></tr>
 <tr class="separator:aafa960185677581243509263e144b9e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -128,7 +128,6 @@ Variables</h2></td></tr>
 <dd>
 needs to be compiled with flag -pthread.</dd></dl>
 <dl class="section author"><dt>Author</dt><dd>Armaan Roshani </dd></dl>
-<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000002">Bug:</a></b></dt><dd>no known bugs </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
@@ -149,14 +148,14 @@ needs to be compiled with flag -pthread.</dd></dl>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a03ba0d809d4caf78c3974fc4685cb096"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a03ba0d809d4caf78c3974fc4685cb096">&#9670;&nbsp;</a></span>DBG_PRNTR() <span class="overload">[1/3]</span></h2>
+<a id="ac8219baea48d84fd2ad495976a4a5bb9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8219baea48d84fd2ad495976a4a5bb9">&#9670;&nbsp;</a></span>debugPrinter() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void DBG_PRNTR </td>
+          <td class="memname">void debugPrinter </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>id</em>, </td>
@@ -185,18 +184,18 @@ needs to be compiled with flag -pthread.</dd></dl>
 </dl>
 <p>Prints to standard out </p><dl class="section warning"><dt>Warning</dt><dd>NOT thread-safe; must be called within a thread-safe scope </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00044">44</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00045">45</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a49bacbafdd5a3c7e28c5f7dc1ab7a638"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a49bacbafdd5a3c7e28c5f7dc1ab7a638">&#9670;&nbsp;</a></span>DBG_PRNTR() <span class="overload">[2/3]</span></h2>
+<a id="ab016f1a38fca201dbdd2926081714448"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab016f1a38fca201dbdd2926081714448">&#9670;&nbsp;</a></span>debugPrinter() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void DBG_PRNTR </td>
+          <td class="memname">void debugPrinter </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>id</em>, </td>
@@ -215,18 +214,18 @@ needs to be compiled with flag -pthread.</dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00057">57</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00059">59</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a374a029ed1b1f1de9ca2e6422dea08df"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a374a029ed1b1f1de9ca2e6422dea08df">&#9670;&nbsp;</a></span>DBG_PRNTR() <span class="overload">[3/3]</span></h2>
+<a id="a98b519f1a73533c21227bdca7210743b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98b519f1a73533c21227bdca7210743b">&#9670;&nbsp;</a></span>debugPrinter() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void DBG_PRNTR </td>
+          <td class="memname">void debugPrinter </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>id</em>, </td>
@@ -251,7 +250,7 @@ needs to be compiled with flag -pthread.</dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00071">71</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00074">74</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
 
 </div>
 </div>
@@ -271,13 +270,9 @@ needs to be compiled with flag -pthread.</dd></dl>
 </div><div class="memdoc">
 <p>create an array of NUM_THDS thread objects</p>
 <p>create a pseudo-random engine</p>
-<p>populate the array of thread objects pass in: * their unique ID by value</p><ul>
-<li>an integer to keep track of thread order by reference</li>
-<li>a shared psuedo-random number generator by reference</li>
-</ul>
 <p>wait for 3 seconds </p>
 
-<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00162">162</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00180">180</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
 
 </div>
 </div>
@@ -317,7 +312,7 @@ needs to be compiled with flag -pthread.</dd></dl>
 </dl>
 <p>Prints to standard out </p><dl class="section warning"><dt>Warning</dt><dd>NOT thread-safe; must be called within a thread-safe scope </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00088">88</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00091">91</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
 
 </div>
 </div>
@@ -363,11 +358,8 @@ needs to be compiled with flag -pthread.</dd></dl>
   </dd>
 </dl>
 <p>Upon startup, function blocks on condition_signal. Upon receipt of condition_signal, function sleeps at random for between 1 and 5 seconds, then signals next thread and goes back to blocking on condition_signal. </p>
-<p>&lt; time to randomize</p>
-<p>&lt; otherwise, just increment</p>
-<p>&lt; restart sequence </p>
 
-<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00114">114</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main_8cpp_source.html#l00120">120</a> of file <a class="el" href="main_8cpp_source.html">main.cpp</a>.</p>
 
 </div>
 </div>

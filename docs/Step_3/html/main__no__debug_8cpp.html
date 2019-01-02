@@ -68,7 +68,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>same as <a class="el" href="main_8cpp.html" title="contains all functions to demo thread synch ">main.cpp</a>, but without debug commands.  
+<p>contains all functions to demo thread synch  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;thread&gt;</code><br />
@@ -112,7 +112,7 @@ Variables</h2></td></tr>
 <tr class="separator:a0ee0b6cec162cd216cb26acab58d4a39"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>same as <a class="el" href="main_8cpp.html" title="contains all functions to demo thread synch ">main.cpp</a>, but without debug commands. </p>
+<div class="textblock"><p>contains all functions to demo thread synch </p>
 <dl class="section note"><dt>Note</dt><dd>needs to be compiled with flag -pthread.</dd></dl>
 <dl class="section author"><dt>Author</dt><dd>Armaan Roshani </dd></dl>
 <dl class="bug"><dt><b><a class="el" href="bug.html#_bug000002">Bug:</a></b></dt><dd>no known bugs </dd></dl>
@@ -152,12 +152,9 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 <p>create an array of NUM_THDS thread objects</p>
 <p>create a pseudo-random engine</p>
-<p>populate the array of thread objects pass in: * their unique ID by value</p><ul>
-<li>an integer to keep track of thread order by reference</li>
-<li>a shared psuedo-random number generator by reference </li>
-</ul>
+<p>wait for 3 seconds </p>
 
-<p class="definition">Definition at line <a class="el" href="main__no__debug_8cpp_source.html#l00095">95</a> of file <a class="el" href="main__no__debug_8cpp_source.html">main_no_debug.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main__no__debug_8cpp_source.html#l00098">98</a> of file <a class="el" href="main__no__debug_8cpp_source.html">main_no_debug.cpp</a>.</p>
 
 </div>
 </div>
@@ -197,7 +194,7 @@ Variables</h2></td></tr>
 </dl>
 <p>Prints to standard out </p><dl class="section warning"><dt>Warning</dt><dd>NOT thread-safe; must be called within a thread-safe scope </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="main__no__debug_8cpp_source.html#l00039">39</a> of file <a class="el" href="main__no__debug_8cpp_source.html">main_no_debug.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main__no__debug_8cpp_source.html#l00040">40</a> of file <a class="el" href="main__no__debug_8cpp_source.html">main_no_debug.cpp</a>.</p>
 
 </div>
 </div>
@@ -243,8 +240,11 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <p>Upon startup, function blocks on condition_signal. Upon receipt of condition_signal, function sleeps at random for between 1 and 5 seconds, then signals next thread and goes back to blocking on condition_signal. </p>
+<p>&lt; time to randomize</p>
+<p>&lt; otherwise, just increment</p>
+<p>&lt; restart sequence </p>
 
-<p class="definition">Definition at line <a class="el" href="main__no__debug_8cpp_source.html#l00056">56</a> of file <a class="el" href="main__no__debug_8cpp_source.html">main_no_debug.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="main__no__debug_8cpp_source.html#l00057">57</a> of file <a class="el" href="main__no__debug_8cpp_source.html">main_no_debug.cpp</a>.</p>
 
 </div>
 </div>
