@@ -5,9 +5,9 @@ To duplicate
 
 1. In [/src/Step_5/ directory](../src/Step_5) run ``. Build environment will be set up in [/src/Step_5/build/ directory](../src/Step_5/build/)
 1. Enure that the bool value for `TEST_ALL` inside of main.cpp is set to `true`.
-1. In [/src/Step_5/build/ directory](../src/Step_5/build/) run `make`. Executable will build as *dispatcher*. 
+1. In [/src/Step_5/build/ directory](../src/Step_5/build/) run `make`. Executable will build as `dispatcher`. 
 1. To run executable, run `./dispatcher`.
-1. If the final command (exit_command) on line is not commented out, execution will terminate. If it is commented out, execution will fall through to a user prompt. You may enter JSON for parsing.
+1. If the final command (exit_command) on line is not commented out, the exit_command will succeed, terminating execution. If it is commented out, execution will fall through to a user prompt. You may enter JSON for parsing.
 
 
 Files
