@@ -4,17 +4,17 @@
 #include <mutex>     // std::mutex, std::adopt_lock
 
 
-namespace chal { // challenge namespace
+namespace chal { ///< challenge namespace
 
-    /** @brief A movable scoped lock type.
-     *
-     * This class has been kept as identical to std::lock_guard as possible
-     *
-     * A unique_lock controls mutex ownership within a scope. Ownership of the
-     * mutex can be delayed until after construction and can be transferred
-     * to another unique_lock by move construction or move assignment. If a
-     * mutex lock is owned when the destructor runs ownership will be released.
-     */
+    /// \brief A movable scoped lock type.
+    ///
+    /// \note This class has been kept as identical to std::lock_guard as possible
+    ///
+    /// A unique_lock controls mutex ownership within a scope. Ownership of the
+    /// mutex can be delayed until after construction and can be transferred
+    /// to another unique_lock by move construction or move assignment. If a
+    /// mutex lock is owned when the destructor runs ownership will be released.
+    ///
     template<typename _Mutex>  // returns type determined by calling function
     class LockGuard
     {

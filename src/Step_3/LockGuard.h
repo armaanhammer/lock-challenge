@@ -5,44 +5,54 @@
 
 
 
-
 namespace chal { // challenge namespace
 
-    bool DEBUG = true;
 
-    /** @brief A movable scoped lock type.
-     *
-     * This class has been kept as identical to std::lock_guard as possible
-     *
-     * A unique_lock controls mutex ownership within a scope. Ownership of the
-     * mutex can be delayed until after construction and can be transferred
-     * to another unique_lock by move construction or move assignment. If a
-     * mutex lock is owned when the destructor runs ownership will be released.
-     */
+    bool DEBUG = true;  ///< turn on debug messages
+
+
+    /// \brief A movable scoped lock type.
+    ///
+    /// \note This class has been kept as identical to std::lock_guard as possible
+    ///
+    /// A unique_lock controls mutex ownership within a scope. Ownership of the
+    /// mutex can be delayed until after construction and can be transferred
+    /// to another unique_lock by move construction or move assignment. If a
+    /// mutex lock is owned when the destructor runs ownership will be released.
+    ///
     template<typename _Mutex>  ///< returns type determined by calling function
     class LockGuard
     {
         public:
             typedef _Mutex mutex_type;
 
-            explicit LockGuard(mutex_type& __m) : _M_device(__m)  // no implicit constructor
-                { _M_device.lock(); 
+
+            // no implicit constructor
+            explicit LockGuard(mutex_type& __m) : _M_device(__m) { 
+                _M_device.lock(); 
                 
-                
-                if(DEBUG) std::cout << "LockGuard locked" << std::endl;
+                if(DEBUG) {
+                    std::cout << "LockGuard locked" << std::endl;
                 }
+            }
 
-            LockGuard(mutex_type& __m, std::adopt_lock_t) : _M_device(__m)
-                {  
 
-                if(DEBUG) std::cout << "LockGuard adopted" << std::endl;
-                } // calling thread owns mutex
+            // calling thread owns mutex
+            LockGuard(mutex_type& __m, std::adopt_lock_t) : _M_device(__m) {  
 
-            ~LockGuard()
-                { _M_device.unlock();
-                
-                if(DEBUG) std::cout << "LockGuard unlocked" << std::endl;
+                if(DEBUG) {
+                    std::cout << "LockGuard adopted" << std::endl;
                 }
+            }
+
+
+            ~LockGuard() { 
+                _M_device.unlock();
+                
+                if(DEBUG) {
+                    std::cout << "LockGuard unlocked" << std::endl;
+                }
+            }
 
             // generate compile error if copy attempted
             // (supposed to be un-copyable)

@@ -1,12 +1,12 @@
-/** 
- * \file main_no_debug.cpp
- * \brief same as main.cpp, but without debug commands.
- *
- * \note needs to be compiled with flag -pthread.
- *
- * \author Armaan Roshani
- * \bug no known bugs
- */ 
+/// 
+/// \file main_no_debug.cpp
+/// \brief contains all functions to demo thread synch
+/// 
+/// \note needs to be compiled with flag -pthread.
+///
+/// \author Armaan Roshani
+/// \bug no known bugs
+/// 
 
 
 
@@ -28,34 +28,35 @@ std::condition_variable cond;   // shared condition variable
 
 
 
-/** \brief thread print function
- *
- *  \param id an integer that defines thread number
- *  \param msg a string containing message to be printed
- *
- * Prints to standard out
- * \warning NOT thread-safe; must be called within a thread-safe scope
- */
+/// 
+/// \brief thread print function
+///
+/// \param id an integer that defines thread number
+/// \param msg a string containing message to be printed
+///
+/// Prints to standard out
+/// \warning NOT thread-safe; must be called within a thread-safe scope
+///
 void thd_printer(int id, std::string msg) {
 
     std::cout << "thread" << id+1 << ": " << msg << std::endl;
 }
 
 
-
-/** \brief thread worker function
- *
- *  \param id an integer passed by val defining current thread number
- *  \param next_thd an integer passed by ref that keeps track of thread order
- *  \param rand_e a pseudo-random number generator engine passed by ref
- *
- *  Upon startup, function blocks on condition_signal. Upon receipt of condition_signal,
- *  function sleeps at random for between 1 and 5 seconds, then signals next thread and 
- *  goes back to blocking on condition_signal.
- */
+/// 
+/// \brief thread worker function
+///
+/// \param id an integer passed by val defining current thread number
+/// \param next_thd an integer passed by ref that keeps track of thread order
+/// \param rand_e a pseudo-random number generator engine passed by ref
+///
+/// Upon startup, function blocks on condition_signal. Upon receipt of condition_signal,
+/// function sleeps at random for between 1 and 5 seconds, then signals next thread and 
+/// goes back to blocking on condition_signal.
+///
 void thd_worker (const int id, int &next_thd, std::default_random_engine &rand_e) {
-    
-    int wait_tm; // time to randomize
+
+    int wait_tm; ///< time to randomize
 
     thd_printer(id, "starting, waiting.");
 
@@ -66,10 +67,10 @@ void thd_worker (const int id, int &next_thd, std::default_random_engine &rand_e
         mtx.lock();
         std::unique_lock<std::mutex> locker (mtx, std::adopt_lock);
         
-        /* wait for condition signal
-         * Upon condition signal, check if current thread is next
-         * if yes continue, if not keep waiting
-         * lambda function creates condition predicate */ 
+        // wait for condition signal
+        // Upon condition signal, check if current thread is next
+        // if yes continue, if not keep waiting
+        // lambda function creates condition predicate 
         cond.wait(locker, [&]() { return id == next_thd; });
 
         thd_printer(id, "signal received, doing work ....");
@@ -84,16 +85,15 @@ void thd_worker (const int id, int &next_thd, std::default_random_engine &rand_e
 
         // if topmost thread, reset next_thd
         if(next_thd == NUM_THDS-1) next_thd = 0;
-        else( ++next_thd); // otherwise, just increment 
+        else( ++next_thd); ///< otherwise, just increment 
 
-        cond.notify_all();  // restart sequence
+        cond.notify_all();  ///< restart sequence
     }
 }
 
 
 
 int main () {
-
     int id = -1; // identifier to pass to Debug Printer
 
     std::thread threads[NUM_THDS]; /// create an array of NUM_THDS thread objects
@@ -105,15 +105,15 @@ int main () {
 
     // spawn NUM_THDS threads:
     for (int i=0; i<NUM_THDS; ++i) {
-        
-        /** populate the array of thread objects
-         *  pass in: * their unique ID by value
-         *           * an integer to keep track of thread order by reference
-         *           * a shared psuedo-random number generator by reference */
+
+        // populate the array of thread objects
+        // pass in: * their unique ID by value
+        //          * an integer to keep track of thread order by reference
+        //          * a shared psuedo-random number generator by reference
         threads[i] = std::thread(thd_worker, i, std::ref(next_thd), std::ref(rand_e));
     }
 
-    // wait for 3 seconds
+    /// wait for 3 seconds
     std::this_thread::sleep_for(std::chrono::seconds(3));
 
     cond.notify_all();  // start sequence
@@ -126,4 +126,3 @@ int main () {
 
     return 0;
 }
-
