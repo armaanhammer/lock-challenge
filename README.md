@@ -50,5 +50,7 @@ Step 5: Dispatcher Challenge
 Step 6 (in progress)
 ---
 
+<br>
+
 
 [design_log](/design_log/README.md) is the index for details of the design process.
