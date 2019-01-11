@@ -104,14 +104,14 @@ To check my logic, I will suppose a scenario:
 
 #### example scenario
 
-Three items in memory pool, stack empty
+Three items in memory pool, empty stack
 
 | | memory pool | inuse | status | | stack | |
 | --- | --- | --- | --- | --- | --- | --- |
-| pool-> | a | | | | | |
-| | b | | | | | |
-| | c | | | | | |
-| | | | | | | |
+| pool-> | a | yes | | | | |
+| | b | yes | | | | |
+| | c | yes | | | | |
+| | | | no | | | <-top |
 
        
 
