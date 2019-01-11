@@ -1,5 +1,7 @@
 /*
  * author: iancain
+ *
+ * additions: armaan roshani
  */
 
 #include <stdio.h>
@@ -7,7 +9,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <memory.h>
-#include <memory_pool.h>
+#include "memory_pool.h"
+
 
 // PRIVATE: declared inside *.c file
 typedef struct memory_pool_block_header
@@ -16,16 +19,18 @@ typedef struct memory_pool_block_header
     size_t size;
     bool inuse;      // true = currently allocated. Used for error checking
 
-    struct memory_pool_block_header * next;
+    struct memory_pool_block_header * next; /// looks like a linked list
 
-} memory_pool_block_header_t;
+} memory_pool_block_header_t; /// type alias for global namespace
+                                
+
 
 struct memory_pool {
     size_t count;         // total elements
     size_t block_size;   // size of each block
     size_t available;
 
-    struct memory_pool_block_header * pool;
+    struct memory_pool_block_header * pool; // looks like a pointer to a linked list
     void ** shadow; // shadow copy of nodes to free on destroy even if caller/user still has them in acquired state
 };
 
@@ -46,6 +51,8 @@ struct memory_pool {
 // magic value to check for data corruption
 #define NODE_MAGIC 0xBAADA555
 
+
+/// memory pool initializer
 memory_pool_t * memory_pool_init(size_t count, size_t block_size)
 {
     memory_pool_t *mp = NULL;
@@ -56,7 +63,7 @@ memory_pool_t * memory_pool_init(size_t count, size_t block_size)
     // allocate memory pool struct. give ownership back to caller
     mp = (memory_pool_t*) malloc (sizeof(memory_pool_t));
     if( mp == NULL ) {
-        printf("ERROR: memory_pool_destroy: unable to malloc memory_pool_t. OOM\n");
+        printf("ERROR: memory_pool_destroy: unable to malloc memory_pool_t. OOM\n"); /// out of memory
         return NULL;
     }
 
@@ -145,6 +152,8 @@ void memory_pool_dump(memory_pool_t *mp)
         void * data_block = MEMORY_POOL_HTODB(header, mp->block_size);
         printf(" + block: i=%d, data=%p, header=%p, inuse=%s, block_size=%zu, next=%p\n",
                n, data_block, header, header->inuse ? "TRUE":"FALSE", header->size, header->next);
+               // %p for pointer
+               //
 
         header = header->next;
     }
