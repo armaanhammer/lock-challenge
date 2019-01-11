@@ -102,6 +102,8 @@ Seems to indicate that I am to implement a stack as well, and move intems back a
 
 To check my logic, I will suppose a scenario:
 
+## Deeper analysis
+
 #### example scenario
 
 Three items in memory pool, empty stack
@@ -112,6 +114,16 @@ Three items in memory pool, empty stack
 |     | pB          | yes   |        |     |       |     |
 |     | pC          | yes   |        |     |       |     |
 |     |             | no    |        |     |       | <-top |
+
+
+**OR**
+
+|        | memory pool | inuse | status |     | status | stack |       |
+| ---    | ---         | ---   | ---    | --- | ---    | ---   |       |
+| pool-> |             | no    |        |     |        |       | <-top |
+|        |             | no    |        |     |        | pC    |       |
+|        |             | no    |        |     |        | pB    |       |
+|        |             | no    |        |     |        | pA    |       |
 
 
 
