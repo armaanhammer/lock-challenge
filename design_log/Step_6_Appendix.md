@@ -72,7 +72,11 @@ typedef struct memory_pool_block_header
 } memory_pool_block_header_t;
 ```
 
-The `typedef { } memory_pool_block_header_t;` avoids the need to qualify with struct.
+This is an individual block within the larger memory pool. 
+
+The line `struct memory_pool_block_header * next;` looks very much like the next pointer in a linked list block. 
+
+The `typedef { } memory_pool_block_header_t;` decleration avoids the need to qualify with struct when creating instances of memory_pool_block_header
 
 ```c
 struct memory_pool {
@@ -80,12 +84,36 @@ struct memory_pool {
     size_t block_size;   // size of each block
     size_t available;
 
-    struct memory_pool_block_header * pool; // looks like a pointer to a linked list
+    struct memory_pool_block_header * pool;
     void ** shadow; // shadow copy of nodes to free on destroy even if caller/user still has them in acquired state
 };
 ```
 
 I find the `void ** shadow;` line fascinating. It's a pointer to a pointer (or to an array of pointers?). Presumably, I need to populate the array of pointers either with all blocks, or only with blocks that are in "aquired state". I am not immediately clear what that means. Perhaps a user function needs to lock out access to individual blocks under certain conditions? On first blush, it does **not** seem to be related to `bool inuse;` inside of struct `memory_pool_block_header`.
+
+Comparing this with these lines in the header:
+```
+    stack object to manage memory blocks
+       acquire = pop_front  (acquire block off the front/top of stack)
+       release = push_back  (release block by putting on back/bottom of stack)
+```
+
+Seems to indicate that I am to implement a stack as well, and move intems back and forth between the memory pool and the stack.
+
+To check my logic, I will suppose a scenario:
+
+#### example scenario
+
+Three items in memory pool, stack empty
+
+| | memory pool | inuse | status | | stack | |
+| --- | --- | --- | --- | --- | --- | --- |
+| pool-> | a | | | | | |
+| | b | | | | | |
+| | c | | | | | |
+| | | | | | | |
+
+       
 
 
 Abstraction
