@@ -106,12 +106,12 @@ To check my logic, I will suppose a scenario:
 
 Three items in memory pool, empty stack
 
-| | memory pool | inuse | status | | stack | |
-| --- | --- | --- | --- | --- | --- | --- |
-| pool-> | a | yes | | | | |
-| | b | yes | | | | |
-| | c | yes | | | | |
-| | | | no | | | <-top |
+|     | memory pool | inuse | status |     | stack |     |
+| --- | ---         | ---   | ---    | --- | ---   | --- |
+| pool-> | a        | yes   |        |     |       |     |
+|     | b           | yes   |        |     |       |     |
+|     | c           | yes   |        |     |       |     |
+|     |             | no    |        |     |       | <-top |
 
        
 
