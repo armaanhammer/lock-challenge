@@ -116,6 +116,17 @@ Three items in memory pool, empty stack
        
 
 
+<br>
+
+```c
+ header->inuse ? "TRUE":"FALSE",
+```
+
+This is clever! I like it.
+
+<br><br>
+
+
 Abstraction
 ---
 
