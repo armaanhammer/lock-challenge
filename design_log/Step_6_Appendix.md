@@ -44,7 +44,7 @@ The presence of `test-memory-pool.` in the create executable directives indicate
 
 I am given a list of objectives:
 
-```
+```c
  * Objective: speed operations of malloc/free and adapt idiomatically and separate memory
              management from other data storage patterns such as linked lists, stacks,
              double buffering
@@ -60,8 +60,45 @@ I am given a list of objectives:
 
 #### memory_pool.c
 
+```c
+typedef struct memory_pool_block_header
+{
+    uint32_t magic;      // NODE_MAGIC = 0xBAADA555. error checking
+    size_t size;
+    bool inuse;      // true = currently allocated. Used for error checking
+
+    struct memory_pool_block_header * next;
+
+} memory_pool_block_header_t;
+```
+
+The `typedef { } memory_pool_block_header_t;` avoids the need to qualify with struct.
+
+```c
+struct memory_pool {
+    size_t count;         // total elements
+    size_t block_size;   // size of each block
+    size_t available;
+
+    struct memory_pool_block_header * pool; // looks like a pointer to a linked list
+    void ** shadow; // shadow copy of nodes to free on destroy even if caller/user still has them in acquired state
+};
+```
+
+I find this line fascinating: `void ** shadow; // shadow copy of nodes to free on destroy even if caller/user still has them in acquired state` It's a pointer to a pointer (or to an array of pointers?) Presumably, I need to populate the array of pointers either with all blocks, or only with blocks that are in "aquired state". I am not immediately clear what that means. Perhaps a user function needs to lock out access to individual blocks under certain conditions? On first blush, it does **not** seem to be related to `bool inuse;` inside of struct `memory_pool_block_header`.
 
 
+Abstraction
+---
 
+### Design Constraints
+
+* create pool (memory_pool)
+  * composed of many blocks (memory_pool_block_header_t)
+    * each block points to either:
+      * next block
+      * or NULL (presumably)
+      
+      
 
   
