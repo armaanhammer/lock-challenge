@@ -85,7 +85,7 @@ struct memory_pool {
 };
 ```
 
-I find this line fascinating: `void ** shadow; // shadow copy of nodes to free on destroy even if caller/user still has them in acquired state` It's a pointer to a pointer (or to an array of pointers?) Presumably, I need to populate the array of pointers either with all blocks, or only with blocks that are in "aquired state". I am not immediately clear what that means. Perhaps a user function needs to lock out access to individual blocks under certain conditions? On first blush, it does **not** seem to be related to `bool inuse;` inside of struct `memory_pool_block_header`.
+I find the `void ** shadow;` line fascinating. It's a pointer to a pointer (or to an array of pointers?). Presumably, I need to populate the array of pointers either with all blocks, or only with blocks that are in "aquired state". I am not immediately clear what that means. Perhaps a user function needs to lock out access to individual blocks under certain conditions? On first blush, it does **not** seem to be related to `bool inuse;` inside of struct `memory_pool_block_header`.
 
 
 Abstraction
