@@ -44,7 +44,7 @@ The presence of `test-memory-pool.` in the create executable directives indicate
 
 I am given a list of objectives:
 
-```c
+```
  * Objective: speed operations of malloc/free and adapt idiomatically and separate memory
              management from other data storage patterns such as linked lists, stacks,
              double buffering
