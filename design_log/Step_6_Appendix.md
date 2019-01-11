@@ -119,7 +119,7 @@ Three items in memory pool, empty stack
 **OR**
 
 |        | memory pool | inuse | status |     | status | stack |       |
-| ---    | ---         | ---   | ---    | --- | ---    | ---   |       |
+| ---    | ---         | ---   | ---    | --- | ---    | ---   | ---   |
 | pool-> |             | no    |        |     |        |       | <-top |
 |        |             | no    |        |     |        | pC    |       |
 |        |             | no    |        |     |        | pB    |       |
