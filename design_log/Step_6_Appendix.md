@@ -110,14 +110,14 @@ Three items in memory pool, empty stack
 
 #### initial condition
 
-~~
+
 |     | memory pool | inuse | status |     | stack |     |
 | --- | ---         | ---   | ---    | --- | ---   | --- |
 | pool-> | pA       | yes   |        |     |       |     |
 |     | pB          | yes   |        |     |       |     |
 |     | pC          | yes   |        |     |       |     |
 |     |             | no    |        |     |       | <-top |
-~~
+
 
 **OR**
 
