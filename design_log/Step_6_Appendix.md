@@ -104,9 +104,11 @@ To check my logic, I will suppose a scenario:
 
 ## Deeper analysis
 
-#### example scenario
+### example scenario
 
 Three items in memory pool, empty stack
+
+#### initial condition
 
 |     | memory pool | inuse | status |     | stack |     |
 | --- | ---         | ---   | ---    | --- | ---   | --- |
@@ -118,13 +120,32 @@ Three items in memory pool, empty stack
 
 **OR**
 
+#### intial condition
+
 |        | memory pool | inuse | status |     | status | stack |       |
 | ---    | ---         | ---   | ---    | --- | ---    | ---   | ---   |
-| pool-> |             | no    |        |     |        |       | <-top |
-|        |             | no    |        |     |        | pC    |       |
+| pool-> |             | no    |        |     |        |       |       |
+|        |             | no    |        |     |        | pC    | <-top |
 |        |             | no    |        |     |        | pB    |       |
 |        |             | no    |        |     |        | pA    |       |
 
+#### first aquire operation
+
+|        | memory pool | inuse | status |     | status  | stack |       |
+| ---    | ---         | ---   | ---    | --- | ---     | ---   | ---   |
+| pool-> | pC          | yes   |        |     |         |       |       |
+|        |             | no    |        |     | aquired | pC    |       |
+|        |             | no    |        |     |         | pB    | <-top |
+|        |             | no    |        |     |         | pA    |       |
+
+#### second aquire operation
+
+|        | memory pool | inuse | status |     | status  | stack |       |
+| ---    | ---         | ---   | ---    | --- | ---     | ---   | ---   |
+| pool-> | pC          | yes   |        |     |         |       |       |
+|        | pB          | yes   |        |     | aquired | pC    |       |
+|        |             | no    |        |     | aquired | pB    |       |
+|        |             | no    |        |     |         | pA    | <-top |
 
 
        
