@@ -38,7 +38,7 @@ Analysis
 
 #### CMAKE
 
-The presence of `test-memory-pool.` in the create executable directives indicates that I am to create a testbench on my own.
+The presence of `test-memory-pool` in the create executable directives indicates that I am to create a testbench on my own.
 
 #### memory_pool.h
 
@@ -57,6 +57,17 @@ I am given a list of objectives:
        acquire = pop_front  (acquire block off the front/top of stack)
        release = push_back  (release block by putting on back/bottom of stack)
 ```
+
+##### Stack idiom
+
+I am experiencing some confusion about the stack I am to implement. I see two interpretations, and associated problems with both:
+
+* The memory pool itself is implemented as a stack
+  * If this is correct, I do not see immediately the purpose of the `* next` pointers in `memory_pool_block_header`. Could not the stack simply be one contiguous block of memory?
+* The memory pool and the stack are two discrete structures; the stack is present only to test the memory pool.
+  * This makes more sense immediately, but I still have reservations. This is discussed in [Deeper Analysis](#deeper-analysis) below.
+
+
 
 #### memory_pool.c
 
@@ -89,6 +100,8 @@ struct memory_pool {
 };
 ```
 
+## Deeper analysis
+
 I find the `void ** shadow;` line fascinating. It's a pointer to a pointer (or to an array of pointers?). Presumably, I need to populate the array of pointers either with all blocks, or only with blocks that are in "aquired state". I am not immediately clear what that means. Perhaps a user function needs to lock out access to individual blocks under certain conditions? On first blush, it does **not** seem to be related to `bool inuse;` inside of struct `memory_pool_block_header`.
 
 Comparing this with these lines in the header:
@@ -102,7 +115,7 @@ Seems to indicate that I am to implement a stack as well, and move intems back a
 
 To check my logic, I will suppose a scenario:
 
-## Deeper analysis
+
 
 ### example scenario
 
