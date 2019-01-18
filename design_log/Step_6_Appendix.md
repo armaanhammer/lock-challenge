@@ -149,7 +149,26 @@ Three items in memory pool, empty stack
 |        |             | no    |        |     |         | pA    | <-top |
 
 
-       
+
+## Other Analysis
+
+```c
+//---
+// MACROS
+//
+
+// HTODB = header to data block
+//     converts header pointer to container data block
+//
+#define MEMORY_POOL_HTODB(_header_, _block_size_) ((void *)_header_ - _block_size_)
+
+// DBTOH = data block to header
+//     convert data block pointer to point to embedded header information block
+//
+#define MEMORY_POOL_DBTOH(_data_block_, _block_size_) ((memory_pool_block_header_t *)(_data_block_ + _block_size_))
+```       
+
+Question: why do we need to go back and forth between header and data block? 
 
 
 <br>
@@ -161,6 +180,8 @@ Three items in memory pool, empty stack
 This is clever! I like it.
 
 <br><br>
+
+
 
 
 Abstraction
