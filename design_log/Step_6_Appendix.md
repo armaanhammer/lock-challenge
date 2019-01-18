@@ -168,9 +168,20 @@ Three items in memory pool, empty stack
 #define MEMORY_POOL_DBTOH(_data_block_, _block_size_) ((memory_pool_block_header_t *)(_data_block_ + _block_size_))
 ```       
 
-Question: why do we need to go back and forth between header and data block? I think I am missing something. Drawing hierarchy to flesh out:
+Question: why do we need to go back and forth between header and data block? I think I am missing something. Drawing hierarchy to flesh out: &darr;
 
-memory_pool_block_header * pool; (&darr;)  &#x25BC;
+```
+memory_pool &#x25BC;
+    memory_pool_block_header * pool; &#x25BC;
+        memory_pool_block_header * next; &#x25BC;
+            memory_pool_block_header * next; &#x25BC;
+                etc...
+```
+               
+DBTOH contains `memory_pool_block_header_t *` which is the type alias for memory_pool_block_header in the global namespace. This seems relevant, but I am not sure how yet.
+         
+        
+    
 
 
 
