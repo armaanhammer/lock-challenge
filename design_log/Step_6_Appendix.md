@@ -38,7 +38,7 @@ Analysis
 
 #### CMAKE
 
-The presence of `test-memory-pool` in the create executable directives indicates that I am to create a testbench on my own.
+The presence of `test-memory-pool.c` in the create executable directives indicates that I am to create a testbench on my own.
 
 #### memory_pool.h
 
