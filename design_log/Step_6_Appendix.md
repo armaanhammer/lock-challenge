@@ -68,6 +68,26 @@ I am experiencing some confusion about the stack I am to implement. I see two in
   * This makes more sense immediately, but I still have reservations. This is discussed in [Deeper Analysis](#deeper-analysis) below.
 
 
+##### Headers
+
+```c
+#include <stdlib.h>
+#include <stdbool.h>   // NOTE: c99 bool requires #include <stdbool.h>
+
+typedef struct memory_pool memory_pool_t;
+
+memory_pool_t * memory_pool_init(size_t count, size_t block_size);
+bool memory_pool_destroy(memory_pool_t *mp);
+
+void * memory_pool_acquire(memory_pool_t *mp);
+bool memory_pool_release(memory_pool_t *mp, void * data);
+
+// convieneince functions
+size_t memory_pool_available(memory_pool_t *mp);
+void memory_pool_dump(memory_pool_t *mp);
+```
+
+
 
 #### memory_pool.c
 
