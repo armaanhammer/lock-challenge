@@ -150,7 +150,7 @@ Three items in memory pool, empty stack
 
 
 
-## Other Analysis
+## Macros
 
 ```c
 //---
@@ -172,17 +172,20 @@ Question: why do we need to go back and forth between header and data block? I t
 
 
 ```
-memory_pool --V  
-    memory_pool_block_header * pool; --v  
-        memory_pool_block_header * next; --v  
-            memory_pool_block_header * next; --v  
-                etc...
+memory_pool  
+--> memory_pool_block_header * pool;  
+    --> memory_pool_block_header * next;  
+        --> memory_pool_block_header * next;  
+            --> etc...
 ```
                
 DBTOH contains `memory_pool_block_header_t *` which is the type alias for memory_pool_block_header in the global namespace. This seems relevant, but I am not sure how yet.
          
         
-    
+
+## Memory Pool Initializer
+
+
 
 
 
