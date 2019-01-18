@@ -31,16 +31,15 @@ Also going to add debug symbols. Trying adding this line: `set(CMAKE_BUILD_TYPE 
 <br>
 
 
-Analysis
+Initial Analysis
 ---
 
-### Initial
 
-#### CMAKE
+### CMAKE
 
 The presence of `test-memory-pool.c` in the create executable directives indicates that I am to create a testbench on my own.
 
-#### memory_pool.h
+### memory_pool.h
 
 I am given a list of objectives:
 
@@ -58,7 +57,7 @@ I am given a list of objectives:
        release = push_back  (release block by putting on back/bottom of stack)
 ```
 
-##### Stack idiom
+#### Stack idiom
 
 I am experiencing some confusion about the stack I am to implement. I see two interpretations, and associated problems with both:
 
@@ -68,7 +67,7 @@ I am experiencing some confusion about the stack I am to implement. I see two in
   * This makes more sense immediately, but I still have reservations. This is discussed in [Deeper Analysis](#deeper-analysis) below.
 
 
-##### Headers
+#### Headers
 
 ```c
 #include <stdlib.h>
@@ -89,7 +88,7 @@ void memory_pool_dump(memory_pool_t *mp);
 
 
 
-#### memory_pool.c
+### memory_pool.c
 
 ```c
 typedef struct memory_pool_block_header
@@ -120,70 +119,7 @@ struct memory_pool {
 };
 ```
 
-## Deeper analysis
-
-I find the `void ** shadow;` line fascinating. It's a pointer to a pointer (or to an array of pointers?). Presumably, I need to populate the array of pointers either with all blocks, or only with blocks that are in "aquired state". I am not immediately clear what that means. Perhaps a user function needs to lock out access to individual blocks under certain conditions? On first blush, it does **not** seem to be related to `bool inuse;` inside of struct `memory_pool_block_header`.
-
-Comparing this with these lines in the header:
-```
-    stack object to manage memory blocks
-       acquire = pop_front  (acquire block off the front/top of stack)
-       release = push_back  (release block by putting on back/bottom of stack)
-```
-
-Seems to indicate that I am to implement a stack as well, and move intems back and forth between the memory pool and the stack.
-
-To check my logic, I will suppose a scenario:
-
-
-
-### example scenario
-
-Three items in memory pool, empty stack
-
-#### initial condition
-
-
-|     | memory pool | inuse | status |     | stack |     |
-| --- | ---         | ---   | ---    | --- | ---   | --- |
-| pool-> | pA       | yes   |        |     |       |     |
-|     | pB          | yes   |        |     |       |     |
-|     | pC          | yes   |        |     |       |     |
-|     |             | no    |        |     |       | <-top |
-
-
-**OR**
-
-#### intial condition
-
-|        | memory pool | inuse | status |     | status | stack |       |
-| ---    | ---         | ---   | ---    | --- | ---    | ---   | ---   |
-| pool-> |             | no    |        |     |        |       |       |
-|        |             | no    |        |     |        | pC    | <-top |
-|        |             | no    |        |     |        | pB    |       |
-|        |             | no    |        |     |        | pA    |       |
-
-#### first aquire operation
-
-|        | memory pool | inuse | status |     | status  | stack |       |
-| ---    | ---         | ---   | ---    | --- | ---     | ---   | ---   |
-| pool-> | pC          | yes   |        |     |         |       |       |
-|        |             | no    |        |     | aquired | pC    |       |
-|        |             | no    |        |     |         | pB    | <-top |
-|        |             | no    |        |     |         | pA    |       |
-
-#### second aquire operation
-
-|        | memory pool | inuse | status |     | status  | stack |       |
-| ---    | ---         | ---   | ---    | --- | ---     | ---   | ---   |
-| pool-> | pC          | yes   |        |     |         |       |       |
-|        | pB          | yes   |        |     | aquired | pC    |       |
-|        |             | no    |        |     | aquired | pB    |       |
-|        |             | no    |        |     |         | pA    | <-top |
-
-
-
-## Macros
+#### Macros
 
 ```c
 //---
@@ -216,7 +152,78 @@ DBTOH contains `memory_pool_block_header_t *` which is the type alias for memory
          
         
 
-## Memory Pool Initializer
+#### Memory Pool Initializer
+
+
+
+<br>
+
+
+Deeper analysis
+---
+
+I find the `void ** shadow;` line in `struct memory_pool` fascinating. It's a pointer to a pointer (or to an array of pointers?). Presumably, I need to populate the array of pointers either with all blocks, or only with blocks that are in "aquired state". I am not immediately clear what that means. Perhaps a user function needs to lock out access to individual blocks under certain conditions? On first blush, it does **not** seem to be related to `bool inuse;` inside of struct `memory_pool_block_header`.
+
+Comparing this with these lines in the header:
+```
+    stack object to manage memory blocks
+       acquire = pop_front  (acquire block off the front/top of stack)
+       release = push_back  (release block by putting on back/bottom of stack)
+```
+
+Seems to indicate that I am to implement a stack as well, and move intems back and forth between the memory pool and the stack.
+
+To check my logic, I will suppose a scenario:
+
+
+
+## example scenario
+
+Three items in memory pool, empty stack
+
+### initial condition
+
+
+|     | memory pool | inuse | status |     | stack |     |
+| --- | ---         | ---   | ---    | --- | ---   | --- |
+| pool-> | pA       | yes   |        |     |       |     |
+|     | pB          | yes   |        |     |       |     |
+|     | pC          | yes   |        |     |       |     |
+|     |             | no    |        |     |       | <-top |
+
+
+**OR**
+
+### intial condition
+
+|        | memory pool | inuse | status |     | status | stack |       |
+| ---    | ---         | ---   | ---    | --- | ---    | ---   | ---   |
+| pool-> |             | no    |        |     |        |       |       |
+|        |             | no    |        |     |        | pC    | <-top |
+|        |             | no    |        |     |        | pB    |       |
+|        |             | no    |        |     |        | pA    |       |
+
+### first aquire operation
+
+|        | memory pool | inuse | status |     | status  | stack |       |
+| ---    | ---         | ---   | ---    | --- | ---     | ---   | ---   |
+| pool-> | pC          | yes   |        |     |         |       |       |
+|        |             | no    |        |     | aquired | pC    |       |
+|        |             | no    |        |     |         | pB    | <-top |
+|        |             | no    |        |     |         | pA    |       |
+
+### second aquire operation
+
+|        | memory pool | inuse | status |     | status  | stack |       |
+| ---    | ---         | ---   | ---    | --- | ---     | ---   | ---   |
+| pool-> | pC          | yes   |        |     |         |       |       |
+|        | pB          | yes   |        |     | aquired | pC    |       |
+|        |             | no    |        |     | aquired | pB    |       |
+|        |             | no    |        |     |         | pA    | <-top |
+
+
+
+
 
 
 
