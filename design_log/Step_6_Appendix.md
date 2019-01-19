@@ -261,3 +261,11 @@ Abstraction
       
 
   
+C Reference
+---
+
+## size_t
+
+https://www.geeksforgeeks.org/size_t-data-type-c-language/
+
+Note: When using size_t object, make sure can only have non-negative values in all the contexts it is used, including arithmetic
