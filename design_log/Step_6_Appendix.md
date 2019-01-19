@@ -86,6 +86,7 @@ size_t memory_pool_available(memory_pool_t *mp);
 void memory_pool_dump(memory_pool_t *mp);
 ```
 
+Question: Why does `typedef struct memory_pool memory_pool_t;` occur in the header file when `typedef struct memory_pool_block_header { } memory_pool_block_header_t;` occurs in the .c file in line with the struct definition?
 
 
 ### memory_pool.c
