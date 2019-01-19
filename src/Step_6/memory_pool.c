@@ -15,24 +15,24 @@
 // PRIVATE: declared inside *.c file
 typedef struct memory_pool_block_header
 {
-    uint32_t magic;      // NODE_MAGIC = 0xBAADA555. error checking
-    size_t size;
-    bool inuse;      // true = currently allocated. Used for error checking
+    uint32_t magic;     // NODE_MAGIC = 0xBAADA555. error checking
+    size_t size;	///< \todo answer where size is defined	
+    bool inuse;      	// true = currently allocated. Used for error checking
 
-    struct memory_pool_block_header * next; /// looks like a linked list
+    struct memory_pool_block_header * next; ///< looks like a linked list
 
-} memory_pool_block_header_t; /// type alias for global namespace
+} memory_pool_block_header_t; ///< type alias for global namespace
                                 
 
 
 struct memory_pool {
     size_t count;         // total elements
-    size_t block_size;   // size of each block
-    size_t available;
+    size_t block_size;    // size of each block
+    size_t available;	  ///< \todo answer available = size-count?	
 
-    struct memory_pool_block_header * pool; // looks like a pointer to a linked list
+    struct memory_pool_block_header * pool; ///< looks like a pointer to a linked list
     void ** shadow; // shadow copy of nodes to free on destroy even if caller/user still has them in acquired state
-};
+};  // memory_pool_t typedef in header
 
 //---
 // MACROS
@@ -52,16 +52,25 @@ struct memory_pool {
 #define NODE_MAGIC 0xBAADA555
 
 
-/// memory pool initializer
+/// \brief memory pool initializer
+///
+/// \param count number of nodes (headers) in pool
+/// \param block_size size of each data block pointed to by nodes
+///
+/// \returns NULL if OOM, or if for loop not fully traversed
+/// \returns memory address of mp if successful
+///
+/// \todo make sure this does not leak memory if for loop not fully traversed (case n != count)
+///
 memory_pool_t * memory_pool_init(size_t count, size_t block_size)
 {
-    memory_pool_t *mp = NULL;
+    memory_pool_t *mp = NULL;  
     memory_pool_block_header_t * last;
     void * block = NULL;
     int n = 0;
 
     // allocate memory pool struct. give ownership back to caller
-    mp = (memory_pool_t*) malloc (sizeof(memory_pool_t));
+    mp = (memory_pool_t*) malloc (sizeof(memory_pool_t)); // create memory pool object
     if( mp == NULL ) {
         printf("ERROR: memory_pool_destroy: unable to malloc memory_pool_t. OOM\n"); /// out of memory
         return NULL;
@@ -88,6 +97,8 @@ memory_pool_t * memory_pool_init(size_t count, size_t block_size)
     mp->block_size = block_size;
     mp->available = count;
 
+    // error check: if for loop traversed count times, return mp memory address
+    // 	            else, return NULL
     return n == count ? mp : NULL;
 }
 
