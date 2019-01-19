@@ -59,7 +59,7 @@ I am given a list of objectives:
 
 #### Stack idiom
 
-I am experiencing some confusion about the stack I am to implement. I see two interpretations, and associated problems with both:
+I am confused about the stack I am to implement. I see two interpretations, and associated problems with both:
 
 * The memory pool itself is implemented as a stack
   * If this is correct, I do not immediately see the purpose of the `* next` pointers in `memory_pool_block_header`. Could not the stack simply be one contiguous block of memory?
