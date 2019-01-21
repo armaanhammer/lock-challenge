@@ -29,17 +29,19 @@ Also going to add debug symbols. Trying adding this line: `set(CMAKE_BUILD_TYPE 
 
 When attempting to run CMAKE, I received this error:
 
-> CMake Error at CMakeLists.txt:13 (add_executable):
->   The target name "test" is reserved or not valid for certain CMake features,
->   such as generator expressions, and may result in undefined behavior.
->
->
-> CMake Error at CMakeLists.txt:14 (set_property):
->   set_property could not find TARGET test.  Perhaps it has not yet been
->   created.
->
->
-> -- Configuring incomplete, errors occurred!
+```bash
+CMake Error at CMakeLists.txt:13 (add_executable):
+  The target name "test" is reserved or not valid for certain CMake features,
+  such as generator expressions, and may result in undefined behavior.
+
+
+CMake Error at CMakeLists.txt:14 (set_property):
+  set_property could not find TARGET test.  Perhaps it has not yet been
+  created.
+
+
+-- Configuring incomplete, errors occurred!
+```
 
 To resolve this, I renamed the target from `test` to `test.out`
 
