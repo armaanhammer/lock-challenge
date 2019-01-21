@@ -52,11 +52,11 @@ main: destroy returned: TRUE
 
 
 	****************** TEST 3 *****************
-	* // 1. create random size memory pool
-	* // 2. acquire all data blocks
-	* // 3. fill all data blocks using magic value
-	* // 4. release all data blocks back into pool
-	* // 5. dump all data before destruct
+	* 1. create random size memory pool
+	* 2. acquire all data blocks
+	* 3. fill all data blocks using magic value
+	* 4. release all data blocks back into pool
+	* 5. dump all data before destruct
 	******************************************
 
 
