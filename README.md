@@ -50,7 +50,7 @@ Step 5: Dispatcher Challenge
 Step 6: (in progress)
 ---
 
-* [Documentation](https://armaanhammer.github.io/lock-challenge/Step_6/html/index.html) (not yet generated)
+* [Documentation](https://armaanhammer.github.io/lock-challenge/Step_6/html/index.html)
 * [Code](src/Step_6) 
 * [Design log](design_log/Step_6.md)
 
