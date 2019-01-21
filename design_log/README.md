@@ -20,3 +20,5 @@ Table of Contents
 ### * [Step 4](Step_4.md) Protect a Resource
 
 ### * [Step 5](Step_5.md) Dispatcher Challenge
+
+### * [Step 6](Step_6.md) Memory Pool
