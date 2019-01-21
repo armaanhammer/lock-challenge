@@ -25,11 +25,12 @@ bool DEBUG = true;
 /// Prints to standard error
 /// \warning NOT thread-safe; must be called within a thread-safe scope
 ///
+/*
 void debugPrinter(std::string id, std::string msg) {
     
     //std::cerr << "***\tDEBUG from " << id << ": " 
     //          << msg << " \t***" << std::endl;
-}
+}// */
 
 
 
@@ -104,11 +105,11 @@ struct memory_pool {
 ///
 memory_pool_t * memory_pool_init(size_t count, size_t block_size)
 {
-    memory_pool_t *mp = NULL; 		         // pointer to allocate 
-    //memory_pool_block_header_t * last;  // pointer to header
-    memory_pool_block_header_t * header = NULL;  // pointer to header
-    memory_pool_block_header_t * temp;           // pointer to header
-    void * block = NULL;		         // pointer to data block
+    memory_pool_t *mp = NULL; 		            // pointer to allocate 
+    //memory_pool_block_header_t * last;        // pointer to header
+    memory_pool_block_header_t * header = NULL; // pointer to header
+    memory_pool_block_header_t * temp;          // pointer to header
+    void * block = NULL;		                // pointer to data block
     int n = 0;
 
     // allocate memory pool struct. give ownership back to caller
@@ -120,9 +121,9 @@ memory_pool_t * memory_pool_init(size_t count, size_t block_size)
 
     // allocate memory pool block and header combos
     for( n = 0; n < count; ++n ) {
-        if(DEBUG) {
-	    printf("*** DEBUG:\tinside for loop, count is: %d\t***\n", n);
-	}
+        
+        if(DEBUG) 
+	        printf("*** DEBUG:\tinside for loop, count is: %d\t***\n", n);
 	
         // allocate data block: data block size + header size
         //
@@ -131,28 +132,29 @@ memory_pool_t * memory_pool_init(size_t count, size_t block_size)
 
         // move to end of data block to create header
         //
-	temp = header;
-        header = MEMORY_POOL_DBOTH(block, block_size);
+	    temp = header;
+        header = MEMORY_POOL_DBTOH(block, block_size);
 
         // add to stack (just a simple stack)
-	// implementing as a linked list
-	header->next = temp;
-	header->size = block_size;
+	    // implementing as a linked list
+	    header->next = temp;
+	    header->size = block_size;
 
         printf("MEMORY_POOL: i=%d, data=%p, header=%p, block_size=%zu, next=%p\n",
                n,             // int
-	       block,         // pointer
-	       header,        // pointer
-	       header->size,  // size_t
-	       header->next); // pointer
+	           block,         // pointer
+	           header,        // pointer
+	           header->size,  // size_t
+	           header->next); // pointer
     }
 
-
+    // allocate shadow array of pointers
+    mp->shadow = (void **) calloc(count, sizeof(memory_pool_block_header_t *));    
 
     printf("memory_pool_init(mp=%p, count=%zu, block_size=%zu)\n", mp, count, block_size);
 
     // populate variables in new memory_pool object
-    mp->count = count;		  // total elements
+    mp->count = count;		      // total elements
     mp->block_size = block_size;  // size of each block
     mp->available = count;
 
@@ -170,9 +172,8 @@ memory_pool_t * memory_pool_init(size_t count, size_t block_size)
 
 bool memory_pool_destroy(memory_pool_t *mp)
 {
-
     printf("memory_pool_destroy(mp = %p, count=%zu, available=%zu, block_size=%zu)\n", 
-               mp, 
+           mp, 
 	       mp->count, 
 	       mp->available, 
 	       mp->block_size);
@@ -184,14 +185,14 @@ bool memory_pool_destroy(memory_pool_t *mp)
     //for(int n = 0; n < mp->count; ++n ) {
     for(int n = 0; n < mp->available; ++n ) {
         
-	next = header->next;
+	    next = header->next;
 	
-	void * data_block = MEMORY_POOL_HTODB(header, mp->block_size);
-	free(data_block);
+	    void * data_block = MEMORY_POOL_HTODB(header, mp->block_size);
+	    free(data_block);
 
-	/// \todo make sure that header gets freed as well with datablock
+	    /// \todo make sure that header gets freed as well with datablock
 
-	header = next;
+	    header = next;
     }
 
     // free all aquired data blocks
@@ -209,6 +210,7 @@ bool memory_pool_destroy(memory_pool_t *mp)
 
     return true;
 }
+
 
 
 /// \brief memory pool pop function
@@ -237,7 +239,7 @@ void * memory_pool_acquire(memory_pool_t * mp)
     header->next = NULL;
 
     // shadow housekeeping
-    int slot = mp->count - mp->available
+    int slot = mp->count - mp->available;
     mp->shadow[slot] == header;
 
 
@@ -283,7 +285,7 @@ bool memory_pool_release(memory_pool_t *mp, void * data)
     header->inuse = false;
 
     // shadow housekeeping
-    int slot = mp->count - mp->available
+    int slot = mp->count - mp->available;
     mp->shadow[slot] == NULL;
     
     /*
@@ -312,7 +314,6 @@ bool memory_pool_release(memory_pool_t *mp, void * data)
 
 
 size_t memory_pool_available(memory_pool_t *mp)
-    memory_pool_block_header_t * header = mp->pool;
 {
     if( mp == NULL ) {
         printf("ERROR: memory_pool_available: memory pool invalid\n");
@@ -331,28 +332,28 @@ void memory_pool_dump(memory_pool_t *mp)
     }
 
     printf("memory_pool_dump(mp = %p, count=%zu, available=%zu, block_size=%zu)\n",
-            mp, 	     // pointer
-	    mp->count, 	     // size_t
-	    mp->available,   // size_t
-	    mp->block_size); // size_t
+           mp, 	            // pointer
+	       mp->count, 	    // size_t
+	       mp->available,   // size_t
+	       mp->block_size); // size_t
 
     // point to initial header
     memory_pool_block_header_t * header = mp->pool;
 
     for(int n = 0; n < mp->available; ++n ) {
 
-	// use header-to-data-block macro to create pointer
-	// pointer points to 
-	//
+        // use header-to-data-block macro to create pointer
+        // pointer points to 
+        //
         void * data_block = MEMORY_POOL_HTODB(header, mp->block_size);
 
         printf(" + block: i=%d, data=%p, header=%p, inuse=%s, block_size=%zu, next=%p\n",
                n,                               // int
-	       data_block,                      // pointer
-	       header, 				// pointer
-	       header->inuse ? "TRUE":"FALSE",  // bool
-	       header->size, 			// size_t
-	       header->next);			// pointer
+	           data_block,                      // pointer
+	           header, 				            // pointer
+	           header->inuse ? "TRUE":"FALSE",  // bool
+	           header->size, 			        // size_t
+	           header->next);			        // pointer
 
         header = header->next;
     }
