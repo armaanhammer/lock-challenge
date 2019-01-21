@@ -116,12 +116,12 @@ void main ()
     //////////////////////////////////////////////////////
 
     printf("\n\n\t****************** TEST 3 *****************\n"
-           "\t* // 1. create random size memory pool\n"
-           "\t* // 2. acquire all data blocks\n"
-           "\t* // 3. fill all data blocks using magic value\n"
-           "\t* // 4. release all data blocks back into pool\n"
-           "\t* // 5. dump all data before destruct\n"
-           "\t******************************************\n\n\n");
+           "\t* 1. create random size memory pool\n"
+           "\t* 2. acquire all data blocks\n"
+           "\t* 3. fill all data blocks using magic value\n"
+           "\t* 4. release all data blocks back into pool\n"
+           "\t* 5. dump all data before destruct\n"
+           "\t*******************************************\n\n\n");
     
     // seed random number generator
     srand(time(0));
