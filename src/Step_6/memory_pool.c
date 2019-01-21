@@ -16,22 +16,6 @@
 bool DEBUG = false;
 
 
-///
-/// \brief DEBUG PRINTER function
-///
-///  \param id an integer that defines thread number (0 for main)
-///  \param msg a string containing message to be printed
-///
-/// Prints to standard error
-/// \warning NOT thread-safe; must be called within a thread-safe scope
-///
-/*
-void debugPrinter(std::string id, std::string msg) {
-    
-    //std::cerr << "***\tDEBUG from " << id << ": " 
-    //          << msg << " \t***" << std::endl;
-}// */
-
 
 
 // PRIVATE: declared inside *.c file
@@ -157,6 +141,7 @@ memory_pool_t * memory_pool_init(size_t count, size_t block_size)
     mp->block_size = block_size;  // size of each block
     mp->available = count;
 
+    // attach pool 
     mp->pool = header;
 
     // error check: if for loop traversed count times, return mp memory address
@@ -250,21 +235,6 @@ void * memory_pool_acquire(memory_pool_t * mp)
     int slot = mp->count - mp->available;
     mp->shadow[slot] == header;
 
-
-    // shadow housekeeping
-    // 
-    // traverse shadow array and add pointer to first empty slot.
-    // bound by (count - available) for redundancy
-    /*
-    for(int n = 0; n < (mp->count - mp->available ); ++n ) {
-	
-        if(mp->shadow[n] == NULL) { // NULL indicates available slot
-
-            mp->shadow[n] = header;
-            break;
-        }
-    }// */
-
     // get data block from header
     void * data = MEMORY_POOL_HTODB(header, mp->block_size);
 
@@ -302,20 +272,6 @@ bool memory_pool_release(memory_pool_t *mp, void * data)
     int slot = mp->count - mp->available;
     mp->shadow[slot] == NULL;
     
-    /*
-    // shadow housekeeping
-    // 
-    // traverse shadow array and remove pointer.
-    // bound by (count - available) for redundancy
-    for(int n = 0; n < (mp->count - mp->available ); ++n ) {
-	
-        if(mp->shadow[n] == header) {
-
-            mp->shadow[n] = NULL;
-            break;
-        }
-    }// */
-
     // pool housekeeping
     //
     // do this after shadow housekeeping to allow (count - available)
@@ -324,6 +280,7 @@ bool memory_pool_release(memory_pool_t *mp, void * data)
 
     return true;
 }
+
 
 
 /// \brief memory pool availability function
@@ -341,6 +298,7 @@ size_t memory_pool_available(memory_pool_t *mp)
     }
     return mp->available;
 }
+
 
 
 /// \brief memory pool dump function
