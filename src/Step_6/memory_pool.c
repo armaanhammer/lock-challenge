@@ -160,11 +160,6 @@ memory_pool_t * memory_pool_init(size_t count, size_t block_size)
 
     mp->pool = header;
 
-
-    /// \todo answer why memory_pool_block_header * pool is not populated with an 
-    ///       address at this point
-
-
     // error check: if for loop traversed count times, return mp memory address
     // 	            else, return NULL
     return n == count ? mp : NULL;
@@ -174,6 +169,11 @@ memory_pool_t * memory_pool_init(size_t count, size_t block_size)
 
 bool memory_pool_destroy(memory_pool_t *mp)
 {
+    if(mp == NULL) {  // don't want to deference NULL
+        printf("ERROR: memory_pool_destroy: nothing to destroy.\n");
+        return false;
+    }
+    
     printf("memory_pool_destroy(mp = %p, pool = %p, count=%zu, available=%zu, block_size=%zu)\n", 
            mp,
            mp->pool,
@@ -276,7 +276,13 @@ void * memory_pool_acquire(memory_pool_t * mp)
 }
 
 
-
+/// \brief memory pool push function
+///
+/// \param mp a pointer to a memory pool object
+/// \param data a pointer to a data block with attached header
+///
+/// \returns true if successful
+///
 bool memory_pool_release(memory_pool_t *mp, void * data)
 {
     // move to header inside memory block using MEMORY_POOL_DBTOH(data, mp->block_size);
@@ -323,7 +329,13 @@ bool memory_pool_release(memory_pool_t *mp, void * data)
 }
 
 
-
+/// \brief memory pool availability function
+///
+/// \param mp a pointer to a memory pool object
+///
+/// \returns number of available data blocks
+/// \returns 0 if no data blocks available or mp invalid
+///
 size_t memory_pool_available(memory_pool_t *mp)
 {
     if( mp == NULL ) {
@@ -334,7 +346,12 @@ size_t memory_pool_available(memory_pool_t *mp)
 }
 
 
-
+/// \brief memory pool dump function
+///
+/// \param mp a pointer to a memory pool object
+///
+/// Iterates through all free data blocks in memory pool, printing metadata
+/// about each to user.
 void memory_pool_dump(memory_pool_t *mp)
 {
     if( mp == NULL ) {
@@ -354,8 +371,6 @@ void memory_pool_dump(memory_pool_t *mp)
     for(int n = 0; n < mp->available; ++n ) {
 
         // use header-to-data-block macro to create pointer
-        // pointer points to 
-        //
         void * data_block = MEMORY_POOL_HTODB(header, mp->block_size);
 
         printf(" + block: i=%d, data=%p, header=%p, inuse=%s, block_size=%zu, next=%p\n",
@@ -368,4 +383,6 @@ void memory_pool_dump(memory_pool_t *mp)
 
         header = header->next;
     }
+
+    return;
 }
