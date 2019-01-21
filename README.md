@@ -53,8 +53,3 @@ Step 6: Memory Pool
 * [Documentation](https://armaanhammer.github.io/lock-challenge/Step_6/html/index.html)
 * [Code](src/Step_6) 
 * [Design log](design_log/Step_6.md)
-
-<br>
-
-
-[design_log](/design_log/) is the index for details of the design process.
