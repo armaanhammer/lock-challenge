@@ -178,13 +178,12 @@ bool memory_pool_destroy(memory_pool_t *mp)
 	       mp->block_size);
 
     memory_pool_block_header_t * header = mp->pool;
-    memory_pool_block_header_t * next = NULL;
+    memory_pool_block_header_t * next;
 
     // free all non-aquired data blocks
     //for(int n = 0; n < mp->count; ++n ) {
     for(int n = 0; n < mp->available; ++n ) {
         
-	// free all data blocks from pool
 	next = header->next;
 	
 	void * data_block = MEMORY_POOL_HTODB(header, mp->block_size);
@@ -198,13 +197,12 @@ bool memory_pool_destroy(memory_pool_t *mp)
     // free all aquired data blocks
     for(int n = 0; n < (mp->count - mp->available ); ++n ) {
 	
-        if(mp->shadow[n] == NULL) { //don't want to free(NULL), cause coredump
+        if(mp->shadow[n] != NULL) { //don't want to free(NULL), causing coredump
             
             void * data_block = MEMORY_POOL_HTODB(header, mp->block_size);
-	    free(data_block);
-	}
+	        free(data_block);
+	    }
     }
-
 
     // free memory pool itself
     free(mp);
@@ -213,10 +211,49 @@ bool memory_pool_destroy(memory_pool_t *mp)
 }
 
 
-
+/// \brief memory pool pop function
+///
+/// \param mp a pointer to a memory pool object
+///
+/// \returns NULL if nothing to pop
+/// \returns data a pointer to top data block
+///
 void * memory_pool_acquire(memory_pool_t * mp)
 {
+    if(mp->pool == NULL)  //don't want to free(NULL), causing coredump
+        return NULL;
+        
+    // grab pointer
+    memory_pool_block_header_t * header = mp->pool;
+
     // pop stack
+    mp->pool = mp->pool->next;
+
+    // pool housekeeping
+    --(mp->available);
+
+    // header housekeeping
+    header->inuse = true;
+    header->next = NULL;
+
+    // shadow housekeeping
+    int slot = mp->count - mp->available
+    mp->shadow[slot] == header;
+
+
+    // shadow housekeeping
+    // 
+    // traverse shadow array and add pointer to first empty slot.
+    // bound by (count - available) for redundancy
+    /*
+    for(int n = 0; n < (mp->count - mp->available ); ++n ) {
+	
+        if(mp->shadow[n] == NULL) { // NULL indicates available slot
+
+            mp->shadow[n] = header;
+            break;
+        }
+    }// */
 
     // get data block from header
     void * data = MEMORY_POOL_HTODB(header, mp->block_size);
@@ -230,11 +267,45 @@ void * memory_pool_acquire(memory_pool_t * mp)
 bool memory_pool_release(memory_pool_t *mp, void * data)
 {
     // move to header inside memory block using MEMORY_POOL_DBTOH(data, mp->block_size);
+    memory_pool_block_header_t * header = MEMORY_POOL_DBTOH(data, mp->block_size);
 
     printf("memory_pool_release: data=%p, header=%p, block_size=%zu, next=%p\n",
            data, header, header->size, header->next);
 
+    // grab pointer
+    memory_pool_block_header_t * next = mp->pool;
+
     // push on stack
+    mp->pool = header;
+    header->next = next;
+
+    // header housekeeping
+    header->inuse = false;
+
+    // shadow housekeeping
+    int slot = mp->count - mp->available
+    mp->shadow[slot] == NULL;
+    
+    /*
+    // shadow housekeeping
+    // 
+    // traverse shadow array and remove pointer.
+    // bound by (count - available) for redundancy
+    for(int n = 0; n < (mp->count - mp->available ); ++n ) {
+	
+        if(mp->shadow[n] == header) {
+
+            mp->shadow[n] = NULL;
+            break;
+        }
+    }// */
+
+    // pool housekeeping
+    //
+    // do this after shadow housekeeping to allow (count - available)
+    // to include correct slot
+    ++(mp->available);
+
     return true;
 }
 
