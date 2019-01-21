@@ -1,0 +1,115 @@
+
+
+	****************** TEST 1 *****************
+
+
+main: pool_1=0x1, count=5, block_size=1
+MEMORY_POOL: i=0, data=0x555b5d01d2a0, header=0x555b5d01d2a1, block_size=1, next=(nil)
+MEMORY_POOL: i=1, data=0x555b5d01d2d0, header=0x555b5d01d2d1, block_size=1, next=0x555b5d01d2a1
+MEMORY_POOL: i=2, data=0x555b5d01d300, header=0x555b5d01d301, block_size=1, next=0x555b5d01d2d1
+MEMORY_POOL: i=3, data=0x555b5d01d330, header=0x555b5d01d331, block_size=1, next=0x555b5d01d301
+MEMORY_POOL: i=4, data=0x555b5d01d360, header=0x555b5d01d361, block_size=1, next=0x555b5d01d331
+memory_pool_init: mp=0x555b5d01d270, count=5, block_size=1
+memory_pool_destroy: mp=0x555b5d01d270, pool=0x555b5d01d361, count=5, available=5, block_size=1
+memory_pool_destroy: freeing non-aquired data block # 1
+memory_pool_destroy: freeing non-aquired data block # 2
+memory_pool_destroy: freeing non-aquired data block # 3
+memory_pool_destroy: freeing non-aquired data block # 4
+memory_pool_destroy: freeing non-aquired data block # 5
+main: destroy returned: TRUE
+
+
+	****************** TEST 2 *****************
+
+
+main: pool_1=0x555b5c88931d, count=5, block_size=4
+MEMORY_POOL: i=0, data=0x555b5d01d2a0, header=0x555b5d01d2a4, block_size=4, next=(nil)
+MEMORY_POOL: i=1, data=0x555b5d01d2d0, header=0x555b5d01d2d4, block_size=4, next=0x555b5d01d2a4
+MEMORY_POOL: i=2, data=0x555b5d01d300, header=0x555b5d01d304, block_size=4, next=0x555b5d01d2d4
+MEMORY_POOL: i=3, data=0x555b5d01d330, header=0x555b5d01d334, block_size=4, next=0x555b5d01d304
+MEMORY_POOL: i=4, data=0x555b5d01d360, header=0x555b5d01d364, block_size=4, next=0x555b5d01d334
+memory_pool_init: mp=0x555b5d01d270, count=5, block_size=4
+main: pool_2=0x555b5d01d270, pool_2->available=5
+memory_pool_acquire: mp=0x555b5d01d270, data=0x555b5d01d360
+main: pointer aquired=0x555b5d01d360
+memory_pool_acquire: mp=0x555b5d01d270, data=0x555b5d01d330
+memory_pool_acquire: mp=0x555b5d01d270, data=0x555b5d01d300
+memory_pool_acquire: mp=0x555b5d01d270, data=0x555b5d01d2d0
+memory_pool_acquire: mp=0x555b5d01d270, data=0x555b5d01d2a0
+ERROR: memory_pool_acquire: nothing to aquire.
+ERROR: memory_pool_acquire: nothing to aquire.
+ERROR: memory_pool_acquire: nothing to aquire.
+main: tried to aquire 7 more from pool_1
+main: test_block=0x555b5d01d360, dereferenced=0
+memory_pool_release: data=0x555b5d01d360, header=0x555b5d01d364, block_size=4, next=(nil)
+memory_pool_destroy: mp=0x555b5d01d270, pool=0x555b5d01d364, count=5, available=1, block_size=4
+memory_pool_destroy: freeing non-aquired data block # 1
+memory_pool_destroy: freeing aquired data block # 1
+memory_pool_destroy: freeing aquired data block # 2
+memory_pool_destroy: freeing aquired data block # 3
+memory_pool_destroy: freeing aquired data block # 4
+main: destroy returned: TRUE
+
+
+	****************** TEST 3 *****************
+	* // 1. create random size memory pool
+	* // 2. acquire all data blocks
+	* // 3. fill all data blocks using magic value
+	* // 4. release all data blocks back into pool
+	* // 5. dump all data before destruct
+	******************************************
+
+
+main: pool_1=0x555b5c8892d0, count=6, block_size=4
+MEMORY_POOL: i=0, data=0x555b5d01d360, header=0x555b5d01d364, block_size=4, next=(nil)
+MEMORY_POOL: i=1, data=0x555b5d01d3f0, header=0x555b5d01d3f4, block_size=4, next=0x555b5d01d364
+MEMORY_POOL: i=2, data=0x555b5d01d420, header=0x555b5d01d424, block_size=4, next=0x555b5d01d3f4
+MEMORY_POOL: i=3, data=0x555b5d01d450, header=0x555b5d01d454, block_size=4, next=0x555b5d01d424
+MEMORY_POOL: i=4, data=0x555b5d01d480, header=0x555b5d01d484, block_size=4, next=0x555b5d01d454
+MEMORY_POOL: i=5, data=0x555b5d01d4b0, header=0x555b5d01d4b4, block_size=4, next=0x555b5d01d484
+memory_pool_init: mp=0x555b5d01d270, count=6, block_size=4
+memory_pool_acquire: mp=0x555b5d01d270, data=0x555b5d01d4b0
+memory_pool_acquire: mp=0x555b5d01d270, data=0x555b5d01d480
+memory_pool_acquire: mp=0x555b5d01d270, data=0x555b5d01d450
+memory_pool_acquire: mp=0x555b5d01d270, data=0x555b5d01d420
+memory_pool_acquire: mp=0x555b5d01d270, data=0x555b5d01d3f0
+memory_pool_acquire: mp=0x555b5d01d270, data=0x555b5d01d360
+main: reading: magic_array[0]=0x555b5d01d4b0, data=0
+main: reading: magic_array[1]=0x555b5d01d480, data=0
+main: reading: magic_array[2]=0x555b5d01d450, data=0
+main: reading: magic_array[3]=0x555b5d01d420, data=0
+main: reading: magic_array[4]=0x555b5d01d3f0, data=0
+main: reading: magic_array[5]=0x555b5d01d360, data=0
+main: writing: magic_array[0]=0x555b5d01d4b0, data=BAADA555
+main: writing: magic_array[1]=0x555b5d01d480, data=BAADA555
+main: writing: magic_array[2]=0x555b5d01d450, data=BAADA555
+main: writing: magic_array[3]=0x555b5d01d420, data=BAADA555
+main: writing: magic_array[4]=0x555b5d01d3f0, data=BAADA555
+main: writing: magic_array[5]=0x555b5d01d360, data=BAADA555
+memory_pool_release: data=0x555b5d01d4b0, header=0x555b5d01d4b4, block_size=4, next=(nil)
+memory_pool_release: data=0x555b5d01d480, header=0x555b5d01d484, block_size=4, next=(nil)
+memory_pool_release: data=0x555b5d01d450, header=0x555b5d01d454, block_size=4, next=(nil)
+memory_pool_release: data=0x555b5d01d420, header=0x555b5d01d424, block_size=4, next=(nil)
+memory_pool_release: data=0x555b5d01d3f0, header=0x555b5d01d3f4, block_size=4, next=(nil)
+memory_pool_release: data=0x555b5d01d360, header=0x555b5d01d364, block_size=4, next=(nil)
+memory_pool_acquire: mp=0x555b5d01d270, data=0x555b5d01d360
+memory_pool_acquire: mp=0x555b5d01d270, data=0x555b5d01d3f0
+memory_pool_acquire: mp=0x555b5d01d270, data=0x555b5d01d420
+memory_pool_acquire: mp=0x555b5d01d270, data=0x555b5d01d450
+memory_pool_acquire: mp=0x555b5d01d270, data=0x555b5d01d480
+memory_pool_acquire: mp=0x555b5d01d270, data=0x555b5d01d4b0
+main: reading: magic_array[0]=0x555b5d01d360, data=BAADA555
+main: reading: magic_array[1]=0x555b5d01d3f0, data=BAADA555
+main: reading: magic_array[2]=0x555b5d01d420, data=BAADA555
+main: reading: magic_array[3]=0x555b5d01d450, data=BAADA555
+main: reading: magic_array[4]=0x555b5d01d480, data=BAADA555
+main: reading: magic_array[5]=0x555b5d01d4b0, data=BAADA555
+memory_pool_dump: mp = 0x555b5d01d270, count=6, available=0, block_size=4
+memory_pool_destroy: mp=0x555b5d01d270, pool=(nil), count=6, available=0, block_size=4
+memory_pool_destroy: freeing aquired data block # 1
+memory_pool_destroy: freeing aquired data block # 2
+memory_pool_destroy: freeing aquired data block # 3
+memory_pool_destroy: freeing aquired data block # 4
+memory_pool_destroy: freeing aquired data block # 5
+memory_pool_destroy: freeing aquired data block # 6
+main: destroy returned: TRUE
