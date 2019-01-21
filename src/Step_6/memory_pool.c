@@ -98,6 +98,10 @@ struct memory_pool {
 ///
 /// \todo make sure this does not leak memory if for loop not fully traversed (case n != count)
 ///
+/// Allocates one memory pool struct and `count` number of memory pool block and header
+/// combinations. Also allocates memory for `count` number of pointers in `shadow` pointer
+/// array.
+///
 memory_pool_t * memory_pool_init(size_t count, size_t block_size)
 {
     memory_pool_t *mp = NULL; 		         // pointer to allocate 
@@ -114,6 +118,7 @@ memory_pool_t * memory_pool_init(size_t count, size_t block_size)
         return NULL;
     }
 
+    // allocate memory pool block and header combos
     for( n = 0; n < count; ++n ) {
         if(DEBUG) {
 	    printf("*** DEBUG:\tinside for loop, count is: %d\t***\n", n);
@@ -128,11 +133,11 @@ memory_pool_t * memory_pool_init(size_t count, size_t block_size)
         //
 	temp = header;
         header = MEMORY_POOL_DBOTH(block, block_size);
-	header->next = temp;
-
-	
 
         // add to stack (just a simple stack)
+	// implementing as a linked list
+	header->next = temp;
+	header->size = block_size;
 
         printf("MEMORY_POOL: i=%d, data=%p, header=%p, block_size=%zu, next=%p\n",
                n,             // int
@@ -141,6 +146,8 @@ memory_pool_t * memory_pool_init(size_t count, size_t block_size)
 	       header->size,  // size_t
 	       header->next); // pointer
     }
+
+
 
     printf("memory_pool_init(mp=%p, count=%zu, block_size=%zu)\n", mp, count, block_size);
 
@@ -164,13 +171,43 @@ memory_pool_t * memory_pool_init(size_t count, size_t block_size)
 bool memory_pool_destroy(memory_pool_t *mp)
 {
 
-    printf("memory_pool_destroy(mp = %p, count=%zu, block_size=%zu)\n", mp, mp->count, mp->block_size);
+    printf("memory_pool_destroy(mp = %p, count=%zu, available=%zu, block_size=%zu)\n", 
+               mp, 
+	       mp->count, 
+	       mp->available, 
+	       mp->block_size);
 
-    for(int n = 0; n < mp->count; ++n ) {
-        // free all data blocks from pool
+    memory_pool_block_header_t * header = mp->pool;
+    memory_pool_block_header_t * next = NULL;
+
+    // free all non-aquired data blocks
+    //for(int n = 0; n < mp->count; ++n ) {
+    for(int n = 0; n < mp->available; ++n ) {
+        
+	// free all data blocks from pool
+	next = header->next;
+	
+	void * data_block = MEMORY_POOL_HTODB(header, mp->block_size);
+	free(data_block);
+
+	/// \todo make sure that header gets freed as well with datablock
+
+	header = next;
     }
 
+    // free all aquired data blocks
+    for(int n = 0; n < (mp->count - mp->available ); ++n ) {
+	
+        if(mp->shadow[n] == NULL) { //don't want to free(NULL), cause coredump
+            
+            void * data_block = MEMORY_POOL_HTODB(header, mp->block_size);
+	    free(data_block);
+	}
+    }
+
+
     // free memory pool itself
+    free(mp);
 
     return true;
 }
