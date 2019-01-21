@@ -3,17 +3,17 @@
 To duplicate
 ---
 
-1. In the [/src/Step_6/build/ directory](../src/Step_6/build) run `cmake ../`. The build environment will be set up in that directory using the [CMakeLists.txt file](../src/Step_6/CMakeLists.txt) in the parent directory.
-1. In the [/src/Step_6/build/ directory](../src/Step_6/build/) run `make`. Executable will build as `test.out`. 
+1. In the [/src/Step_6/build/ directory](https://github.com/armaanhammer/lock-challenge/tree/master/src/Step_6/build) run `cmake ../`. The build environment will be set up in that directory using the [CMakeLists.txt file](https://github.com/armaanhammer/lock-challenge/tree/master/src/Step_6/CMakeLists.txt) in the parent directory.
+1. In the [/src/Step_6/build/ directory](https://github.com/armaanhammer/lock-challenge/tree/master/src/Step_6/build/) run `make`. Executable will build as `test.out`. 
 1. To run executable, run `./test.out`.
 
 
 Files
 ---
 
-* [memory_pool.c](../src/Step_6/memory_pool.c) 
-* [test-memory_pool.c](../src/Step_6/test-memory_pool.c) (testbench)
-* [CMakeLists.txt file](../src/Step_6/CMakeLists.txt) (slightly modified from [prompt file](../prompt/CMakeLists_1.txt))
+* [memory_pool.c](https://github.com/armaanhammer/lock-challenge/tree/master/src/Step_6/memory_pool.c) 
+* [test-memory_pool.c](https://github.com/armaanhammer/lock-challenge/tree/master/src/Step_6/test-memory_pool.c) (testbench)
+* [CMakeLists.txt file](https://github.com/armaanhammer/lock-challenge/tree/master/src/Step_6/CMakeLists.txt) (slightly modified from [prompt file](https://github.com/armaanhammer/lock-challenge/tree/master/prompt/CMakeLists_1.txt))
 
 
 Documentation
@@ -169,7 +169,7 @@ Requirements
 > 6)  Memory Pool
 > See attached architecture and files
 
-The prompt c and h files are available here: [/prompt/memory_pool.c](../prompt/memory_pool.c) and here: [/prompt/memory_pool.h](../prompt/memory_pool.h)
+The prompt c and h files are available here: [/prompt/memory_pool.c](https://github.com/armaanhammer/lock-challenge/tree/master/prompt/memory_pool.c) and here: [/prompt/memory_pool.h](https://github.com/armaanhammer/lock-challenge/tree/master/prompt/memory_pool.h)
 
 Prelims
 ---
@@ -180,8 +180,8 @@ The general environment remains the same as the previous steps.
 
 #### CMAKE
 
-I set up my CMAKE environment based on the prompt CMakeLists_1.txt available here: [/prompt/CMakeLists_1.txt](../prompt/CMakeLists_1.txt). My final CMakeLists.txt file has some changes. Commentary is available in the [Reference in Appendix](Step_6_Appendix.md#cmake).
+I set up my CMAKE environment based on the prompt CMakeLists_1.txt available here: [/prompt/CMakeLists_1.txt](https://github.com/armaanhammer/lock-challenge/tree/master/prompt/CMakeLists_1.txt). My final CMakeLists.txt file has some changes. Commentary is available in the [Reference in Appendix](https://github.com/armaanhammer/lock-challenge/tree/master/design_log/Step_6_Appendix.md#cmake).
 
 ### Doxygen
 
-Considerations for creating documentation remain the same as for Step 3: [Reference in Step 3 Appendix](Step_3_Appendix.md#doxygen-creation)
+Considerations for creating documentation remain the same as for Step 3: [Reference in Step 3 Appendix](https://github.com/armaanhammer/lock-challenge/tree/master/design_log/Step_3_Appendix.md#doxygen-creation)
