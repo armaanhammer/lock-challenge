@@ -158,6 +158,8 @@ memory_pool_t * memory_pool_init(size_t count, size_t block_size)
     mp->block_size = block_size;  // size of each block
     mp->available = count;
 
+    mp->pool = header;
+
 
     /// \todo answer why memory_pool_block_header * pool is not populated with an 
     ///       address at this point
@@ -172,8 +174,9 @@ memory_pool_t * memory_pool_init(size_t count, size_t block_size)
 
 bool memory_pool_destroy(memory_pool_t *mp)
 {
-    printf("memory_pool_destroy(mp = %p, count=%zu, available=%zu, block_size=%zu)\n", 
-           mp, 
+    printf("memory_pool_destroy(mp = %p, pool = %p, count=%zu, available=%zu, block_size=%zu)\n", 
+           mp,
+           mp->pool,
 	       mp->count, 
 	       mp->available, 
 	       mp->block_size);
@@ -184,6 +187,9 @@ bool memory_pool_destroy(memory_pool_t *mp)
     // free all non-aquired data blocks
     //for(int n = 0; n < mp->count; ++n ) {
     for(int n = 0; n < mp->available; ++n ) {
+
+        if(DEBUG)
+            printf("non-aquired for loop, loop # %d\n", n);
         
 	    next = header->next;
 	
@@ -197,7 +203,10 @@ bool memory_pool_destroy(memory_pool_t *mp)
 
     // free all aquired data blocks
     for(int n = 0; n < (mp->count - mp->available ); ++n ) {
-	
+
+        if(DEBUG)
+            printf("aquired for loop, loop # %d\n", n);
+        
         if(mp->shadow[n] != NULL) { //don't want to free(NULL), causing coredump
             
             void * data_block = MEMORY_POOL_HTODB(header, mp->block_size);
@@ -222,8 +231,10 @@ bool memory_pool_destroy(memory_pool_t *mp)
 ///
 void * memory_pool_acquire(memory_pool_t * mp)
 {
-    if(mp->pool == NULL)  //don't want to free(NULL), causing coredump
+    if(mp->pool == NULL) {  // don't want to deference NULL
+        printf("ERROR: memory_pool_acquire: nothing to aquire.\n");
         return NULL;
+    }
         
     // grab pointer
     memory_pool_block_header_t * header = mp->pool;
