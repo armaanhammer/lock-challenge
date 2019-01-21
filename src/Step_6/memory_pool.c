@@ -13,7 +13,7 @@
 
 
 
-bool DEBUG = true;
+bool DEBUG = false;
 
 
 ///
@@ -106,7 +106,6 @@ struct memory_pool {
 memory_pool_t * memory_pool_init(size_t count, size_t block_size)
 {
     memory_pool_t *mp = NULL; 		            // pointer to allocate 
-    //memory_pool_block_header_t * last;        // pointer to header
     memory_pool_block_header_t * header = NULL; // pointer to header
     memory_pool_block_header_t * temp;          // pointer to header
     void * block = NULL;		                // pointer to data block
@@ -151,7 +150,7 @@ memory_pool_t * memory_pool_init(size_t count, size_t block_size)
     // allocate shadow array of pointers
     mp->shadow = (void **) calloc(count, sizeof(memory_pool_block_header_t *));    
 
-    printf("memory_pool_init(mp=%p, count=%zu, block_size=%zu)\n", mp, count, block_size);
+    printf("memory_pool_init: mp=%p, count=%zu, block_size=%zu\n", mp, count, block_size);
 
     // populate variables in new memory_pool object
     mp->count = count;		      // total elements
@@ -174,7 +173,7 @@ bool memory_pool_destroy(memory_pool_t *mp)
         return false;
     }
     
-    printf("memory_pool_destroy(mp = %p, pool = %p, count=%zu, available=%zu, block_size=%zu)\n", 
+    printf("memory_pool_destroy: mp=%p, pool=%p, count=%zu, available=%zu, block_size=%zu\n", 
            mp,
            mp->pool,
 	       mp->count, 
@@ -188,8 +187,7 @@ bool memory_pool_destroy(memory_pool_t *mp)
     //for(int n = 0; n < mp->count; ++n ) {
     for(int n = 0; n < mp->available; ++n ) {
 
-        if(DEBUG)
-            printf("non-aquired for loop, loop # %d\n", n);
+        printf("memory_pool_destroy: freeing non-aquired data block # %d\n", n+1);
         
 	    next = header->next;
 	
@@ -204,8 +202,7 @@ bool memory_pool_destroy(memory_pool_t *mp)
     // free all aquired data blocks
     for(int n = 0; n < (mp->count - mp->available ); ++n ) {
 
-        if(DEBUG)
-            printf("aquired for loop, loop # %d\n", n);
+        printf("memory_pool_destroy: freeing aquired data block # %d\n", n+1);
         
         if(mp->shadow[n] != NULL) { //don't want to free(NULL), causing coredump
             
@@ -359,7 +356,7 @@ void memory_pool_dump(memory_pool_t *mp)
         return;
     }
 
-    printf("memory_pool_dump(mp = %p, count=%zu, available=%zu, block_size=%zu)\n",
+    printf("memory_pool_dump: mp = %p, count=%zu, available=%zu, block_size=%zu\n",
            mp, 	            // pointer
 	       mp->count, 	    // size_t
 	       mp->available,   // size_t
