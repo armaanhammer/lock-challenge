@@ -23,8 +23,8 @@ Doxygen documentation is available for this step of the project.
 
 | [Step 6 main page](https://armaanhammer.github.io/lock-challenge/Step_6/html/index.html) | | |
 | --- | --- | --- |
-| memory_pool.c | [Documentation]() | [Code]() |
-| test-memory_pool.c | [Documentation]() | [Code]() |
+| memory_pool.c | [Documentation](https://armaanhammer.github.io/lock-challenge/Step_6/html/test-memory-pool_8c.html) | [Code](https://armaanhammer.github.io/lock-challenge/Step_6/html/memory__pool_8c_source.html) |
+| test-memory_pool.c | [Documentation](https://armaanhammer.github.io/lock-challenge/Step_6/html/test-memory-pool_8c.html) | [Code](https://armaanhammer.github.io/lock-challenge/Step_6/html/test-memory-pool_8c_source.html) |
 
 
 Results
