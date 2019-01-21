@@ -1,8 +1,42 @@
+# Step 6: Memory Pool
+
+To duplicate
+---
+
+1. In the [/src/Step_6/build/ directory](../src/Step_6/build) run `cmake ../`. The build environment will be set up in that directory using the [CMakeLists.txt file](../src/Step_6/CMakeLists.txt) in the parent directory.
+1. In the [/src/Step_6/build/ directory](../src/Step_6/build/) run `make`. Executable will build as `test.out`. 
+1. To run executable, run `./test.out`.
+
+
+Files
+---
+
+* [memory_pool.c](../src/Step_6/memory_pool.c) 
+* [test-memory_pool.c](../src/Step_6/test-memory_pool.c) (testbench)
+* [CMakeLists.txt file](../src/Step_6/CMakeLists.txt) (slightly modified from [prompt file](../prompt/CMakeLists_1.txt))
+
+
+Documentation
+---
+
+Doxygen documentation is available for this step of the project. 
+
+| [Step 6 main page](https://armaanhammer.github.io/lock-challenge/Step_6/html/index.html) | | |
+| --- | --- | --- |
+| memory_pool.c | [Documentation]() | [Code]() |
+| test-memory_pool.c | [Documentation]() | [Code]() |
+
+
+Results
+---
+
+Running the program runs all three tests in series.
+
+### Test 1
+
+Test 1 is a basic create and destroy. A pool with 5 blocks of size 1 are created and destroyed. The destroy function correctly identifies them as non-aquired.
 
 ```bash
-armaan@big-black-box:build$ ./test.out 
-
-
 	****************** TEST 1 *****************
 
 
@@ -20,8 +54,13 @@ memory_pool_destroy: freeing non-aquired data block # 3
 memory_pool_destroy: freeing non-aquired data block # 4
 memory_pool_destroy: freeing non-aquired data block # 5
 main: destroy returned: TRUE
+```
 
+### Test 2
 
+Test 2 is more advanced. A pool with 5 blocks of size 4 are created. Acquire is attempted 8 times and fails (correctly) 3 times. The first block is then read correctly as containing 0. The first block is released back to the pool. Then the pool is destroyed. The destroy function correctly identifies 1 block as non-aquired, and all the rest of the blocks as aquired.
+
+```bash
 	****************** TEST 2 *****************
 
 
@@ -52,15 +91,21 @@ memory_pool_destroy: freeing aquired data block # 2
 memory_pool_destroy: freeing aquired data block # 3
 memory_pool_destroy: freeing aquired data block # 4
 main: destroy returned: TRUE
+```
+
+### Test 3
+
+Test 3 is the most advanced. A pool with between 1 and 10 blocks of size 4 are created. All the blocks are aquired and then read correctly as 0. The magic value `0xBAADA555` is written to them, and they are released back to the pool. Then, all the blocks are aquired again and re-read. Then the pool is destroyed. The destroy function correctly identifies all the blocks as aquired.
 
 
+```bash
 	****************** TEST 3 *****************
-	* // 1. create random size memory pool
-	* // 2. acquire all data blocks
-	* // 3. fill all data blocks using magic value
-	* // 4. release all data blocks back into pool
-	* // 5. dump all data before destruct
-	******************************************
+	* 1. create random size memory pool
+	* 2. acquire all data blocks
+	* 3. fill all data blocks using magic value
+	* 4. release all data blocks back into pool
+	* 5. dump all data before destruct
+	*******************************************
 
 
 main: pool_1=0x560c01d872d0, count=6, block_size=4
@@ -117,3 +162,26 @@ memory_pool_destroy: freeing aquired data block # 5
 memory_pool_destroy: freeing aquired data block # 6
 main: destroy returned: TRUE
 ```
+
+Requirements
+---
+
+> 6)  Memory Pool
+> See attached architecture and files
+
+The prompt c and h files are available here: [/prompt/memory_pool.c](../prompt/memory_pool.c) and here: [/prompt/memory_pool.h](../prompt/memory_pool.h)
+
+Prelims
+---
+
+### Environment
+
+The general environment remains the same as the previous steps.
+
+#### CMAKE
+
+I set up my CMAKE environment based on the prompt CMakeLists_1.txt available here: [/prompt/CMakeLists_1.txt](../prompt/CMakeLists_1.txt). My final CMakeLists.txt file has some changes. Commentary is available in the [Reference in Appendix](Step_6_Appendix.md#cmake).
+
+### Doxygen
+
+Considerations for creating documentation remain the same as for Step 3: [Reference in Step 3 Appendix](Step_3_Appendix.md#doxygen-creation)
