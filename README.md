@@ -47,7 +47,7 @@ Step 5: Dispatcher Challenge
 * [Design log](design_log/Step_5.md)
 
 
-Step 6: (in progress)
+Step 6: Memory Pool
 ---
 
 * [Documentation](https://armaanhammer.github.io/lock-challenge/Step_6/html/index.html)
