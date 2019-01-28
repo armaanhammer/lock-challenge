@@ -283,7 +283,33 @@ Deciding to manually add the functions in main()
         // It looks like C++ is not able to implement a programmatic enumberation of
         // a class's public member functions, so I need to do it manually in main().
  
-  
+
+
+<br>
+
+Bind issue
+---
+
+### Hint
+
+Received this email:
+
+> Armaan,
+> 
+> Hint on the dispatcher. Bind is required and not static questions.
+
+This was not wholely unexpected. Using static member functions of `Controller` class produced results expected during testing, but did not make use of `std::bind` which was included as a hint in one of the files' headers. It seems logical that some other test conditions which I have not encountered produce unexpected results.
+
+### Issue fix
+
+Know and suspect that I will need to change three things:
+
+* **(know)** Change const member functions to non-const 
+* **(know)** Implement map storage of functions using bind 
+* **(suspect)** Change method for adding functions to map to:
+  * use member function of `CommandDispatcher` instead of ______
+
+
 <br>
 
 Reference
