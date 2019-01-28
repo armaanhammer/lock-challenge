@@ -16,11 +16,11 @@
 // https://github.com/Tencent/rapidjson
 //
 
-// std::function                    << need
-// std::bind                        << may not need
-// std::placeholders                << need
-// std::map                         << need
-// std::make_pair                   << need
+// std::function                    
+// std::bind                       
+// std::placeholders               
+// std::map                        
+// std::make_pair                  
 
 #include "rapidjson/document.h"         // DOM API
 #include "rapidjson/writer.h"
@@ -28,6 +28,8 @@
 
 using namespace rapidjson;
 using namespace std;
+// namespace placeholders used in main()
+
 
 // Operational globals. Do not change.
 bool g_done = false;
