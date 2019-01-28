@@ -350,9 +350,9 @@ This allows all Controller member functions to be non-static.
 Reference
 ---
 
-### std::function                    << know this
+### std::function                    
 
-### std::bind                        << need to look up
+### std::bind                        
 
 * Binds parameters to functions
 * Guaranteed to make a copy of argument passed in.
@@ -398,9 +398,9 @@ shell:user$ ./bind.out
 
 source: https://www.youtube.com/watch?v=JtUZmkvroKg
 
-### std::placeholders                << need to look up
+### std::placeholders               
 
-### std::map                         << know this
+### std::map                         
 
 key / value pair
 
@@ -430,7 +430,7 @@ source: https://www.youtube.com/watch?v=6iyzPed7FrM
 
 Note: class template does NOT infer parameter types. Function template does.
 
-### std::make_pair                   << need to look up
+### std::make_pair                   
   
 
 <br> 
