@@ -393,6 +393,10 @@ Since I have not had prior exposure to several concepts needed for this task, I 
 * [Brainstorming (Appendix)](Step_5_Appendix.md#brainstorming)
 * [Research (Appendix)](Step_5_Appendix.md#research)
 
+### Fix for bind issue
+
+* [Bind issue (Appendix)](Step_5_Appendix.md#bind-issue)
+
 ### Environment
 
 The general environment remains the same as the previous steps.

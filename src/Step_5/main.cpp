@@ -16,11 +16,11 @@
 // https://github.com/Tencent/rapidjson
 //
 
-// std::function                    << need
-// std::bind                        << may not need
-// std::placeholders                << need
-// std::map                         << need
-// std::make_pair                   << need
+// std::function                    
+// std::bind                       
+// std::placeholders               
+// std::map                        
+// std::make_pair                  
 
 #include "rapidjson/document.h"         // DOM API
 #include "rapidjson/writer.h"
@@ -28,6 +28,8 @@
 
 using namespace rapidjson;
 using namespace std;
+// namespace placeholders used in main()
+
 
 // Operational globals. Do not change.
 bool g_done = false;
@@ -229,7 +231,7 @@ public:
     ///
     /// \todo change cout call to shared_print?
     ///
-    static bool help(rapidjson::Value &payload)
+    bool help(rapidjson::Value &payload)
     {
         cout << "Controller::help: command: \n";
         
@@ -260,7 +262,7 @@ public:
     /// 
     /// \todo change cout call to shared_print?
     ///
-    static bool exit(rapidjson::Value &payload)
+    bool exit(rapidjson::Value &payload)
     {
         cout << "Controller::exit: command: \n";
 
@@ -300,7 +302,7 @@ public:
     ///
     /// \sa derived from: http://rapidjson.org/md_doc_tutorial.html#QueryObject
     ///
-    static bool query_payload(rapidjson::Value &payload) 
+    bool query_payload(rapidjson::Value &payload) 
     {
         cout << "Controller::payload_type command: \n";
 
@@ -342,7 +344,7 @@ public:
     /// it and prints the sum of all integers present in the array. All non-integer 
     /// members of the array are ignored.
     ///
-    static bool sum_ints(rapidjson::Value &payload)
+    bool sum_ints(rapidjson::Value &payload)
     {
         cout << "Controller::sum_ints command: \n";
 
@@ -426,7 +428,7 @@ public:
     /// it, and prints the mean of all integers present in the array. All non-integer
     /// members of the array are ignored.
     ///
-    static bool mean_ints(rapidjson::Value &payload)
+    bool mean_ints(rapidjson::Value &payload)
     {
         cout << "Controller::mean_ints command: \n";
 
@@ -730,6 +732,7 @@ private:
     std::map<std::string, CommandHandler> command_handlers_; ///< map of command handlers
 
     std::map<std::string, CommandHandler>::iterator map_itr = 
+
         this->command_handlers_.begin(); ///< iterator for the map
 
     rapidjson::Document doc;  // DOM API document
@@ -754,21 +757,27 @@ int main()
     CommandDispatcher command_dispatcher;
     Controller controller;  // controller class of functions to "dispatch" from Command Dispatcher
 
-    
+    // bind controller functions to function objects to facilitate map addition
+    //
+    // std::placeholders::_1 refers to first (and only) argument for Controller member 
+    // functions of type rapidjson::Value 
+    using namespace placeholders;
+
+    auto help_b =          std::bind( &Controller::help,          controller, _1 );
+    auto exit_b =          std::bind( &Controller::exit,          controller, _1 );
+    auto sum_ints_b =      std::bind( &Controller::sum_ints,      controller, _1 );
+    auto query_payload_b = std::bind( &Controller::query_payload, controller, _1 );
+    auto mean_ints_b =     std::bind( &Controller::mean_ints,     controller, _1 );
+
     // Add available command handlers in Controller class to CommandDispatcher manually
-    ///
-    /// \note needs static functions
-    ///
-    /// \todo maybe use std::bind instead to enable using non-static functions.
-    ///
-    command_dispatcher.addCommandHandler( "help", controller.help);
-    command_dispatcher.addCommandHandler( "exit", controller.exit);
-    command_dispatcher.addCommandHandler( "sum_ints", controller.sum_ints);
-    command_dispatcher.addCommandHandler( "query_payload", controller.query_payload); 
-    command_dispatcher.addCommandHandler( "mean_ints", controller.mean_ints); 
+    command_dispatcher.addCommandHandler( "help",          help_b );
+    command_dispatcher.addCommandHandler( "exit",          exit_b);
+    command_dispatcher.addCommandHandler( "sum_ints",      sum_ints_b);
+    command_dispatcher.addCommandHandler( "query_payload", query_payload_b); 
+    command_dispatcher.addCommandHandler( "mean_ints",     mean_ints_b); 
 
     // DEBUG - should generate warning on fail because "help" already exists in map
-    command_dispatcher.addCommandHandler( "help", controller.help);
+    command_dispatcher.addCommandHandler( "help", help_b);
 
     
     // array of test commands

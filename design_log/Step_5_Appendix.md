@@ -283,15 +283,76 @@ Deciding to manually add the functions in main()
         // It looks like C++ is not able to implement a programmatic enumberation of
         // a class's public member functions, so I need to do it manually in main().
  
-  
+
+
+<br>
+
+Bind issue
+---
+
+### Hint
+
+Received this email:
+
+> Armaan,
+> 
+> Hint on the dispatcher. Bind is required and not static questions.
+
+This was not wholely unexpected. Using static member functions of `Controller` class produced results expected during testing, but did not make use of `std::bind` which was included as a hint in one of the files' headers. It seems logical that some other test conditions which I have not encountered produce unexpected results.
+
+### Issue fix
+
+Problem code:
+
+```c++
+    // Add available command handlers in Controller class to CommandDispatcher manually
+    ///
+    /// \note needs static functions
+    ///
+    /// \todo maybe use std::bind instead to enable using non-static functions.
+    ///
+    command_dispatcher.addCommandHandler( "help", controller.help);
+    command_dispatcher.addCommandHandler( "exit", controller.exit);
+    command_dispatcher.addCommandHandler( "sum_ints", controller.sum_ints);
+    command_dispatcher.addCommandHandler( "query_payload", controller.query_payload); 
+    command_dispatcher.addCommandHandler( "mean_ints", controller.mean_ints); 
+```
+
+Fixed code:
+
+```c++
+    // bind controller functions to function objects to facilitate map addition
+    //
+    // std::placeholders::_1 refers to first (and only) argument for Controller member 
+    // functions of type rapidjson::Value 
+    using namespace placeholders;
+
+    auto help_b =          std::bind( &Controller::help,          controller, _1 );
+    auto exit_b =          std::bind( &Controller::exit,          controller, _1 );
+    auto sum_ints_b =      std::bind( &Controller::sum_ints,      controller, _1 );
+    auto query_payload_b = std::bind( &Controller::query_payload, controller, _1 );
+    auto mean_ints_b =     std::bind( &Controller::mean_ints,     controller, _1 );
+
+    // Add available command handlers in Controller class to CommandDispatcher manually
+    command_dispatcher.addCommandHandler( "help",          help_b );
+    command_dispatcher.addCommandHandler( "exit",          exit_b);
+    command_dispatcher.addCommandHandler( "sum_ints",      sum_ints_b);
+    command_dispatcher.addCommandHandler( "query_payload", query_payload_b); 
+    command_dispatcher.addCommandHandler( "mean_ints",     mean_ints_b); 
+```
+
+This allows all Controller member functions to be non-static.
+
+
+
 <br>
 
 Reference
 ---
 
-### std::function                    << know this
+### std::function                    
 
-### std::bind                        << need to look up
+### std::bind                        
 
 * Binds parameters to functions
 * Guaranteed to make a copy of argument passed in.
@@ -337,9 +398,9 @@ shell:user$ ./bind.out
 
 source: https://www.youtube.com/watch?v=JtUZmkvroKg
 
-### std::placeholders                << need to look up
+### std::placeholders               
 
-### std::map                         << know this
+### std::map                         
 
 key / value pair
 
@@ -369,7 +430,7 @@ source: https://www.youtube.com/watch?v=6iyzPed7FrM
 
 Note: class template does NOT infer parameter types. Function template does.
 
-### std::make_pair                   << need to look up
+### std::make_pair                   
   
 
 <br> 
