@@ -147,7 +147,7 @@ This is the meat of the program.
 
 The thread worker receives a random engine by reference for two reasons:
 1. to minimize the memory size.
-1. to prevent each thread from duplicating the same behavior. If multiple random engines are copied by value from the same source random engine, they will all share the same seed, and will behave identically. In this case, since all three threads are sharing the same random engine, every call the engine advances all the threads through the same pool, introducing the same randomness that expecte by multiple calls to a random engine from one thread.
+1. to prevent each thread from duplicating the same behavior. If multiple random engines are copied by value from the same source random engine, they will all share the same seed, and will behave identically. In this case, since all three threads are sharing the same random engine, every call the engine advances all the threads through the same pool, introducing the same randomness that would be expected from multiple calls to a random engine from one thread.
    
 Inside of the loop, the mutex is first locked then adopted by `std::unique_lock`. As soon as `cond.wait` is called, the mutex is released, and the thread blocks on `std::condition_variable cond`. The thread can wake up for two reasons:
 1. because it has received a signal from `std::condition_variable cond`.
