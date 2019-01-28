@@ -71,7 +71,7 @@ $(function() {
 <li>In the <a href="https://github.com/armaanhammer/lock-challenge/tree/master/src/Step_5/build">/src/Step_5/build/ directory</a> run <code>cmake ../</code>. The build environment will be set up in that directory using the <a href="https://github.com/armaanhammer/lock-challenge/tree/master/src/Step_5/CMakeLists.txt">CMakeLists.txt file</a> in the parent directory.</li>
 </ol>
 <ol type="1">
-<li>Enure that the bool value for <code>TEST_ALL</code> <a href="https://github.com/armaanhammer/lock-challenge/tree/master/src/Step_5/main.cpp#L37">on line 37 of main.cpp</a> is set to the desired value:<ul>
+<li>Enure that the bool value for <code>TEST_ALL</code> <a href="https://github.com/armaanhammer/lock-challenge/tree/master/src/Step_5/main.cpp#L39">on line 39 of main.cpp</a> is set to the desired value:<ul>
 <li>A value of <code>true</code> will cause all test commands to be sent to the dispatcher upon program startup.</li>
 <li>A value of <code>false</code> will skip all tests and immediately fall through to a user prompt.</li>
 </ul>
@@ -84,7 +84,7 @@ $(function() {
 <li>To run executable, run <code>./dispatcher</code>.</li>
 </ol>
 <ol type="1">
-<li>If the final command (exit_command) <a href="https://github.com/armaanhammer/lock-challenge/tree/master/src/Step_5/main.cpp#L804">on line 804 of main.cpp</a> is not commented out, the exit_command will succeed, terminating execution. If it is commented out, execution will fall through to a user prompt.</li>
+<li>If the final command (exit_command) <a href="https://github.com/armaanhammer/lock-challenge/tree/master/src/Step_5/main.cpp#L813">on line 813 of main.cpp</a> is not commented out, the exit_command will succeed, terminating execution. If it is commented out, execution will fall through to a user prompt.</li>
 </ol>
 <ol type="1">
 <li>At the user prompt, JSON may be entered for parsing.</li>
