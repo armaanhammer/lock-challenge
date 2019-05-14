@@ -1,29 +1,29 @@
-# lock-challenge
+# Coding Challenges 2019
 
 This repo is designed to be viewed on [GitHub.com](https://github.com/armaanhammer/lock-challenge). It makes use of some GitHub-specific Markdown, and has Doxygen pages hosted through GitHub.io. Please begin browsing from this page.
 
-My goals in completing this challenge are:
+My goals in completing these challenge are:
 * To generate useful code
 * To create documentation I would like to reference.
 * To log my process throughout in a way that is useful and that demonstrates how I solve problems.
 
 
 
-Step 1: Reimplement LockGuard
+Challenge 1: Reimplement LockGuard
 ---
 
 * [Code](src/Step_1)
 * [Design log](design_log/Step_1.md)
 
 
-Step 2: Specify Threads
+Challenge 2: Specify Threads
 ---
 
 * [Code](src/Step_2)
 * [Design log](design_log/Step_2.md)
 
 
-Step 3: Synchronize Threads
+Challenge 3: Synchronize Threads
 ---
 
 * [Documentation](https://armaanhammer.github.io/lock-challenge/Step_3/html/index.html)
@@ -31,7 +31,7 @@ Step 3: Synchronize Threads
 * [Design log](design_log/Step_3.md)
 
 
-Step 4: Protect a Resource
+Challenge 4: Protect a Resource
 ---
 
 * [Documentation](https://armaanhammer.github.io/lock-challenge/Step_4/html/index.html)
@@ -39,7 +39,7 @@ Step 4: Protect a Resource
 * [Design log](design_log/Step_4.md)
 
 
-Step 5: Dispatcher Challenge
+Challenge 5: Dispatcher Challenge
 ---
 
 * [Documentation](https://armaanhammer.github.io/lock-challenge/Step_5/html/index.html)
@@ -47,7 +47,7 @@ Step 5: Dispatcher Challenge
 * [Design log](design_log/Step_5.md)
 
 
-Step 6: Memory Pool
+Challenge 6: Memory Pool
 ---
 
 * [Documentation](https://armaanhammer.github.io/lock-challenge/Step_6/html/index.html)
