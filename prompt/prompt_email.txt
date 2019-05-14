@@ -1,7 +1,4 @@
-Armaan,
-
-Here is your coding challenge for embedded/c++.  Good luck !!! I sincerely wish you well. I am looking forward to seeing your skills.
-
+Coding challenge for embedded/c++:
 
 Background:
 
@@ -118,14 +115,3 @@ C++11 threads/synchronization/protection:
 
   6)  Memory Pool
      See attached architecture and files
-
- 
-
--- 
-
-Ian Cain
-ON Semiconductor
-Director/Chief Architect Strata
-9000 SW Gemini Dr. Beaverton, OR 97008
-415.939.1745
-ian.cain@onsemi.com
